@@ -41,21 +41,21 @@ public class CameraController : MonoBehaviour
         }
 
         // lock camera to edges
-        if (Camera.main.transform.position.x < -0.5)
+        if (Camera.main.transform.position.x < 0)
         {
-            Camera.main.transform.position = new Vector3((float)-0.5, Camera.main.transform.position.y, Camera.main.transform.position.z);
+            Camera.main.transform.position = new Vector3(0, Camera.main.transform.position.y, Camera.main.transform.position.z);
         }
-        else if (Camera.main.transform.position.x > 0.5)
+        else if (Camera.main.transform.position.x > 1)
         {
-            Camera.main.transform.position = new Vector3((float)0.5, Camera.main.transform.position.y, Camera.main.transform.position.z);
+            Camera.main.transform.position = new Vector3(1, Camera.main.transform.position.y, Camera.main.transform.position.z);
         }
-        if (Camera.main.transform.position.y > -0.5)
+        if (Camera.main.transform.position.y > 0)
         {
-            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, (float)-0.5, Camera.main.transform.position.z);
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z);
         }
-        else if (Camera.main.transform.position.y < -9.5)
+        else if (Camera.main.transform.position.y < -9)
         {
-            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, (float)-9.5, Camera.main.transform.position.z);
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, -9, Camera.main.transform.position.z);
         }
     }
 }

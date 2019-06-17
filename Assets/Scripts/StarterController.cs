@@ -20,7 +20,7 @@ public class StarterController : MonoBehaviour
     void SpawnItems()
     {
         
-        Instantiate(Gold, transform.position + new Vector3(0,-0.5f,0), Quaternion.identity);
+        Instantiate(Gold, transform.position + new Vector3(0,-0.75f,0), Quaternion.identity);
     }
 
     private void OnMouseDown()
