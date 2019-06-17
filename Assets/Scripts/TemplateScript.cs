@@ -24,7 +24,7 @@ public class TemplateScript : MonoBehaviour
         {
             transform.position = new Vector2(9, transform.position.y);
         }
-        else if (transform.position.y < -13)
+        if (transform.position.y < -13)
         {
             transform.position = new Vector2(transform.position.x, -13);
         }
