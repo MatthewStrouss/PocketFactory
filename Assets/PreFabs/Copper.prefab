@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 979054528389966828}
   - component: {fileID: 2542797388847011366}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Copper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
