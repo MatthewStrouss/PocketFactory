@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5466239598003533685}
   - component: {fileID: 5073978351847947379}
   m_Layer: 0
-  m_Name: Aluminum
+  m_Name: Resource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,6 +95,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -106,6 +107,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -117,7 +119,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 4129167941118833800, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
