@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     // VARIABLES
-    public float panSpeed = 4.0f;
+    public float panSpeed = 0.4f;
 
     private Vector3 mouseOrigin;
     private bool isPanning;
@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            //right click was pressed    
+            //right click was pressed
             mouseOrigin = Input.mousePosition;
             isPanning = true;
         }
@@ -45,17 +45,17 @@ public class CameraController : MonoBehaviour
         {
             Camera.main.transform.position = new Vector3(0, Camera.main.transform.position.y, Camera.main.transform.position.z);
         }
-        else if (Camera.main.transform.position.x > 1)
+        else if (Camera.main.transform.position.x > 3)
         {
-            Camera.main.transform.position = new Vector3(1, Camera.main.transform.position.y, Camera.main.transform.position.z);
+            Camera.main.transform.position = new Vector3(3, Camera.main.transform.position.y, Camera.main.transform.position.z);
         }
         if (Camera.main.transform.position.y > 0)
         {
             Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z);
         }
-        else if (Camera.main.transform.position.y < -9)
+        else if (Camera.main.transform.position.y < -7)
         {
-            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, -9, Camera.main.transform.position.z);
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, -7, Camera.main.transform.position.z);
         }
     }
 }

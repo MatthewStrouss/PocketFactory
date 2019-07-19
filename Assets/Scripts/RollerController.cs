@@ -2,45 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RollerController : MonoBehaviour
+public class RollerController : MonoBehaviour, IMachineController
 {
+    private GameObject nextMovingPoint;
 
-    public float speed = 1.0f;
-    private float startTime;
-    private float journeyLength;
-    private bool started = false;
-
-    public Transform startMarker;
-    public Transform endMarker;
-
-    public int rotation = 0;
-
+    // Start is called before the first frame update
     void Start()
     {
         
-        journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
     }
 
-    void OnTriggerEnter2D(Collider2D target)
+    // Update is called once per frame
+    void Update()
     {
-        if(rotation == 0 || rotation == 3)
-        {
-            target.transform.position = new Vector2(transform.position.x, target.transform.position.y);
-        }
-        else if (rotation == 1|| rotation == 4)
-        {
-            target.transform.position = new Vector2(target.transform.position.x, transform.position.y);
-        }
+        
     }
-    private void OnTriggerStay2D(Collider2D item)
+
+    private void Awake()
     {
-        if (started == false)
-        {
-            startTime = Time.time;
-            started = true;
-        }
-        float distCovered = (Time.time - startTime) * speed;
-        float fracJourney = distCovered / journeyLength;
-        item.transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fracJourney);
+        nextMovingPoint = transform.GetChild(0).gameObject;
+    }
+
+    public void OnCollision(Collider2D col)
+    {
+        // Subtract money
+        // Tell resource to move to new location
+        col.gameObject.GetComponent<ResourceController>().Move(nextMovingPoint.transform.position);
+    }
+
+    public void AddToInventory(Resource resourceToAdd)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ActionToPerformOnTimer()
+    {
+
     }
 }
