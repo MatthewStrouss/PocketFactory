@@ -1,4 +1,5 @@
 ﻿using Assets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class StarterPanelScript : MonoBehaviour
     public GameObject chosenImage;
     public StarterController starter;
     public GameObject recipePanel;
+
+    public InputField quantityInputField;
 
     // Start is called before the first frame update
     void Start()
@@ -41,13 +44,25 @@ public class StarterPanelScript : MonoBehaviour
     public void RecipeButton_Click()
     {
         this.gameObject.SetActive(false);
-        this.recipePanel.GetComponent<RecipesPanelScript>().Activate(this.starter.gameObject, () => this.Activate());
+        this.recipePanel.GetComponent<RecipesPanelScript>().Activate("Basic", (r) => 
+        {
+            Debug.Log(string.Format("Clicked on the recipe: {0}", r.Name));
+            this.starter.SetRecipe(r);
+            this.Activate();
+        });
     }
 
     public void UpdateUI(StarterController starter)
     {
         this.starter = starter;
         StarterController sc = this.starter.GetComponent<StarterController>();
-        this.chosenImage.GetComponent<Image>().sprite = SpriteDatabase.Instance.GetSprite("Resource", sc.chosenRecipe.Result.name);
+        this.chosenImage.GetComponent<Image>().sprite = SpriteDatabase.Instance.GetSprite("Resource", sc.ChosenRecipe.Result.name);
+        this.quantityInputField.text = sc.SpawnCount.ToString();
+    }
+
+    public void QuantityInputField_OnEndEdit()
+    {
+        this.quantityInputField.text = Mathf.Clamp(Convert.ToInt32(this.quantityInputField.text), 1, 3).ToString();
+        this.starter.SpawnCount = Convert.ToInt32(this.quantityInputField.text);
     }
 }

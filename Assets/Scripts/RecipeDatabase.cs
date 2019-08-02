@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets
 {
@@ -27,7 +29,7 @@ namespace Assets
 
         public RecipeDatabase()
         {
-            recipes = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Recipe>>>(System.IO.File.ReadAllText(@"Assets/StreamingAssets/Recipes.json"));
+            recipes = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Recipe>>>(Resources.Load(@"Data/Recipes").ToString());
         }
 
         public RecipeDatabase(Recipe recipe)
@@ -43,13 +45,13 @@ namespace Assets
         public Resource GetResource(string name)
         {
             ResourceDatabase.Instance.resources.TryGetValue(name, out Resource resource);
-            return new Resource(resource.value, resource.cost, resource.quantity, resource.isUnlocked, resource.id, resource.name);
+            return new Resource(resource);
         }
 
         public Resource GetResource(string name, int quantity)
         {
             ResourceDatabase.Instance.resources.TryGetValue(name, out Resource resource);
-            return new Resource(resource.value, resource.cost, quantity, resource.isUnlocked, resource.id, resource.name);
+            return new Resource(resource);
         }
 
         public void RegisterRecipe(Recipe recipe)
@@ -83,6 +85,32 @@ namespace Assets
         {
             this.recipes.TryGetValue(type, out Dictionary<string, Recipe> recipeType);
             return recipeType;
+        }
+
+        public void UnlockRecipe(Recipe recipe)
+        {
+            this.recipes.TryGetValue(recipe.Type, out Dictionary<string, Recipe> recipeType);
+
+            if (recipeType != null)
+            {
+                recipeType.TryGetValue(recipe.Name, out Recipe existingRecipe);
+
+                if (existingRecipe != null)
+                {
+                    PlayerScript playerScript = Camera.main.GetComponent<PlayerScript>();
+
+                    if (playerScript.Money - existingRecipe.UnlockCost >= 0)
+                    {
+                        playerScript.AddMoney(-1 * Convert.ToInt64(existingRecipe.UnlockCost));
+                        existingRecipe.IsUnlocked = true;
+                    }
+                }
+            }
+        }
+
+        public List<string> GetAllRecipeTypes()
+        {
+            return this.recipes.Keys.ToList();
         }
     }
 

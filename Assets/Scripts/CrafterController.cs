@@ -8,27 +8,32 @@ using static Comparers;
 
 public class CrafterController : MonoBehaviour, IMachineController
 {
+    public MachineController MachineController;
+
     public Transform resourceSpawnPosition;
     public Transform moveToPosition;
 
     public string recipeType = "Recipe";
 
     [SerializeField]
-    public Recipe chosenRecipe;
+    public Recipe ChosenRecipe;
 
-    List<Resource> inventory;
-    List<Resource> Inventory
+    private List<Resource> inventory;
+    public List<Resource> Inventory
     {
         get => this.inventory;
         set => this.inventory = value;
     }
 
+    public GameObject crafterGUI;
+
     // Start is called before the first frame update
     void Start()
     {
         this.Inventory = new List<Resource>();
-        this.chosenRecipe = RecipeDatabase.Instance.GetRecipe(recipeType, "Circuit");
+        this.ChosenRecipe = RecipeDatabase.Instance.GetRecipe(recipeType, "(None)");
         //this.chosenRecipe = RecipeDatabase.Instance.GetRecipesForType(recipeType).Values.ToList();
+        this.crafterGUI = PrefabDatabase.Instance.GetPrefab("UI", "Crafter");
 
         //InvokeRepeating("ActionToPerformOnTimer", 0.0f, 2.0f); 
     }
@@ -51,6 +56,8 @@ public class CrafterController : MonoBehaviour, IMachineController
         }
 
         resourceInInventory.quantity++;
+
+        this.UpdateUI();
     }
 
     public void OnCollision(Collider2D col)
@@ -76,11 +83,12 @@ public class CrafterController : MonoBehaviour, IMachineController
 
     public void CreateResourceFromRecipe(Recipe recipe)
     {
+        this.MachineController.SubtractElectricityCost();
         GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), resourceSpawnPosition.position, Quaternion.Euler(transform.eulerAngles));
 
         go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", recipe.Result.name);
         ResourceController rc = go.GetComponent<ResourceController>();
-        //rc.SetResource(chosenRecipe.Result, spawnQuantity);
+        rc.SetResource(recipe.Result, recipe.Result.quantity);
         rc.Move(moveToPosition.position);
         rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
     }
@@ -89,23 +97,23 @@ public class CrafterController : MonoBehaviour, IMachineController
     {
         Recipe recipe = null;
 
-        if (this.chosenRecipe != null)
+        if (this.ChosenRecipe != null && this.ChosenRecipe.Name != "(None)")
         {
             List<Resource> inventoryItemsAbove0 = this.Inventory.Where(x => x.quantity > 0).ToList();
             int inventoryCount = inventoryItemsAbove0.Count;
 
-            if (inventoryCount == this.chosenRecipe.Requirements.Count)
+            if (inventoryCount == this.ChosenRecipe.Requirements.Count)
             {
                 bool hasInventoryItems = true;
 
                 for (int i = 0; i < inventoryCount; i++)
                 {
-                    hasInventoryItems &= hasInventoryItems &= this.chosenRecipe.Requirements.Contains(inventoryItemsAbove0[i], Comparers.Instance.RecipeComparerInstance);
+                    hasInventoryItems &= hasInventoryItems &= this.ChosenRecipe.Requirements.Contains(inventoryItemsAbove0[i], Comparers.Instance.RecipeComparerInstance);
                 }
 
                 if (hasInventoryItems)
                 {
-                    recipe = this.chosenRecipe;
+                    recipe = this.ChosenRecipe;
                 }
             }
         }
@@ -116,5 +124,34 @@ public class CrafterController : MonoBehaviour, IMachineController
     public void RemoveFromInventory(Resource resource)
     {
         this.Inventory.FirstOrDefault(x => x.id.Equals(resource.id)).quantity -= resource.quantity;
+    }
+
+    public void OnClick()
+    {
+        this.crafterGUI.GetComponent<CrafterCanvasScript>().UpdateUI(this);
+        this.crafterGUI.GetComponent<CrafterCanvasScript>().Activate();
+    }
+
+    public void SetRecipe(Recipe newRecipe)
+    {
+        this.ChosenRecipe = newRecipe;
+        this.crafterGUI.GetComponent<CrafterCanvasScript>().UpdateUI(this);
+        //GameManagerController.Instance.gUIManagerController.starterCanvas.GetComponent<StarterPanelScript>().UpdateUI(this);
+        //this.starterGUI.GetComponent<StarterPanelScript>().UpdateUI(this);
+    }
+
+    public void SetControllerValues(IMachineController other)
+    {
+        CrafterController otherController = other as CrafterController;
+        this.ChosenRecipe = otherController.ChosenRecipe;
+        this.Inventory = otherController.Inventory;
+    }
+
+    public void UpdateUI()
+    {
+        if (this.crafterGUI.activeSelf && this.crafterGUI.GetComponent<CrafterCanvasScript>().crafter == this)
+        {
+            this.crafterGUI.GetComponent<CrafterCanvasScript>().UpdateUI(this);
+        }
     }
 }

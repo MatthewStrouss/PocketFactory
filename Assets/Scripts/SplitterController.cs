@@ -1,4 +1,5 @@
 ﻿using Assets;
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,9 @@ using UnityEngine;
 
 public class SplitterController : MonoBehaviour, IMachineController
 {
-    public int currentCount;
+    public MachineController MachineController;
+
+    public int CurrentCount;
 
     private int direction;
     public int Direction
@@ -28,10 +31,11 @@ public class SplitterController : MonoBehaviour, IMachineController
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public GameObject splitterUI;
+
+    void Awake()
     {
-        this.currentCount = 0;
+        this.CurrentCount = 0;
         this.Direction = 0;
 
         this.Directions = new Direction[]
@@ -45,6 +49,14 @@ public class SplitterController : MonoBehaviour, IMachineController
             // DOWN
             new Direction(new Vector3(0.0f, -1.0f, 0.0f), 2, new List<Resource>(), this.transform.GetChild(6), this.transform.GetChild(7)),
         };
+
+        this.splitterUI = PrefabDatabase.Instance.GetPrefab("UI", "Splitter");
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
     }
 
     // Update is called once per frame
@@ -55,6 +67,8 @@ public class SplitterController : MonoBehaviour, IMachineController
 
     public void ActionToPerformOnTimer()
     {
+        this.MachineController.SubtractElectricityCost();
+
         for (int i = 0; i < 4; i++)
         {
             this.Directions[i].Inventory
@@ -70,10 +84,16 @@ public class SplitterController : MonoBehaviour, IMachineController
 
     public void CheckInventoryCount()
     {
-        if (this.Directions[this.Direction].Count == this.currentCount)
-        {
+        if (this.CurrentCount >= this.Directions[this.Direction].Count)
+        { 
             this.Direction++;
-            this.currentCount = 0;
+
+            while (this.Directions[this.Direction].Count == 0)
+            {
+                this.Direction++;
+            }
+
+            this.CurrentCount = 0;
         }
     }
 
@@ -88,7 +108,7 @@ public class SplitterController : MonoBehaviour, IMachineController
 
             if (existingResource == null)
             {
-                Resource newResource = new Resource(resourceToAdd.value, resourceToAdd.cost, 1, resourceToAdd.isUnlocked, resourceToAdd.id, resourceToAdd.name);
+                Resource newResource = new Resource(resourceToAdd.value, resourceToAdd.cost, 1, resourceToAdd.id, resourceToAdd.name);
                 this.Directions[this.Direction].Inventory.Add(newResource);
             }
             else
@@ -96,7 +116,7 @@ public class SplitterController : MonoBehaviour, IMachineController
                 existingResource.quantity++;
             }
 
-            this.currentCount++;
+            this.CurrentCount++;
         }
     }
 
@@ -120,6 +140,19 @@ public class SplitterController : MonoBehaviour, IMachineController
         rc.SetResource(resource, resource.quantity);
         rc.Move(this.Directions[direction].MoveToPosition.position);
         rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
+    }
+
+    public void OnClick()
+    {
+        this.splitterUI.GetComponent<SplitterCanvasScript>().Activate();
+        this.splitterUI.GetComponent<SplitterCanvasScript>().UpdateUI(this);
+    }
+
+    public void SetControllerValues(IMachineController other)
+    {
+        SplitterController otherController = other as SplitterController;
+        this.Direction = otherController.Direction;
+        this.Directions = otherController.Directions;
     }
 }
 
@@ -169,6 +202,7 @@ public class Direction
         }
     }
 
+    [JsonIgnore]
     private Transform resourceSpawnPosition;
     public Transform ResourceSpawnPosition
     {
@@ -176,6 +210,7 @@ public class Direction
         set => this.resourceSpawnPosition = value;
     }
 
+    [JsonIgnore]
     private Transform moveToPosition;
     public Transform MoveToPosition
     {

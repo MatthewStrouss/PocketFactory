@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Resource
 {
     public int cost;
@@ -11,21 +13,18 @@ public class Resource
 
     public int quantity;
 
-    public bool isUnlocked;
-
     public int id;
 
     public string name;
 
     [JsonConstructor]
-    public Resource(int value, int cost, int quantity, bool isUnlocked, int id, string name)
+    public Resource(int value, int cost, int quantity, int id, string name)
     {
         this.id = id;
         this.cost = cost;
         this.name = name;
         this.value = value;
         this.quantity = quantity;
-        this.isUnlocked = isUnlocked;
     }
 
     public Resource(Resource resource)
@@ -35,6 +34,5 @@ public class Resource
         this.name = resource.name;
         this.value = resource.value;
         this.quantity = resource.quantity;
-        this.isUnlocked = resource.isUnlocked;
     }
 }

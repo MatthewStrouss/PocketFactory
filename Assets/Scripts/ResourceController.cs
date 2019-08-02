@@ -20,6 +20,7 @@ public class ResourceController : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public float moveSpeed;
     public Vector3 finalDestination = new Vector3(2f, 2f, 0f);
+    public bool destroy;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class ResourceController : MonoBehaviour
         isMoving = false;
         rigidBody = base.gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = base.gameObject.GetComponent<SpriteRenderer>();
+        destroy = false;
     }
 
     // Update is called once per frame
@@ -68,12 +70,28 @@ public class ResourceController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
+        ResourceController rc = collision.gameObject.GetComponent<ResourceController>();
+        if (rc != null)
+        {
+            if ((rc.resource.id == this.resource.id) && (!this.destroy))
+            {
+                this.resource.quantity += rc.resource.quantity;
+                rc.destroy = true;
+                Destroy(collision.gameObject);
+            }
+        }
     }
 
     public void SetResource(Resource resource, int quantity)
     {
-        this.resource = resource;
+        this.resource = new Resource(resource);
         this.resource.quantity = quantity;
+    }
+
+    public void SellResource()
+    {
+        Camera.main.GetComponent<PlayerScript>().AddMoney(this.resource.value * this.resource.quantity);
+
+        Destroy(this.gameObject);
     }
 }

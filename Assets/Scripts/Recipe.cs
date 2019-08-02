@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assets
 {
+    [Serializable]
     public class Recipe
     {
         public Recipe()

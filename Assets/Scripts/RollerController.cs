@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RollerController : MonoBehaviour, IMachineController
 {
+    public MachineController MachineController;
+
     private GameObject nextMovingPoint;
 
     // Start is called before the first frame update
@@ -26,6 +28,8 @@ public class RollerController : MonoBehaviour, IMachineController
     public void OnCollision(Collider2D col)
     {
         // Subtract money
+        this.MachineController.SubtractElectricityCost();
+
         // Tell resource to move to new location
         col.gameObject.GetComponent<ResourceController>().Move(nextMovingPoint.transform.position);
     }
@@ -38,5 +42,15 @@ public class RollerController : MonoBehaviour, IMachineController
     public void ActionToPerformOnTimer()
     {
 
+    }
+
+    public void OnClick()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SetControllerValues(IMachineController other)
+    {
+        
     }
 }

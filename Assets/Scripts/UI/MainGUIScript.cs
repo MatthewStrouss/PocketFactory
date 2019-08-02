@@ -9,6 +9,10 @@ public class MainGUIScript : MonoBehaviour
     public GameObject machinesPanel;
     public GameObject rotationsPanel;
 
+    public Button playPauseButton;
+    public Image playImage;
+    public Image pauseImage;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +37,19 @@ public class MainGUIScript : MonoBehaviour
 
     public void SelectButton_Click()
     {
-        Camera.main.GetComponent<PlayerScript>().StartSelectMode();
+        PrefabDatabase.Instance.GetPrefab("UI", "Selection").GetComponent<SelectionCanvasScript>().ToggleActive();
+    }
+
+    public void PlayPauseButton_Click()
+    {
+        bool isPaused = GameManagerController.Instance.PlayPause();
+
+        this.playImage.gameObject.SetActive(!isPaused);
+        this.pauseImage.gameObject.SetActive(isPaused);
+    }
+
+    public void BuildButton_Click()
+    {
+        Camera.main.GetComponent<PlayerScript>().BuildMode();
     }
 }

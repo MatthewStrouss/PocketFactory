@@ -26,6 +26,11 @@ public class RotationPanelScript : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    public void XButton_Click()
+    {
+        this.Deactivate();
+    }
+
     public void RotateLeftButton_Clicked()
     {
         Camera.main.GetComponent<PlayerScript>().SetRotation(Quaternion.Euler(0f, 0f, 270f));
@@ -48,10 +53,5 @@ public class RotationPanelScript : MonoBehaviour
     {
         Camera.main.GetComponent<PlayerScript>().SetRotation(Quaternion.Euler(0f, 0f, 0f));
         this.gameObject.SetActive(false);
-    }
-
-    public void XButton_Click()
-    {
-        this.Deactivate();
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,74 +10,87 @@ public class RecipesPanelScript : MonoBehaviour
 {
     public GameObject content;
     public Button buttonPrefab;
-    public Action callback;
+    public Action<Recipe> callback;
+
+    public GameObject recipePrefab;
+    public GameObject resourcePrefab;
+
+    public GameObject recipeCanvasPrefab;
+
+    public Button unlockButtonPrefab;
+
+    public string recipeType;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void Activate(GameObject starter, Action callback)
+    public void Activate(string recipeType, Action<Recipe> callback)
     {
+        this.recipeType = recipeType;
         this.callback = callback;
-
-        foreach (Transform child in this.content.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-
-        Dictionary<string, Recipe> basicRecipes = RecipeDatabase.Instance.GetRecipesForType("Basic");
-
-        foreach(KeyValuePair<string, Recipe> recipe in basicRecipes)
-        {
-            Button newButton = Instantiate<Button>(this.buttonPrefab, this.content.transform);
-            newButton.GetComponentInChildren<Text>().text = recipe.Value.Result.name;
-            newButton.image.sprite = SpriteDatabase.Instance.GetSprite("Resource", recipe.Value.Result.name);
-            newButton.GetComponent<RectTransform>().sizeDelta = new Vector2(64, 64);
-            newButton.onClick.AddListener(() =>
-            {
-                starter.GetComponent<StarterController>().SetRecipe(recipe.Value);
-                this.Deactivate();
-            });
-        }
-
-
-
-        //Dictionary<string, GameObject> machines = PrefabDatabase.Instance.GetPrefabsForType("Machine");
-
-        //foreach (KeyValuePair<string, GameObject> machine in machines)
-        //{
-        //    Button newButton = Instantiate<Button>(this.buttonPrefab, this.content.transform);
-        //    newButton.GetComponentInChildren<Text>().text = machine.Key;
-        //    newButton.image.sprite = machine.Value.GetComponent<SpriteRenderer>().sprite;
-        //    newButton.GetComponent<RectTransform>().sizeDelta = new Vector2(64, 64);
-        //    newButton.onClick.AddListener(() =>
-        //    {
-        //        Camera.main.GetComponent<PlayerScript>().SetMachine(machine.Value);
-        //        this.gameObject.SetActive(false);
-        //        //    GlobalManager.instance._playerManager.playerStateEnum = PlayerStateEnum.PLACE_TILE;
-        //        //    GlobalManager.instance._playerManager.placeID = x.ID;
-        //    });
-        //}
-
+        this.UpdateUI();
         this.gameObject.SetActive(true);
     }
 
     public void Deactivate()
     {
-        this.callback();
+        this.gameObject.SetActive(false);
+    }
+
+    public void Deactivate(Recipe chosenRecipe)
+    {
+        this.callback(chosenRecipe);
         this.gameObject.SetActive(false);
     }
 
     public void XButton_Click()
     {
         this.Deactivate();
+    }
+
+    public void UpdateUI()
+    {
+        foreach (Transform child in this.content.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        Dictionary<string, Recipe> basicRecipes = RecipeDatabase.Instance.GetRecipesForType(this.recipeType);
+
+        foreach (KeyValuePair<string, Recipe> recipe in basicRecipes)
+        {
+            Button newButton;
+
+            if (recipe.Value.IsUnlocked)
+            {
+                //Debug.Log(string.Format("{0} = {1}",
+                //    string.Join(" + ", recipe.Value.Requirements.Select(x => x.name).ToArray()),
+                //    recipe.Value.Result.name
+                //    ));
+                newButton = Instantiate<Button>(this.recipeCanvasPrefab.transform.Find("Button").GetComponent<Button>(), this.content.transform);
+                newButton.GetComponent<RecipeCanvasScript>().SetRecipe(recipe.Value, () => this.Deactivate(recipe.Value));
+            }
+            else
+            {
+                newButton = Instantiate<Button>(this.unlockButtonPrefab, this.content.transform);
+                newButton.transform.Find("CostText").GetComponent<Text>().text = string.Format("${0}", recipe.Value.UnlockCost);
+                newButton.transform.Find("NameText").GetComponent<Text>().text = recipe.Value.Name;
+
+                newButton.onClick.AddListener(() =>
+                {
+                    RecipeDatabase.Instance.UnlockRecipe(recipe.Value);
+                    this.UpdateUI();
+                });
+            }
+        }
     }
 }

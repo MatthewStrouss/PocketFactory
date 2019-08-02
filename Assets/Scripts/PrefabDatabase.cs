@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,30 +26,54 @@ public class PrefabDatabase
 
     public PrefabDatabase()
     {
-        RegisterPrefab("Resource", "ResourcePrefab", AssetDatabase.LoadAssetAtPath(@"Assets/Prefabs/Resources/Resource.prefab", typeof(GameObject)) as GameObject);
+        RegisterPrefab("Resource", "ResourcePrefab", Resources.Load(@"Prefabs/Resources/Resource", typeof(GameObject)) as GameObject);
         RegisterUI();
         RegisterMachines();
+        SetupMachines();
     }
 
     private void RegisterMachines()
     {
-        RegisterPrefab("Machine", "Crafter", AssetDatabase.LoadAssetAtPath(@"Assets/Prefabs/Machines/CrafterPrefab.prefab", typeof(GameObject)) as GameObject);
-        RegisterPrefab("Machine", "Cutter", AssetDatabase.LoadAssetAtPath(@"Assets/Prefabs/Machines/CutterPrefab.prefab", typeof(GameObject)) as GameObject);
-        RegisterPrefab("Machine", "Furnace", AssetDatabase.LoadAssetAtPath(@"Assets/Prefabs/Machines/FurnacePrefab.prefab", typeof(GameObject)) as GameObject);
-        RegisterPrefab("Machine", "Hydraulic Press", AssetDatabase.LoadAssetAtPath(@"Assets/Prefabs/Machines/HydraulicPressPrefab.prefab", typeof(GameObject)) as GameObject);
-        RegisterPrefab("Machine", "Roller", AssetDatabase.LoadAssetAtPath(@"Assets/Prefabs/Machines/RollerPrefab.prefab", typeof(GameObject)) as GameObject);
-        RegisterPrefab("Machine", "Selector", AssetDatabase.LoadAssetAtPath(@"Assets/Prefabs/Machines/SelectorPrefab.prefab", typeof(GameObject)) as GameObject);
-        RegisterPrefab("Machine", "Seller", AssetDatabase.LoadAssetAtPath(@"Assets/Prefabs/Machines/SellerPrefab.prefab", typeof(GameObject)) as GameObject);
-        RegisterPrefab("Machine", "Splitter", AssetDatabase.LoadAssetAtPath(@"Assets/Prefabs/Machines/SplitterPrefab.prefab", typeof(GameObject)) as GameObject);
-        RegisterPrefab("Machine", "Starter", AssetDatabase.LoadAssetAtPath(@"Assets/Prefabs/Machines/StarterPrefab.prefab", typeof(GameObject)) as GameObject);
-        this.GetPrefab("Machine", "Starter").GetComponent<StarterController>().starterGUI = this.GetPrefab("UI", "Starter");
-        RegisterPrefab("Machine", "Wire Drawer", AssetDatabase.LoadAssetAtPath(@"Assets/Prefabs/Machines/WireDrawerPrefab.prefab", typeof(GameObject)) as GameObject);
+        RegisterPrefab("Machine", "Crafter", Resources.Load(@"Prefabs/Machines/CrafterPrefab", typeof(GameObject)) as GameObject);
+        RegisterPrefab("Machine", "Cutter", Resources.Load(@"Prefabs/Machines/CutterPrefab", typeof(GameObject)) as GameObject);
+        RegisterPrefab("Machine", "Furnace", Resources.Load(@"Prefabs/Machines/FurnacePrefab", typeof(GameObject)) as GameObject);
+        RegisterPrefab("Machine", "Hydraulic Press", Resources.Load(@"Prefabs/Machines/HydraulicPressPrefab", typeof(GameObject)) as GameObject);
+        RegisterPrefab("Machine", "Roller", Resources.Load(@"Prefabs/Machines/RollerPrefab", typeof(GameObject)) as GameObject);
+        RegisterPrefab("Machine", "Selector", Resources.Load(@"Prefabs/Machines/SelectorPrefab", typeof(GameObject)) as GameObject);
+        RegisterPrefab("Machine", "Seller", Resources.Load(@"Prefabs/Machines/SellerPrefab", typeof(GameObject)) as GameObject);
+        RegisterPrefab("Machine", "Splitter", Resources.Load(@"Prefabs/Machines/SplitterPrefab", typeof(GameObject)) as GameObject);
+        RegisterPrefab("Machine", "Starter", Resources.Load(@"Prefabs/Machines/StarterPrefab", typeof(GameObject)) as GameObject);
+        //this.GetPrefab("Machine", "Starter").GetComponent<StarterController>().starterGUI = this.GetPrefab("UI", "Starter");
+        RegisterPrefab("Machine", "Wire Drawer", Resources.Load(@"Prefabs/Machines/WireDrawerPrefab", typeof(GameObject)) as GameObject);
+    }
+
+    private void SetupMachines()
+    {
+        this.GetPrefabsForType("Machine").Values.ToList().ForEach(x => x.GetComponent<MachineController>().SetupMachine());
     }
 
     private void RegisterUI()
     {
-        RegisterPrefab("UI", "Arrow", AssetDatabase.LoadAssetAtPath(@"Assets/Prefabs/UI/ArrowObject.prefab", typeof(GameObject)) as GameObject);
-        RegisterPrefab("UI", "Starter", GameObject.Find("Canvas").transform.GetChild(4).gameObject);
+        RegisterPrefab("UI", "Arrow", Resources.Load(@"Prefabs/UI/ArrowObject", typeof(GameObject)) as GameObject);
+        //RegisterPrefab("UI", "Starter", GameObject.Find("Canvas").transform.GetChild(4).gameObject);
+        RegisterPrefab("UI", "Starter", GameObject.Find("Canvas").transform.Find("StarterCanvas").gameObject);
+        RegisterPrefab("UI", "Splitter", GameObject.Find("Canvas").transform.Find("SplitterCanvas").gameObject);
+        RegisterPrefab("UI", "Crafter", GameObject.Find("Canvas").transform.Find("CrafterCanvas").gameObject);
+        RegisterPrefab("UI", "Seller", GameObject.Find("Canvas").transform.Find("SellerCanvas").gameObject);
+
+
+        //RegisterPrefab("UI", "Selection", GameObject.Find("Canvas").transform.Find("MainGUICanvas").transform.Find("SelectionCanvas").gameObject);
+        RegisterPrefab("UI", "Copy", GameObject.Find("Canvas").transform.Find("CopyCanvas").gameObject);
+        RegisterPrefab("UI", "Paste", GameObject.Find("Canvas").transform.Find("PasteCanvas").gameObject);
+        RegisterPrefab("UI", "Money", GameObject.Find("Canvas").transform.Find("MoneyCanvas").gameObject);
+        RegisterPrefab("UI", "Cheat", GameObject.Find("Canvas").transform.Find("CheatCanvas").gameObject);
+        RegisterPrefab("UI", "Recipe", Resources.Load(@"UI/RecipeCanvas.prefab", typeof(GameObject)) as GameObject);
+
+        RegisterPrefab("UI", "MainGUI", GameObject.Find("MainGUICanvas"));
+        RegisterPrefab("UI", "MainUI", this.GetPrefab("UI", "MainGUI").transform.Find("MainUICanvas").gameObject);
+        RegisterPrefab("UI", "BuildUI", this.GetPrefab("UI", "MainGUI").transform.Find("BuildUICanvas").gameObject);
+        RegisterPrefab("UI", "SelectionUI", this.GetPrefab("UI", "MainGUI").transform.Find("SelectionUICanvas").gameObject);
+        RegisterPrefab("UI", "OkCancelUI", this.GetPrefab("UI", "MainGUI").transform.Find("OkCancelUICanvas").gameObject);
     }
 
     public void RegisterPrefab(string prefabType, string prefabName, GameObject prefab)

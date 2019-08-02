@@ -8,6 +8,8 @@ using static Comparers;
 
 public class WireDrawerController : MonoBehaviour, IMachineController
 {
+    public MachineController MachineController;
+
     public Transform resourceSpawnPosition;
     public Transform moveToPosition;
 
@@ -18,8 +20,8 @@ public class WireDrawerController : MonoBehaviour, IMachineController
 
     public int SpawnCount = 1;
 
-    List<Resource> inventory;
-    List<Resource> Inventory
+    private List<Resource> inventory;
+    public List<Resource> Inventory
     {
         get => this.inventory;
         set => this.inventory = value;
@@ -63,32 +65,30 @@ public class WireDrawerController : MonoBehaviour, IMachineController
     public void ActionToPerformOnTimer()
     {
         // Check if inventory contains all resources in recipe
-        Recipe recipeFromInventory = this.RecipeFromInventory();
-
-        // Subtract recipe resources from inventory
-        recipeFromInventory?.Requirements.ForEach(x => this.RemoveFromInventory(x));
+        Resource resourceFromInventory = this.ResourceFromInventory();
 
         // Create resource
-        if (recipeFromInventory != null) // TODO change this because this if statement is gross
+        if (resourceFromInventory != null)
         {
-            this.CreateResourceFromRecipe(recipeFromInventory);
+            this.CreateResource(resourceFromInventory);
         }
     }
 
-    public void CreateResourceFromRecipe(Recipe recipe)
+    public void CreateResource(Resource resource)
     {
+        this.MachineController.SubtractElectricityCost();
         GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), resourceSpawnPosition.position, Quaternion.Euler(transform.eulerAngles));
 
-        go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", recipe.Result.name);
+        go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", resource.name);
         ResourceController rc = go.GetComponent<ResourceController>();
-        rc.SetResource(recipe.Result, SpawnCount);
+        rc.SetResource(resource, resource.quantity);
         rc.Move(moveToPosition.position);
         rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
     }
 
-    public Recipe RecipeFromInventory()
+    public Resource ResourceFromInventory()
     {
-        Recipe recipe = null;
+        Resource resource = null;
 
         // First item in inventory that matches a recipe
 
@@ -96,14 +96,36 @@ public class WireDrawerController : MonoBehaviour, IMachineController
 
         if (firstInventoryItem != null)
         {
-            recipe = this.chosenRecipes?.FirstOrDefault(x => x.Requirements.Contains(firstInventoryItem, Comparers.Instance.ResourceComparerInstance));
+            Recipe recipe = this.chosenRecipes?.FirstOrDefault(x => x.Requirements.Contains(firstInventoryItem, Comparers.Instance.ResourceComparerInstance));
+
+            if (recipe == null)
+            {
+                resource = firstInventoryItem;
+                this.RemoveFromInventory(resource);
+            }
+            else
+            {
+                resource = recipe.Result;
+                recipe.Requirements.ForEach(x => this.RemoveFromInventory(x));
+            }
         }
 
-        return recipe;
+        return resource;
     }
 
     public void RemoveFromInventory(Resource resource)
     {
         this.Inventory.FirstOrDefault(x => x.id.Equals(resource.id)).quantity -= resource.quantity;
+    }
+
+    public void OnClick()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetControllerValues(IMachineController other)
+    {
+        WireDrawerController otherController = other as WireDrawerController;
+        this.Inventory = otherController.Inventory;
     }
 }

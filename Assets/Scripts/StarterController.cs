@@ -1,44 +1,49 @@
 ﻿using Assets;
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class StarterController : MonoBehaviour, IMachineController, IPointerClickHandler
+public class StarterController : MonoBehaviour, IMachineController
 {
+    public MachineController MachineController;
+
     [RangeAttribute(1, 3)]
     public int SpawnCount = 1;
 
     public string recipeType = "Basic";
 
-    [SerializeField]
-    public Recipe chosenRecipe;
+    public Recipe ChosenRecipe;
 
     public Transform resourceSpawnPosition;
     public Transform moveToPosition;
 
-    private bool isUnlocked;
-    public bool IsUnlocked
-    {
-        get => isUnlocked;
-        set => isUnlocked = value;
-    }
-
     public GameObject starterGUI;
+
+    void Awake()
+    {
+        this.ChosenRecipe = RecipeDatabase.Instance.GetRecipe(recipeType, "(None)");
+        this.starterGUI = PrefabDatabase.Instance.GetPrefab("UI", "Starter");
+        Debug.Log(string.Format("StarterController.Awake was called. Setting starterGUI to {0} and its final value is {1}", 
+            PrefabDatabase.Instance.GetPrefab("UI", "Starter")?.name ?? "null",
+            this.starterGUI?.name ?? "null"
+            ));
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         //resourceType = PrimitiveResourceType.GOLD;
-        this.chosenRecipe = RecipeDatabase.Instance.GetRecipe(recipeType, "(None)");
-        this.starterGUI = PrefabDatabase.Instance.GetPrefab("UI", "Starter");
+        //this.ChosenRecipe = RecipeDatabase.Instance.GetRecipe(recipeType, "(None)");
+        //this.starterGUI = PrefabDatabase.Instance.GetPrefab("UI", "Starter");
         //InvokeRepeating("ActionToPerformOnTimer", 0.0f, 2.0f);
         //this.starterGUI = GameObject.Find("StarterCanvas");
     }
 
     public void OnCollision(Collider2D col)
     {
-        
+
     }
 
     public void AddToInventory(Resource resourceToAdd)
@@ -47,22 +52,14 @@ public class StarterController : MonoBehaviour, IMachineController, IPointerClic
     }
 
     public void ActionToPerformOnTimer()
-    {
-        //if (isActive())
-        //{
-        //    for (int i = 0; i < SpawnCount; ++i)
-        //    {
-        //        GameObject go = Instantiate(resource, transform.position + Vector3.forward, Quaternion.Euler(transform.eulerAngles));
-        //        go.GetComponent<Resource>().setResourceType(resourceType);
-        //    }
-        //}
-
-        if ((this.chosenRecipe != null) && (this.chosenRecipe.Name != "(None)"))
+    { 
+        if ((this.ChosenRecipe != null) && (this.ChosenRecipe.Name != "(None)"))
         {
+            this.MachineController.SubtractElectricityCost();
             GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), resourceSpawnPosition.position, Quaternion.Euler(transform.eulerAngles));
-            go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", chosenRecipe.Result.name);
+            go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", ChosenRecipe.Result.name);
             ResourceController rc = go.GetComponent<ResourceController>();
-            rc.SetResource(chosenRecipe.Result, SpawnCount);
+            rc.SetResource(ChosenRecipe.Result, SpawnCount);
             rc.Move(moveToPosition.position);
             rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
         }
@@ -70,16 +67,30 @@ public class StarterController : MonoBehaviour, IMachineController, IPointerClic
 
     public void SetRecipe(Recipe newRecipe)
     {
-        this.chosenRecipe = newRecipe;
+        Debug.Log(string.Format("Setting starter recipe to: {0}", newRecipe.Name));
+        this.ChosenRecipe = newRecipe;
         //GameManagerController.Instance.gUIManagerController.starterCanvas.GetComponent<StarterPanelScript>().UpdateUI(this);
         this.starterGUI.GetComponent<StarterPanelScript>().UpdateUI(this);
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnClick()
     {
-        //GameManagerController.Instance.gUIManagerController.starterCanvas.GetComponent<StarterPanelScript>().Activate();
-        //GameManagerController.Instance.gUIManagerController.starterCanvas.GetComponent<StarterPanelScript>().UpdateUI(this);
+        Debug.Log(string.Format("You clicked on the starter. The UI has a value of {0}", this.starterGUI?.name ?? "null"));
+
+        if (this.starterGUI == null)
+        {
+            this.starterGUI = PrefabDatabase.Instance.GetPrefab("UI", "Starter");
+            Debug.Log(string.Format("The UI *NOW* has a value of {0}", this.starterGUI?.name ?? "null"));
+        }
+
         this.starterGUI.GetComponent<StarterPanelScript>().Activate();
         this.starterGUI.GetComponent<StarterPanelScript>().UpdateUI(this);
+    }
+
+    public void SetControllerValues(IMachineController other)
+    {
+        StarterController otherController = other as StarterController;
+        this.SpawnCount = otherController.SpawnCount;
+        this.ChosenRecipe = otherController.ChosenRecipe;
     }
 }

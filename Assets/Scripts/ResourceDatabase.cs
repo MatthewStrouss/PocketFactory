@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets
 {
@@ -27,7 +29,7 @@ namespace Assets
 
         public ResourceDatabase()
         {
-            resources = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Resource>>(System.IO.File.ReadAllText(@"Assets/StreamingAssets/Resources.json"));
+            resources = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Resource>>(Resources.Load(@"Data/Resources").ToString());
         }
 
         public ResourceDatabase(Resource resource)
@@ -49,6 +51,13 @@ namespace Assets
                 resource.id = id++;
                 resources.Add(resource.name, resource);
             }
+        }
+
+        public Resource GetResource(string resourceName)
+        {
+            this.resources.TryGetValue(resourceName, out Resource resource);
+
+            return resource;
         }
     }
 }
