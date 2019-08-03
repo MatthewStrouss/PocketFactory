@@ -67,6 +67,7 @@ public class PrefabDatabase
         RegisterPrefab("UI", "Paste", GameObject.Find("Canvas").transform.Find("PasteCanvas").gameObject);
         RegisterPrefab("UI", "Money", GameObject.Find("Canvas").transform.Find("MoneyCanvas").gameObject);
         RegisterPrefab("UI", "Cheat", GameObject.Find("Canvas").transform.Find("CheatCanvas").gameObject);
+        RegisterPrefab("UI", "Error", GameObject.Find("Canvas").transform.Find("ErrorCanvas").gameObject);
         RegisterPrefab("UI", "Recipe", Resources.Load(@"UI/RecipeCanvas.prefab", typeof(GameObject)) as GameObject);
 
         RegisterPrefab("UI", "MainGUI", GameObject.Find("MainGUICanvas"));

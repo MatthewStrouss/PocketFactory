@@ -19,6 +19,12 @@ public class BuildUICanvasScript : MonoBehaviour
         
     }
 
+    public void Deactivate()
+    {
+        this.selectionCanvas.GetComponent<SelectionCanvasScript>().Deactivate();
+        this.gameObject.SetActive(false);
+    }
+
     public void MachinesButton_Clicked()
     {
         this.machinesPanel.GetComponent<MachinesPanelScript>().Activate();

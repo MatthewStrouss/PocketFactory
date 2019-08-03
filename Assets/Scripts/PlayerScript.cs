@@ -1,5 +1,6 @@
 ﻿using Assets;
 using Assets.Scripts;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -63,7 +64,7 @@ public class PlayerScript : MonoBehaviour
 
     public Resource resourceToSpawn;
     public List<GameObject> placedMachines;
-    private static readonly float PanSpeed = 20f;
+    private static readonly float PanSpeed = 10f;
     private static readonly float ZoomSpeedTouch = 0.1f;
     private static readonly float ZoomSpeedMouse = 0.5f;
 
@@ -158,10 +159,12 @@ public class PlayerScript : MonoBehaviour
                     cursorPosition.z = 0;
 
                     List<MachineController> test1 = machineToPlace.GetComponentsInChildren<MachineController>().ToList();
+
+
                     machineToPlace.GetComponentsInChildren<MachineController>().ToList().ForEach(x =>
                     {
-                        GameObject go = Instantiate(x.gameObject, x.transform.position, x.transform.rotation);
-                        go.GetComponent<MachineController>().SetControllerValues(x.controller);
+                        x.Place(x.transform.position, x.transform.rotation);
+                        x.SetControllerValues(x.controller);
                     });
                 }
             }
@@ -300,8 +303,8 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetMouseButtonUp(0) && playerStateEnum == PlayerStateEnum.SELECT)
             {
                 selectionRectangle.SetActive(false);
-                Vector2 lowerLeftPosition = new Vector2(Mathf.Min(mouseStartPos.x, mouseEndPos.x), Mathf.Min(mouseStartPos.y, mouseEndPos.y));
-                Vector2 upperRightPosition = new Vector2(Mathf.Max(mouseStartPos.x, mouseEndPos.x), Mathf.Max(mouseStartPos.y, mouseEndPos.y));
+                Vector2 lowerLeftPosition = new Vector2(Mathf.Round(Mathf.Min(mouseStartPos.x, mouseEndPos.x)), Mathf.Round(Mathf.Min(mouseStartPos.y, mouseEndPos.y)));
+                Vector2 upperRightPosition = new Vector2(Mathf.Round(Mathf.Max(mouseStartPos.x, mouseEndPos.x)), Mathf.Round(Mathf.Max(mouseStartPos.y, mouseEndPos.y)));
 
                 if (this.selectedObjects.Count > 0)
                 {
@@ -467,24 +470,19 @@ public class PlayerScript : MonoBehaviour
         if (selectedObjects.Count > 0)
         {
             List<MachineModel> machineModels = selectedObjects.ToMachineModelList();
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(machineModels);
-            string base64 = Convert.ToBase64String(Encoding.ASCII.GetBytes(json));
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(machineModels, new Newtonsoft.Json.JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            //string base64 = Convert.ToBase64String(Encoding.ASCII.GetBytes(json));
 
             PrefabDatabase.Instance.GetPrefab("UI", "Copy").GetComponent<CopyCanvasScript>().Activate();
-            PrefabDatabase.Instance.GetPrefab("UI", "Copy").GetComponent<CopyCanvasScript>().UpdateUI(base64);
+            PrefabDatabase.Instance.GetPrefab("UI", "Copy").GetComponent<CopyCanvasScript>().UpdateUI(json);
         }
     }
 
-    public void PasteUI()
-    {
-        PrefabDatabase.Instance.GetPrefab("UI", "Paste").GetComponent<PasteCanvasScript>().Activate(Paste);
-    }
-
-    public void Paste(string base64String)
+    public void Paste(string json)
     {
         GameObject parent = new GameObject();
 
-        string json = Encoding.ASCII.GetString(Convert.FromBase64String(base64String));
+        //string json = Encoding.ASCII.GetString(Convert.FromBase64String(base64String));
 
         List<GameObject> gameObjects = json.ToGameObjectList();
 
@@ -496,8 +494,66 @@ public class PlayerScript : MonoBehaviour
 
         gameObjects.ForEach(x => x.transform.parent = parent.transform);
 
-        this.playerStateEnum = PlayerStateEnum.PLACE_MACHINE_PASTE;
-        this.machineToPlace = parent;
+        IsPasteValid(parent.GetComponentsInChildren<MachineController>().ToList(), out bool isPasteValid, out string pasteInvalidString);
+
+        if (isPasteValid)
+        {
+            this.playerStateEnum = PlayerStateEnum.PLACE_MACHINE_PASTE;
+            this.machineToPlace = parent;
+        }
+        else
+        {
+            PrefabDatabase.Instance.GetPrefab("UI", "Error").GetComponent<ErrorCanvasScript>().Activate(pasteInvalidString);
+        }
+    }
+
+    public void PasteUI()
+    {
+        PrefabDatabase.Instance.GetPrefab("UI", "Paste").GetComponent<PasteCanvasScript>().Activate(Paste);
+    }
+
+    public void IsPasteValid(List<MachineController> machinesToPlace, out bool isPasteValid, out string pasteInvalidString)
+    {
+        isPasteValid = true;
+        pasteInvalidString = string.Empty;
+
+        if (!CanAffordPaste(machinesToPlace))
+        {
+            isPasteValid = false;
+            pasteInvalidString = "Not enough money for all machines in paste";
+        }
+
+        if (!HasUnlockedAllMachines(machinesToPlace))
+        {
+            isPasteValid = false;
+            pasteInvalidString = "Not all machines in paste are unlocked";
+        }
+
+
+        if (!HasUnlockedAllRecipes(machinesToPlace))
+        {
+            isPasteValid = false;
+            pasteInvalidString = "Not all recipes in paste are unlocked";
+        }
+    }
+
+    public bool CanAffordPaste(List<MachineController> machinesToPlace)
+    {
+        return this.Money >= machinesToPlace.Sum(x => x.Machine.BuildCost);
+    }
+
+    public bool HasUnlockedAllMachines(List<MachineController> machinesToPlace)
+    {
+        return machinesToPlace.All(x => x.Machine.IsUnlocked);
+    }
+
+    public bool HasUnlockedAllRecipes(List<MachineController> machinesToPlace)
+    {
+        return machinesToPlace
+            .Where(x => x.controller is CrafterController)
+            .Select(x => x.controller)
+            .Cast<CrafterController>()
+            .All(x => RecipeDatabase.Instance.GetRecipe(x.recipeType, x.ChosenRecipe.Name).IsUnlocked);
     }
 
     public void SellSelection()
@@ -574,12 +630,13 @@ public class PlayerScript : MonoBehaviour
     {
         // Finalize building of all machines
         this.placedMachines.Clear();
+        this.machineToPlace = null;
 
         // Enable MainUICanvas
         PrefabDatabase.Instance.GetPrefab("UI", "MainUI").SetActive(true);
 
         // Disable BuildUICanvas
-        PrefabDatabase.Instance.GetPrefab("UI", "BuildUI").SetActive(false);
+        PrefabDatabase.Instance.GetPrefab("UI", "BuildUI").GetComponent<BuildUICanvasScript>().Deactivate();
     }
 
     public void CancelBuild()
@@ -590,12 +647,13 @@ public class PlayerScript : MonoBehaviour
             x.GetComponent<MachineController>().Sell(true);
         });
         this.placedMachines.Clear();
+        this.machineToPlace = null;
 
         // Enable MainUICanvas
         PrefabDatabase.Instance.GetPrefab("UI", "MainUI").SetActive(true);
 
         // Disable BuildUICanvas
-        PrefabDatabase.Instance.GetPrefab("UI", "BuildUI").SetActive(false);
+        PrefabDatabase.Instance.GetPrefab("UI", "BuildUI").GetComponent<BuildUICanvasScript>().Deactivate();
     }
 }
 

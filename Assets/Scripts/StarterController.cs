@@ -25,10 +25,6 @@ public class StarterController : MonoBehaviour, IMachineController
     {
         this.ChosenRecipe = RecipeDatabase.Instance.GetRecipe(recipeType, "(None)");
         this.starterGUI = PrefabDatabase.Instance.GetPrefab("UI", "Starter");
-        Debug.Log(string.Format("StarterController.Awake was called. Setting starterGUI to {0} and its final value is {1}", 
-            PrefabDatabase.Instance.GetPrefab("UI", "Starter")?.name ?? "null",
-            this.starterGUI?.name ?? "null"
-            ));
     }
 
     // Start is called before the first frame update
@@ -67,7 +63,6 @@ public class StarterController : MonoBehaviour, IMachineController
 
     public void SetRecipe(Recipe newRecipe)
     {
-        Debug.Log(string.Format("Setting starter recipe to: {0}", newRecipe.Name));
         this.ChosenRecipe = newRecipe;
         //GameManagerController.Instance.gUIManagerController.starterCanvas.GetComponent<StarterPanelScript>().UpdateUI(this);
         this.starterGUI.GetComponent<StarterPanelScript>().UpdateUI(this);
@@ -75,12 +70,9 @@ public class StarterController : MonoBehaviour, IMachineController
 
     public void OnClick()
     {
-        Debug.Log(string.Format("You clicked on the starter. The UI has a value of {0}", this.starterGUI?.name ?? "null"));
-
         if (this.starterGUI == null)
         {
             this.starterGUI = PrefabDatabase.Instance.GetPrefab("UI", "Starter");
-            Debug.Log(string.Format("The UI *NOW* has a value of {0}", this.starterGUI?.name ?? "null"));
         }
 
         this.starterGUI.GetComponent<StarterPanelScript>().Activate();

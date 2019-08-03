@@ -21,6 +21,11 @@ public class CheatCanvasScript : MonoBehaviour
             Camera.main.GetComponent<PlayerScript>().AddMoney(Convert.ToInt64(moneyAmount.FirstOrDefault()));
         });
 
+        cheatDict.Add("player.setMoney", (moneyAmount) =>
+        {
+            Camera.main.GetComponent<PlayerScript>().Money = Convert.ToInt64(moneyAmount.FirstOrDefault());
+        });
+
         cheatDict.Add("player.unlockAllMachines", (_) =>
         {
             Debug.Log("Unlocking all machines");
