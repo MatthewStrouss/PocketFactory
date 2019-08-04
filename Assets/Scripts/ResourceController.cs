@@ -32,7 +32,7 @@ public class ResourceController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (this.IsMoving)
         {
