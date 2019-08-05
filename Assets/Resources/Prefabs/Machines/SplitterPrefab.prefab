@@ -273,6 +273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 447207190795304067}
   SelectedGameObject: {fileID: 7397062521756441752}
+  ArrowGameObject: {fileID: 0}
   MachineName: Splitter
   nextActionTime: 0
 --- !u!114 &447207190795304067

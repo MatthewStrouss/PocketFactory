@@ -24,6 +24,7 @@ public class MachineController : MonoBehaviour
     }
 
     public GameObject SelectedGameObject;
+    public GameObject ArrowGameObject;
 
     public string MachineName;
 
@@ -31,7 +32,13 @@ public class MachineController : MonoBehaviour
 
     private void Awake()
     {
-        this.SelectedGameObject.SetActive(false);
+        this.SelectedGameObject?.SetActive(false);
+
+        if (this.ArrowGameObject != null)
+        {
+            this.ArrowGameObject.SetActive(false);
+        }
+
         this.SetupMachine();
         this.IsOn = true;
     }
@@ -104,12 +111,6 @@ public class MachineController : MonoBehaviour
         (controller as IMachineController).OnClick();
     }
 
-    public void SelectedSetActive(bool state)
-    {
-        this.SelectedGameObject.SetActive(state);
-    }
-
-    // vs the following 2
     public void ActivateSelected()
     {
         this.SelectedGameObject.SetActive(true);
@@ -118,6 +119,24 @@ public class MachineController : MonoBehaviour
     public void DeactivateSelected()
     {
         this.SelectedGameObject.SetActive(false);
+    }
+
+    public void ToggleArrow()
+    {
+        if (this.ArrowGameObject != null)
+        {
+            this.ArrowGameObject.SetActive(!this.ArrowGameObject.activeSelf);
+        }
+    }
+
+    public void ActivateArrow()
+    {
+        this.ArrowGameObject.SetActive(true);
+    }
+
+    public void DeactivateArrow()
+    {
+        this.ArrowGameObject.SetActive(false);
     }
 
     public void Sell(bool sellFullAmount = false)

@@ -13,6 +13,8 @@ public class StarterPanelScript : MonoBehaviour
 
     public InputField quantityInputField;
 
+    public GameObject ResourceGameObject;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,7 +58,8 @@ public class StarterPanelScript : MonoBehaviour
     {
         this.starter = starter;
         StarterController sc = this.starter.GetComponent<StarterController>();
-        this.chosenImage.GetComponent<Image>().sprite = SpriteDatabase.Instance.GetSprite("Resource", sc.ChosenRecipe.Result.name);
+        //this.chosenImage.GetComponent<Image>().sprite = SpriteDatabase.Instance.GetSprite("Resource", sc.ChosenRecipe.Result.name);
+        this.ResourceGameObject.GetComponent<ResourceCanvasScript>().SetResource(this.starter.ChosenRecipe.Result);
         this.quantityInputField.text = sc.SpawnCount.ToString();
     }
 

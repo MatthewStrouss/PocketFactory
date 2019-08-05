@@ -306,12 +306,7 @@ public class PlayerScript : MonoBehaviour
                 Vector2 lowerLeftPosition = new Vector2(Mathf.Round(Mathf.Min(mouseStartPos.x, mouseEndPos.x)), Mathf.Round(Mathf.Min(mouseStartPos.y, mouseEndPos.y)));
                 Vector2 upperRightPosition = new Vector2(Mathf.Round(Mathf.Max(mouseStartPos.x, mouseEndPos.x)), Mathf.Round(Mathf.Max(mouseStartPos.y, mouseEndPos.y)));
 
-                if (this.selectedObjects.Count > 0)
-                {
-                    this.selectedObjects?.ForEach(x => x?.GetComponent<MachineController>()?.DeactivateSelected());
-                }
-
-                this.selectedObjects.Clear();
+                //this.DeselectMachines();
 
                 List<GameObject> allGameObjects = UnityEngine.Object.FindObjectsOfType<GameObject>().ToList();
                 allGameObjects.Where(x => x.layer == 8).ToList().ForEach(x =>
@@ -324,8 +319,16 @@ public class PlayerScript : MonoBehaviour
                             x.transform.position.x <= upperRightPosition.x &&
                             x.transform.position.y <= upperRightPosition.y)
                         {
-                            mc.ActivateSelected();
-                            selectedObjects.Add(x);
+                            if (this.selectedObjects.Contains(x))
+                            {
+                                mc.DeactivateSelected();
+                                this.selectedObjects.Remove(x);
+                            }
+                            else
+                            {
+                                mc.ActivateSelected();
+                                selectedObjects.Add(x);
+                            }
                         }
                     }
                 });
@@ -336,6 +339,12 @@ public class PlayerScript : MonoBehaviour
         {
             PrefabDatabase.Instance.GetPrefab("UI", "Cheat").GetComponent<CheatCanvasScript>().Activate();
         }
+    }
+
+    void DeselectMachines()
+    {
+        this.selectedObjects?.ForEach(x => x?.GetComponent<MachineController>()?.DeactivateSelected());
+        this.selectedObjects.Clear();
     }
 
     void HandleTouch()
@@ -631,6 +640,8 @@ public class PlayerScript : MonoBehaviour
         // Finalize building of all machines
         this.placedMachines.Clear();
         this.machineToPlace = null;
+        this.ResetPlayerState();
+        this.DeselectMachines();
 
         // Enable MainUICanvas
         PrefabDatabase.Instance.GetPrefab("UI", "MainUI").SetActive(true);
@@ -648,6 +659,8 @@ public class PlayerScript : MonoBehaviour
         });
         this.placedMachines.Clear();
         this.machineToPlace = null;
+        this.ResetPlayerState();
+        this.DeselectMachines();
 
         // Enable MainUICanvas
         PrefabDatabase.Instance.GetPrefab("UI", "MainUI").SetActive(true);

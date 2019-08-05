@@ -43,5 +43,6 @@ public class CopyCanvasScript : MonoBehaviour
     public void CopyButton_Click()
     {
         GUIUtility.systemCopyBuffer = this.inputField.text;
+        this.Deactivate();
     }
 }

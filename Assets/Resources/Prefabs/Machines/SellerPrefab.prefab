@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 9176278496646460639}
   SelectedGameObject: {fileID: 8872615695698783262}
+  ArrowGameObject: {fileID: 0}
   MachineName: Seller
   nextActionTime: 0
 --- !u!114 &9176278496646460639

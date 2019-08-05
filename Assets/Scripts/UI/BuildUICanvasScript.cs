@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BuildUICanvasScript : MonoBehaviour
@@ -38,5 +39,13 @@ public class BuildUICanvasScript : MonoBehaviour
     public void SelectButton_Click()
     {
         this.selectionCanvas.GetComponent<SelectionCanvasScript>().ToggleActive();
+    }
+
+    public void ShowArrowsButton_Click()
+    {
+        UnityEngine.Object.FindObjectsOfType<GameObject>().ToList().Where(x => x.layer.Equals(8)).ToList().ForEach(x =>
+        {
+            x.GetComponent<MachineController>()?.ToggleArrow();
+        });
     }
 }
