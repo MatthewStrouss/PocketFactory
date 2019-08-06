@@ -176,6 +176,26 @@ public class MachineController : MonoBehaviour
         return gameObjectToReturn;
     }
 
+    public GameObject Place(Vector3 position, Quaternion rotation, MonoBehaviour otherController)
+    {
+        GameObject gameObjectToReturn = null;
+
+        PlayerScript playerScript = Camera.main.GetComponent<PlayerScript>();
+
+        if (playerScript.Money - this.Machine.BuildCost >= 0)
+        {
+            playerScript.SubMoney(Convert.ToInt64(this.Machine.BuildCost), false);
+
+            gameObjectToReturn = Instantiate(this.gameObject, position, rotation);
+            gameObjectToReturn.GetComponent<MachineController>().SetupMachine();
+            gameObjectToReturn.GetComponent<BoxCollider2D>().enabled = true;
+        }
+
+        this.SetControllerValues(otherController);
+
+        return gameObjectToReturn;
+    }
+
     public void SetControllerValues(MonoBehaviour other)
     {
         (this.controller as IMachineController).SetControllerValues(other as IMachineController);

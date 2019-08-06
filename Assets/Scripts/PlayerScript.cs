@@ -159,13 +159,17 @@ public class PlayerScript : MonoBehaviour
                     cursorPosition.z = 0;
 
                     List<MachineController> test1 = machineToPlace.GetComponentsInChildren<MachineController>().ToList();
-
-
                     machineToPlace.GetComponentsInChildren<MachineController>().ToList().ForEach(x =>
                     {
-                        x.Place(x.transform.position, x.transform.rotation);
-                        x.SetControllerValues(x.controller);
+                        GameObject go = Instantiate(x.gameObject, x.transform.position, x.transform.rotation);
+                        go.GetComponent<MachineController>().SetControllerValues(x.controller);
                     });
+
+                    //machineToPlace.GetComponentsInChildren<MachineController>().ToList().ForEach(x =>
+                    //{
+                    //    x.Place(x.transform.position, x.transform.rotation);
+                    //    x.SetControllerValues(x.controller);
+                    //});
                 }
             }
             else if (playerStateEnum == PlayerStateEnum.ROTATE_MACHINE)
