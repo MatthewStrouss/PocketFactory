@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426fb596de99df84ab29ceeace0a499a, type: 3}
+  m_Name: Advanced Engine
+  m_EditorClassIdentifier: 
+  isUnlocked: 0
+  unlockCost: 70000000
+  result:
+    requirement: {fileID: 11400000, guid: 169d0840412849647936cbfaa1b8282b, type: 2}
+    quantity: 1
+  requirements:
+  - requirement: {fileID: 11400000, guid: ef34054f74cb5ee49ad8e33d60425851, type: 2}
+    quantity: 50
+  - requirement: {fileID: 11400000, guid: 39358d2dd521dcc4f9af1f9764b48f3e, type: 2}
+    quantity: 50
+  sprite: {fileID: 0}
+  type: 

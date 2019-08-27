@@ -13,7 +13,6 @@ public class MachineDatabase
             if (instance == null)
             {
                 instance = new MachineDatabase();
-                string json = Newtonsoft.Json.JsonConvert.SerializeObject(instance.machines);
             }
 
             return instance;
@@ -46,5 +45,20 @@ public class MachineDatabase
         machines.TryGetValue(machineName, out machineToReturn);
 
         return machineToReturn;
+    }
+
+    public void OverwriteValues(Dictionary<string, Machine> newMachineData)
+    {
+        foreach (string key in newMachineData.Keys)
+        {
+            if (machines.TryGetValue(key, out Machine existingMachine))
+            {
+                existingMachine = new Machine(newMachineData[key]);
+            }
+            else
+            {
+                machines.Add(key, newMachineData[key]);
+            }
+        }
     }
 }

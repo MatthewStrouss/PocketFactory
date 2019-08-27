@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426fb596de99df84ab29ceeace0a499a, type: 3}
+  m_Name: Electric Board
+  m_EditorClassIdentifier: 
+  isUnlocked: 0
+  unlockCost: 27000000
+  result:
+    requirement: {fileID: 11400000, guid: 20b9533b76b31bd43a40782e119a0309, type: 2}
+    quantity: 1
+  requirements:
+  - requirement: {fileID: 11400000, guid: 39358d2dd521dcc4f9af1f9764b48f3e, type: 2}
+    quantity: 20
+  - requirement: {fileID: 11400000, guid: 05a28e219f675bb47be99ca0e2e222e0, type: 2}
+    quantity: 6
+  sprite: {fileID: 0}
+  type: 

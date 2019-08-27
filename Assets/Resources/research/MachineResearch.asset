@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8b74d988c74cb04088f70bf77376200, type: 3}
+  m_Name: MachineResearch
+  m_EditorClassIdentifier: 
+  keyValuePairs:
+  - key: Crafter
+    value: {fileID: 11400000, guid: c5612ec5542b191468d79fdafd8456a0, type: 2}
+  - key: Cutter
+    value: {fileID: 11400000, guid: d655f69a805e0264491e6517ad38b3e0, type: 2}
+  - key: Filtered Robotic Arm
+    value: {fileID: 11400000, guid: 7434f7d91472ddd4292778642d5c2797, type: 2}
+  - key: Furance
+    value: {fileID: 11400000, guid: 8799f5681b2301f4186563a296974cac, type: 2}
+  - key: Hydraulic Press
+    value: {fileID: 11400000, guid: 28dcc040ff72587488bda7788273168a, type: 2}
+  - key: Robotic Arm
+    value: {fileID: 11400000, guid: 2294dc5af645eea42b1cb1fc22fdb2fc, type: 2}
+  - key: Roller
+    value: {fileID: 11400000, guid: 133ca9962aade0e41a69b572702578a0, type: 2}
+  - key: Selector
+    value: {fileID: 11400000, guid: 7be5c42f2dd38c14697c042404e20d32, type: 2}
+  - key: Seller
+    value: {fileID: 11400000, guid: 7f5271fec295b2c4eb46c0546904a74c, type: 2}
+  - key: Splitter
+    value: {fileID: 11400000, guid: a751c3bb6d55e244b9254f43eb4c6773, type: 2}
+  - key: Starter
+    value: {fileID: 11400000, guid: 7e2365676f0a0b94f806d815a27b945f, type: 2}
+  - key: Wire Drawer
+    value: {fileID: 11400000, guid: 801b5ba0314e1914591012f2a9de4096, type: 2}

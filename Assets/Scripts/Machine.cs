@@ -7,86 +7,87 @@ using UnityEngine;
 [Serializable]
 public class Machine
 {
-    private bool isUnlocked;
+    [SerializeField] private bool isUnlocked;
     public bool IsUnlocked
     {
         get => this.isUnlocked;
         set => this.isUnlocked = value;
     }
 
-    private int buildCost;
-    public int BuildCost
-    {
-        get => this.buildCost;
-        set => this.buildCost = value;
-    }
-
-    private int unlockCost;
-    public int UnlockCost
-    {
-        get => this.unlockCost;
-        set => this.unlockCost = value;
-    }
-
-    private int actionTime;
+    [SerializeField] private int actionTime;
     public int ActionTime
     {
         get => this.actionTime;
         set => this.actionTime = value;
     }
 
-    private int electricityCost;
+    [SerializeField] private int electricityCost;
     public int ElectricityCost
     {
         get => this.electricityCost;
         set => this.electricityCost = value;
     }
 
-    private int machineID;
-    public int MachineID
+    [SerializeField] private MachineScriptableObject machineData;
+    public MachineScriptableObject MachineData
     {
-        get => this.machineID;
-        set => this.machineID = value;
+        get => this.machineData;
+        set => this.machineData = value;
     }
 
-    private string machineName;
+    #region Delete These When I Figure Out SOs
+    [SerializeField] private int buildCost;
+    public int BuildCost
+    {
+        get => this.buildCost;
+        set => this.buildCost = value;
+    }
+
+    [SerializeField] private int unlockCost;
+    public int UnlockCost
+    {
+        get => this.unlockCost;
+        set => this.unlockCost = value;
+    }
+
+    [SerializeField] private string machineName;
     public string MachineName
     {
         get => this.machineName;
         set => this.machineName = value;
     }
 
-    private bool canRotate;
+    [SerializeField] private int machineID;
+    public int MachineID
+    {
+        get => this.machineID;
+        set => this.machineID = value;
+    }
+
+    [SerializeField] private bool canRotate;
     public bool CanRotate
     {
         get => this.canRotate;
         set => this.canRotate = value;
     }
+    #endregion
 
     public Machine()
     { }
 
-    public Machine(bool isUnlocked, int machineID, string machineName, int electricityCost, int actionTime, int buildCost, int unlockCost, bool canRotate)
+    public Machine(bool isUnlocked, int electricityCost, int actionTime, MachineScriptableObject machineData)
     {
         this.isUnlocked = isUnlocked;
-        this.machineID = machineID;
-        this.machineName = machineName;
         this.electricityCost = electricityCost;
         this.actionTime = actionTime;
-        this.buildCost = buildCost;
-        this.unlockCost = unlockCost;
-        this.canRotate = canRotate;
+        this.machineData = machineData;
     }
 
     public Machine(Machine machineToCopy)
     {
         this.isUnlocked = machineToCopy.isUnlocked;
-        this.machineID = machineToCopy.machineID;
-        this.machineName = machineToCopy.machineName;
         this.electricityCost = machineToCopy.electricityCost;
         this.actionTime = machineToCopy.actionTime;
-        this.buildCost = machineToCopy.buildCost;
-        this.unlockCost = machineToCopy.unlockCost;
-        this.canRotate = machineToCopy.canRotate;
+        this.machineData = machineToCopy.machineData;
     }
 }

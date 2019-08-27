@@ -26,7 +26,11 @@ public class ResourceCanvasScript : MonoBehaviour
     {
         this.resourceImage.sprite = SpriteDatabase.Instance.GetSprite("Resource", resource.name);
         this.resourceName.text = resource.name;
-        this.resourceQuantity.text = resource.quantity.ToString();
+
+        if (this.resourceQuantity != null)
+        {
+            this.resourceQuantity.text = resource.quantity.ToString();
+        }
         //Debug.Log(string.Format("Setting resource to {0} and sprite to {1}", resource.name, this.resourceImage.sprite));
     }
 }

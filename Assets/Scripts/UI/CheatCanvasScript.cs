@@ -14,16 +14,18 @@ public class CheatCanvasScript : MonoBehaviour
 
     public Dictionary<string, Action<string[]>> cheatDict = new Dictionary<string, Action<string[]>>(StringComparer.InvariantCultureIgnoreCase);
 
+    public PlayerScriptableObject playerScriptableObject;
+
     private void Awake()
     {
         cheatDict.Add("player.addMoney", (moneyAmount) => {
             Debug.Log(string.Format("Adding {0} money", moneyAmount));
-            Camera.main.GetComponent<PlayerScript>().AddMoney(Convert.ToInt64(moneyAmount.FirstOrDefault()));
+            playerScriptableObject.AddMoney(Convert.ToInt64(moneyAmount.FirstOrDefault()));
         });
 
         cheatDict.Add("player.setMoney", (moneyAmount) =>
         {
-            Camera.main.GetComponent<PlayerScript>().Money = Convert.ToInt64(moneyAmount.FirstOrDefault());
+            playerScriptableObject.Money = Convert.ToInt64(moneyAmount.FirstOrDefault());
         });
 
         cheatDict.Add("player.unlockAllMachines", (_) =>
@@ -74,7 +76,7 @@ public class CheatCanvasScript : MonoBehaviour
 
             GameSaveModel gameSaveModel = new GameSaveModel();
             gameSaveModel.PlacedMachineModels = UnityEngine.Object.FindObjectsOfType<GameObject>().Where(x => x.layer == 8).ToList().ToMachineModelList();
-            gameSaveModel.PlayerModel = Camera.main.GetComponent<PlayerScript>().ToPlayerModel();
+            gameSaveModel.PlayerModel = playerScriptableObject.ToPlayerModel();
             gameSaveModel.MachineDatabase = MachineDatabase.Instance.machines;
             gameSaveModel.RecipeDatabase = RecipeDatabase.Instance.recipes;
 

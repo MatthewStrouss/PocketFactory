@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426fb596de99df84ab29ceeace0a499a, type: 3}
+  m_Name: Iron Gear
+  m_EditorClassIdentifier: 
+  isUnlocked: 1
+  unlockCost: 0
+  result:
+    requirement: {fileID: 0}
+    quantity: 0
+  requirements:
+  - requirement: {fileID: 0}
+    quantity: 1
+  sprite: {fileID: 4583642077928635171, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  type: 

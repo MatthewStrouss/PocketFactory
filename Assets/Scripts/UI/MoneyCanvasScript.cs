@@ -10,7 +10,6 @@ public class MoneyCanvasScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -21,6 +20,6 @@ public class MoneyCanvasScript : MonoBehaviour
 
     public void UpdateUI(long money)
     {
-        this.moneyText.text = string.Format("${0}", money);
+        this.moneyText.text = string.Format("¤{0:n0}", money);
     }
 }

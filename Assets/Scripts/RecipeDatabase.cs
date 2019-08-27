@@ -27,6 +27,8 @@ namespace Assets
             }
         }
 
+        public PlayerScriptableObject playerScriptableObject;
+
         public RecipeDatabase()
         {
             recipes = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Recipe>>>(Resources.Load(@"Data/Recipes").ToString());
@@ -97,11 +99,9 @@ namespace Assets
 
                 if (existingRecipe != null)
                 {
-                    PlayerScript playerScript = Camera.main.GetComponent<PlayerScript>();
-
-                    if (playerScript.Money - existingRecipe.UnlockCost >= 0)
+                    if (playerScriptableObject.Money - existingRecipe.UnlockCost >= 0)
                     {
-                        playerScript.AddMoney(-1 * Convert.ToInt64(existingRecipe.UnlockCost));
+                        playerScriptableObject.AddMoney(-1 * Convert.ToInt64(existingRecipe.UnlockCost));
                         existingRecipe.IsUnlocked = true;
                     }
                 }

@@ -131,6 +131,8 @@ MonoBehaviour:
   ArrowGameObject: {fileID: 8718720036785106247}
   MachineName: Cutter
   nextActionTime: 0
+  playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
+    type: 2}
 --- !u!114 &8393190524781634061
 MonoBehaviour:
   m_ObjectHideFlags: 0

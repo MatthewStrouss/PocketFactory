@@ -92,10 +92,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 2213530805388261010}
+  machine2:
+    isUnlocked: 0
+    actionTime: 0
+    electricityCost: 0
+    machineData: {fileID: 0}
+  machineData: {fileID: 11400000, guid: b748116830ed11141b9111c70df18853, type: 2}
   SelectedGameObject: {fileID: 6696259006715472462}
   ArrowGameObject: {fileID: 4456196680830770782}
   MachineName: Crafter
   nextActionTime: 0
+  playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
+    type: 2}
 --- !u!114 &2213530805388261010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +167,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

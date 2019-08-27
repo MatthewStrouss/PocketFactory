@@ -220,7 +220,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2375556036866571802}
   - component: {fileID: 8298470877458292666}
-  - component: {fileID: 447207190795304067}
+  - component: {fileID: 5012350640839776937}
   - component: {fileID: 627137522628012645}
   - component: {fileID: 3978663279100270723}
   - component: {fileID: 632954549839571583}
@@ -271,12 +271,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caea39cf7341ec04d9329b01b9048494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 447207190795304067}
+  controller: {fileID: 5012350640839776937}
   SelectedGameObject: {fileID: 7397062521756441752}
   ArrowGameObject: {fileID: 0}
   MachineName: Splitter
   nextActionTime: 0
---- !u!114 &447207190795304067
+  playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
+    type: 2}
+--- !u!114 &5012350640839776937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -285,12 +287,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 5907165583673522211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2faa4ced937a3264398fedc566110d9c, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c767786ad230a04a99dd6e9ff561f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MachineController: {fileID: 8298470877458292666}
+  splitterDirectionEnum: 2
   CurrentCount: 0
-  splitterUI: {fileID: 0}
+  DirectionCount: 3
+  splitterCanvas: {fileID: 0}
+  directions:
+  - resourceSpawnPosition: {fileID: 6972346726363791089}
+    moveToPosition: {fileID: 1791371499361478267}
+  - resourceSpawnPosition: {fileID: 4759392540491470288}
+    moveToPosition: {fileID: 6192517061585428682}
+  - resourceSpawnPosition: {fileID: 5074439763273151415}
+    moveToPosition: {fileID: 4846762878945530752}
 --- !u!50 &627137522628012645
 Rigidbody2D:
   serializedVersion: 4
@@ -337,6 +348,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

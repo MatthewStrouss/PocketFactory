@@ -96,31 +96,39 @@ namespace Assets.Scripts
             get => this.directions;
             set => this.directions = value;
         }
-    }
 
-    [Serializable]
-    public class Direction
-    {
-        private int count;
-        public int Count
+        private SelectorDirection[] selectorDirections;
+        public SelectorDirection[] SelectorDirections
         {
-            get => this.count;
-            set
-            {
-                this.count = value;
-            }
-        }
-
-        private List<Resource> inventory;
-        public List<Resource> Inventory
-        {
-            get => this.inventory;
-            set
-            {
-                this.inventory = value;
-            }
+            get => this.selectorDirections;
+            set => this.selectorDirections = value;
         }
     }
+
+    //[Serializable]
+    //public class Direction
+    //{
+    //    private int count;
+    //    public int Count
+    //    {
+    //        get => this.count;
+    //        set
+    //        {
+    //            this.count = value;
+    //        }
+    //    }
+    //}
+
+    //[Serializable]
+    //public class SelectorDirection
+    //{
+    //    private Resource selectedResource;
+    //    public Resource SelectedResource
+    //    {
+    //        get => this.selectedResource;
+    //        set => this.selectedResource = value;
+    //    }
+    //}
 
     public static class Extensions
     {
@@ -178,7 +186,7 @@ namespace Assets.Scripts
                 for(int i = 0; i < splitterController.Directions.Count(); i++)
                 {
                     splitterController.Directions[i].Count = machineModel.Directions[i].Count;
-                    splitterController.Directions[i].Inventory = machineModel.Directions[i].Inventory;
+                    //splitterController.Directions[i].Inventory = machineModel.Directions[i].Inventory;
                 }
             }
             else if (imachineController is WireDrawerController wireDrawerController)
@@ -224,6 +232,11 @@ namespace Assets.Scripts
             }
             else if (imachineController is SelectorController selectorController)
             {
+                for (int i = 0; i < selectorController.Directions.Count(); i++)
+                {
+                    selectorController.Directions[i] = new SelectorDirection();
+                    selectorController.Directions[i].SelectedResource = machineModel.SelectorDirections[i].SelectedResource;
+                }
             }
             else if (imachineController is SellerController sellerController)
             {
@@ -236,7 +249,7 @@ namespace Assets.Scripts
                 for (int i = 0; i < splitterController.Directions.Count(); i++)
                 {
                     splitterController.Directions[i].Count = machineModel.Directions[i].Count;
-                    splitterController.Directions[i].Inventory = machineModel.Directions[i].Inventory;
+                    //splitterController.Directions[i].Inventory = machineModel.Directions[i].Inventory;
                 }
             }
             else if (imachineController is WireDrawerController wireDrawerController)
@@ -301,6 +314,12 @@ namespace Assets.Scripts
             }
             else if (imachineController is SelectorController selectorController)
             {
+                machineModel.SelectorDirections = new SelectorDirection[selectorController.Directions.Count()];
+                for (int i = 0; i < selectorController.Directions.Count(); i++)
+                {
+                    machineModel.SelectorDirections[i] = new SelectorDirection();
+                    machineModel.SelectorDirections[i].SelectedResource = selectorController.Directions[i].SelectedResource;
+                }
             }
             else if (imachineController is SellerController sellerController)
             {
@@ -314,7 +333,7 @@ namespace Assets.Scripts
                 {
                     machineModel.Directions[i] = new Direction();
                     machineModel.Directions[i].Count = splitterController.Directions[i].Count;
-                    machineModel.Directions[i].Inventory = splitterController.Directions[i].Inventory;
+                    //machineModel.Directions[i].Inventory = splitterController.Directions[i].Inventory;
                 }
             }
             else if (imachineController is WireDrawerController wireDrawerController)

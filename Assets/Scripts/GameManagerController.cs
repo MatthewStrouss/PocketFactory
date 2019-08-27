@@ -39,6 +39,10 @@ public class GameManagerController : MonoBehaviour
         this.isPaused = false;
     }
 
+    public MachineDatabase2 machineDatabase;
+
+    [SerializeField] public PlayerScriptableObject playerScriptableObject;
+
     private void Awake()
     {
         if (File.Exists(Path.Combine(Application.persistentDataPath, "PlayerSave.json")))
@@ -51,7 +55,7 @@ public class GameManagerController : MonoBehaviour
                 go.GetComponent<MachineController>().SetControllerValues(x.GetComponent<MachineController>().controller);
             });*/
 
-            gameSaveModel.PlayerModel.ToPlayerScript(Camera.main.GetComponent<PlayerScript>());
+            gameSaveModel.PlayerModel.ToPlayerScript(this.playerScriptableObject);
 
             MachineDatabase.Instance.machines = gameSaveModel.MachineDatabase;
             PrefabDatabase.Instance.GetPrefabsForType("Machine").Values.ToList().ForEach(x => x.GetComponent<MachineController>().SetupMachine());
@@ -60,7 +64,7 @@ public class GameManagerController : MonoBehaviour
         }
         else
         {
-            Camera.main.GetComponent<PlayerScript>().AddMoney(100000, false);
+            this.playerScriptableObject.AddMoney(100000, false);
         }
     }
 
@@ -87,7 +91,7 @@ public class GameManagerController : MonoBehaviour
 
         GameSaveModel gameSaveModel = new GameSaveModel();
         gameSaveModel.PlacedMachineModels = UnityEngine.Object.FindObjectsOfType<GameObject>().Where(x => x.layer == 8).ToList().ToMachineModelList();
-        gameSaveModel.PlayerModel = Camera.main.GetComponent<PlayerScript>().ToPlayerModel();
+        gameSaveModel.PlayerModel = this.playerScriptableObject.ToPlayerModel();
         gameSaveModel.MachineDatabase = MachineDatabase.Instance.machines;
         gameSaveModel.RecipeDatabase = RecipeDatabase.Instance.recipes;
 

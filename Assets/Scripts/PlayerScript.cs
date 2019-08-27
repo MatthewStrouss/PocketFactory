@@ -31,36 +31,7 @@ public class PlayerScript : MonoBehaviour
 
     public GameObject starterCanvas;
 
-    public void AddMoney(long moneyToAdd, bool addToAverage = true)
-    {
-        this.Money += moneyToAdd;
-
-        if (addToAverage)
-        {
-
-        }
-    }
-
-    public void SubMoney(long moneyToSub, bool addToAverage = true)
-    {
-        this.Money -= moneyToSub;
-
-        if (addToAverage)
-        {
-
-        }
-    }
-
-    private long money;
-    public long Money
-    {
-        get => this.money;
-        set
-        {
-            this.money = value;
-            PrefabDatabase.Instance.GetPrefab("UI", "Money").GetComponent<MoneyCanvasScript>().UpdateUI(value);
-        }
-    }
+    public PlayerScriptableObject playerScriptableObject;
 
     public Resource resourceToSpawn;
     public List<GameObject> placedMachines;
@@ -80,9 +51,11 @@ public class PlayerScript : MonoBehaviour
     private bool wasZoomingLastFrame; // Touch mode only
     private Vector2[] lastZoomPositions; // Touch mode only
 
+    [SerializeField] private GameObject gameManager;
+
     private void Awake()
     {
-        this.Money = 0;
+        this.playerScriptableObject.Money = 0;
         Debug.Log(string.Format("Screen resolution is: {0}x{1}", Screen.width, Screen.height));
         Debug.Log(string.Format("PersistentDataPath: {0}", Application.persistentDataPath));
         cam = GetComponent<Camera>();
@@ -101,7 +74,7 @@ public class PlayerScript : MonoBehaviour
 
         if ((playerStateEnum != PlayerStateEnum.NONE) && (machineToPlace != null))
         {
-            machineToPlace.transform.position = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y), -9);
+            machineToPlace.transform.position = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y), -8);
         }
 
         if (playerStateEnum == PlayerStateEnum.NONE)
@@ -136,17 +109,36 @@ public class PlayerScript : MonoBehaviour
                     //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     Vector3 cursorPosition = machineToPlace.transform.position;
                     Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                    RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
+                    RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 8);
 
                     if (test)
                     {
                         Debug.Log("Machine already as this position");
+
+                        MachineController offender = test.transform.gameObject.GetComponent<MachineController>();
+
+                        if (offender.Machine.MachineID == this.machineToPlace.GetComponent<MachineController>().Machine.MachineID)
+                        {
+                            if (this.placedMachines.Contains(test.transform.gameObject))
+                            {
+                                offender.Sell(true);
+                                this.placedMachines.Remove(test.transform.gameObject);
+                            }
+                        }
                     }
                     else
                     {
-                        cursorPosition.z = 0;
-                        this.placedMachines.Add(this.machineToPlace.GetComponent<MachineController>().Place(cursorPosition, Quaternion.identity));
+                        //cursorPosition.z = 0;
+                        GameObject goToAdd = this.machineToPlace.GetComponent<MachineController>().Place(cursorPosition, Quaternion.identity);
+
+                        if (goToAdd != null)
+                        {
+                            this.placedMachines.Add(goToAdd);
+                        }
                     }
+
+                    PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText($"Place {this.placedMachines.Count} {this.machineToPlace.GetComponent<MachineController>().Machine.MachineName}");
+                    PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText2($"${this.placedMachines.Sum(x => x.GetComponent<MachineController>().Machine.BuildCost)}");
                 }
             }
             else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE_PASTE)
@@ -159,17 +151,12 @@ public class PlayerScript : MonoBehaviour
                     cursorPosition.z = 0;
 
                     List<MachineController> test1 = machineToPlace.GetComponentsInChildren<MachineController>().ToList();
+
                     machineToPlace.GetComponentsInChildren<MachineController>().ToList().ForEach(x =>
                     {
-                        GameObject go = Instantiate(x.gameObject, x.transform.position, x.transform.rotation);
-                        go.GetComponent<MachineController>().SetControllerValues(x.controller);
+                        //x.transform.position = new Vector3(x.transform.position.x, x.transform.position.y, -8);
+                        x.Place(x.transform.position, x.transform.rotation, x.controller);
                     });
-
-                    //machineToPlace.GetComponentsInChildren<MachineController>().ToList().ForEach(x =>
-                    //{
-                    //    x.Place(x.transform.position, x.transform.rotation);
-                    //    x.SetControllerValues(x.controller);
-                    //});
                 }
             }
             else if (playerStateEnum == PlayerStateEnum.ROTATE_MACHINE)
@@ -404,11 +391,11 @@ public class PlayerScript : MonoBehaviour
     {
         // On mouse down, capture it's position.
         // Otherwise, if the mouse is still down, pan the camera.
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             lastPanPosition = Input.mousePosition;
         }
-        else if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             PanCamera(Input.mousePosition);
         }
@@ -502,7 +489,7 @@ public class PlayerScript : MonoBehaviour
         parent.transform.position = new Vector3(
             Mathf.Round(gameObjects.Sum(x => x.transform.position.x) / gameObjects.Count),
             Mathf.Round(gameObjects.Sum(x => x.transform.position.y) / gameObjects.Count),
-            -1
+            -8
             ); ;
 
         gameObjects.ForEach(x => x.transform.parent = parent.transform);
@@ -552,7 +539,7 @@ public class PlayerScript : MonoBehaviour
 
     public bool CanAffordPaste(List<MachineController> machinesToPlace)
     {
-        return this.Money >= machinesToPlace.Sum(x => x.Machine.BuildCost);
+        return this.playerScriptableObject.Money >= machinesToPlace.Sum(x => x.Machine.BuildCost);
     }
 
     public bool HasUnlockedAllMachines(List<MachineController> machinesToPlace)
@@ -646,12 +633,6 @@ public class PlayerScript : MonoBehaviour
         this.machineToPlace = null;
         this.ResetPlayerState();
         this.DeselectMachines();
-
-        // Enable MainUICanvas
-        PrefabDatabase.Instance.GetPrefab("UI", "MainUI").SetActive(true);
-
-        // Disable BuildUICanvas
-        PrefabDatabase.Instance.GetPrefab("UI", "BuildUI").GetComponent<BuildUICanvasScript>().Deactivate();
     }
 
     public void CancelBuild()
@@ -659,18 +640,12 @@ public class PlayerScript : MonoBehaviour
         // Cancel buildling of all machines
         this.placedMachines.ForEach(x =>
         {
-            x.GetComponent<MachineController>().Sell(true);
+            x?.GetComponent<MachineController>().Sell(true);
         });
         this.placedMachines.Clear();
         this.machineToPlace = null;
         this.ResetPlayerState();
         this.DeselectMachines();
-
-        // Enable MainUICanvas
-        PrefabDatabase.Instance.GetPrefab("UI", "MainUI").SetActive(true);
-
-        // Disable BuildUICanvas
-        PrefabDatabase.Instance.GetPrefab("UI", "BuildUI").GetComponent<BuildUICanvasScript>().Deactivate();
     }
 }
 

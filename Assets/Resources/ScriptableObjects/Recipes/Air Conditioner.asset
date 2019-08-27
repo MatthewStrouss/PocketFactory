@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426fb596de99df84ab29ceeace0a499a, type: 3}
+  m_Name: Air Conditioner
+  m_EditorClassIdentifier: 
+  isUnlocked: 0
+  unlockCost: 900000
+  result:
+    requirement: {fileID: 11400000, guid: 2668d0d39f4deb24c97b305ccf259e00, type: 2}
+    quantity: 1
+  requirements:
+  - requirement: {fileID: 11400000, guid: 0527637aeba1f164fbd337c28ed42e92, type: 2}
+    quantity: 1
+  - requirement: {fileID: 11400000, guid: d4b6576ecfa32b34cafe2e61ec26c6a5, type: 2}
+    quantity: 1
+  - requirement: {fileID: 11400000, guid: 029019e0e463039439874b388616dd10, type: 2}
+    quantity: 1
+  sprite: {fileID: 0}
+  type: 

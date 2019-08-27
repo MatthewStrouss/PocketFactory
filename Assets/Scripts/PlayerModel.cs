@@ -11,7 +11,7 @@ public class PlayerModel
 
 public static class Extensions
 {
-    public static PlayerModel ToPlayerModel(this PlayerScript playerScript)
+    public static PlayerModel ToPlayerModel(this PlayerScriptableObject playerScript)
     {
         PlayerModel playerModel = new PlayerModel();
         playerModel.Money = playerScript.Money;
@@ -19,7 +19,7 @@ public static class Extensions
         return playerModel;
     }
 
-    public static void ToPlayerScript(this PlayerModel playerModel, PlayerScript playerScript)
+    public static void ToPlayerScript(this PlayerModel playerModel, PlayerScriptableObject playerScript)
     {
         playerScript.Money = playerModel.Money;
     }
