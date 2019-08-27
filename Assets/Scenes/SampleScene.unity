@@ -5461,6 +5461,7 @@ MonoBehaviour:
   Content: {fileID: 0}
   XButton: {fileID: 692113199}
   OkCancelCanvas: {fileID: 418418819}
+  gameManager: {fileID: 0}
 --- !u!114 &159331356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13216,6 +13217,7 @@ MonoBehaviour:
   Content: {fileID: 166572469}
   XButton: {fileID: 692113199}
   OkCancelCanvas: {fileID: 418418819}
+  gameManager: {fileID: 1788113107}
 --- !u!114 &557798967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19455,6 +19457,7 @@ MonoBehaviour:
   Content: {fileID: 0}
   XButton: {fileID: 692113199}
   OkCancelCanvas: {fileID: 418418819}
+  gameManager: {fileID: 0}
 --- !u!114 &960196426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20196,7 +20199,7 @@ MonoBehaviour:
   researchDatabase: {fileID: 11400000, guid: c756cc671cfee114198dd8a7a3433b9a, type: 2}
   machineDatabase: {fileID: 0}
   recipeDatabase: {fileID: 11400000, guid: 49884aa50e56f0d45908d692d7fef8e9, type: 2}
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 1788113107}
 --- !u!114 &981976155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32567,160 +32570,119 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   machines:
-  - Key: Starter
-    Value:
+  - Name: Starter
+    ClassData:
       isUnlocked: 1
       actionTime: 3
       electricityCost: 5
       machineData: {fileID: 11400000, guid: ae053c82cf701124a9e4fb9aba3ad6a3, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Crafter
-    Value:
-      isUnlocked: 0
-      actionTime: 3
-      electricityCost: 5
-      machineData: {fileID: 11400000, guid: b748116830ed11141b9111c70df18853, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Cutter
-    Value:
-      isUnlocked: 0
-      actionTime: 3
-      electricityCost: 5
-      machineData: {fileID: 11400000, guid: b40e17b499c06cf43a26b89784663f5e, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Furance
-    Value:
-      isUnlocked: 0
-      actionTime: 3
-      electricityCost: 5
-      machineData: {fileID: 11400000, guid: 5a08157435fe48245ad0def481d1eb47, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Hydraulic Press
-    Value:
-      isUnlocked: 0
-      actionTime: 3
-      electricityCost: 5
-      machineData: {fileID: 11400000, guid: 7751130dd1fba8c46aa8ff46fb656471, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Left Selector
-    Value:
+    Prefab: {fileID: 5514995832938522392, guid: 6df520a8f2f592e4e859e769fcc1d146,
+      type: 3}
+    MachineData: {fileID: 11400000, guid: ae053c82cf701124a9e4fb9aba3ad6a3, type: 2}
+  - Name: 
+    ClassData:
       isUnlocked: 0
       actionTime: 0
-      electricityCost: 5
-      machineData: {fileID: 11400000, guid: eea8f96396a08cb4cb9045e9d05a346e, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Left Splitter
-    Value:
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
+  - Name: 
+    ClassData:
       isUnlocked: 0
       actionTime: 0
-      electricityCost: 5
-      machineData: {fileID: 11400000, guid: c4b24a728aaa45547aeb0ce369f5de2b, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Multi Selector
-    Value:
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
+  - Name: 
+    ClassData:
       isUnlocked: 0
       actionTime: 0
-      electricityCost: 5
-      machineData: {fileID: 11400000, guid: ae30cf70fbbf2a649b935bedd89ba67e, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Right Selector
-    Value:
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
+  - Name: 
+    ClassData:
       isUnlocked: 0
       actionTime: 0
-      electricityCost: 5
-      machineData: {fileID: 11400000, guid: 89414db76224fd04aad8094d6afd47f3, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Right Splitter
-    Value:
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
+  - Name: 
+    ClassData:
       isUnlocked: 0
       actionTime: 0
-      electricityCost: 5
-      machineData: {fileID: 11400000, guid: 11ea40aaa79419a438641ac9a2e72f6b, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Roller
-    Value:
-      isUnlocked: 1
-      actionTime: 0
-      electricityCost: 1
-      machineData: {fileID: 11400000, guid: cfd6f9b347ab1524499a8375ce7dc556, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Seller
-    Value:
-      isUnlocked: 1
-      actionTime: 0
-      electricityCost: 5
-      machineData: {fileID: 11400000, guid: f947fd311ac89e747861cc64fac179a6, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Multi Splitter
-    Value:
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
+  - Name: 
+    ClassData:
       isUnlocked: 0
       actionTime: 0
-      electricityCost: 5
-      machineData: {fileID: 11400000, guid: f0d80ec067ba753459992ab2d5e7f0ae, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
-  - Key: Wire Drawer
-    Value:
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
+  - Name: 
+    ClassData:
       isUnlocked: 0
-      actionTime: 3
-      electricityCost: 5
-      machineData: {fileID: 11400000, guid: 6e7a9d27dcdb0db43b85832b873576a8, type: 2}
-      buildCost: 0
-      unlockCost: 0
-      machineName: 
-      machineID: 0
-      canRotate: 0
+      actionTime: 0
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
+  - Name: 
+    ClassData:
+      isUnlocked: 0
+      actionTime: 0
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
+  - Name: 
+    ClassData:
+      isUnlocked: 0
+      actionTime: 0
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
+  - Name: 
+    ClassData:
+      isUnlocked: 0
+      actionTime: 0
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
+  - Name: 
+    ClassData:
+      isUnlocked: 0
+      actionTime: 0
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
+  - Name: 
+    ClassData:
+      isUnlocked: 0
+      actionTime: 0
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
+  - Name: 
+    ClassData:
+      isUnlocked: 0
+      actionTime: 0
+      electricityCost: 0
+      machineData: {fileID: 0}
+    Prefab: {fileID: 0}
+    MachineData: {fileID: 0}
 --- !u!1 &1797173373
 GameObject:
   m_ObjectHideFlags: 0
@@ -38136,6 +38098,26 @@ PrefabInstance:
       propertyPath: sellerCanvas
       value: 
       objectReference: {fileID: 119960848}
+    - target: {fileID: 1822604244955501202, guid: 64df2e6788caf0c4abb847bec82ff4e7,
+        type: 3}
+      propertyPath: machines.Array.data[0].Name
+      value: Starter
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822604244955501202, guid: 64df2e6788caf0c4abb847bec82ff4e7,
+        type: 3}
+      propertyPath: machines.Array.data[0].ClassData.isUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822604244955501202, guid: 64df2e6788caf0c4abb847bec82ff4e7,
+        type: 3}
+      propertyPath: machines.Array.data[0].ClassData.actionTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822604244955501202, guid: 64df2e6788caf0c4abb847bec82ff4e7,
+        type: 3}
+      propertyPath: machines.Array.data[0].ClassData.electricityCost
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64df2e6788caf0c4abb847bec82ff4e7, type: 3}
 --- !u!1001 &8161756803765336564

@@ -36,35 +36,35 @@ public class Machine
     }
 
     #region Delete These When I Figure Out SOs
-    [SerializeField] private int buildCost;
+    private int buildCost;
     public int BuildCost
     {
         get => this.buildCost;
         set => this.buildCost = value;
     }
 
-    [SerializeField] private int unlockCost;
+    private int unlockCost;
     public int UnlockCost
     {
         get => this.unlockCost;
         set => this.unlockCost = value;
     }
 
-    [SerializeField] private string machineName;
+    private string machineName;
     public string MachineName
     {
         get => this.machineName;
         set => this.machineName = value;
     }
 
-    [SerializeField] private int machineID;
+    private int machineID;
     public int MachineID
     {
         get => this.machineID;
         set => this.machineID = value;
     }
 
-    [SerializeField] private bool canRotate;
+    private bool canRotate;
     public bool CanRotate
     {
         get => this.canRotate;

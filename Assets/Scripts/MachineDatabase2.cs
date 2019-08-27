@@ -17,12 +17,14 @@ public class MachineDatabase2 : MonoBehaviour
         
     }
 
-    public List<MachineKeyValuePair> machines;
+    public List<MachineDatabaseEntry> machines;
 }
 
 [Serializable]
-public struct MachineKeyValuePair
+public struct MachineDatabaseEntry
 {
-    public string Key;
-    public Machine Value;
+    public string Name;
+    public Machine ClassData;
+    public GameObject Prefab;
+    public MachineScriptableObject MachineData;
 }

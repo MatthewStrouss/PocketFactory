@@ -37,8 +37,8 @@ public class ResearchCanvasScript : MonoBehaviour
     public void Activate()
     {
         this.gameObject.SetActive(true);
-        this.UpdateUI();
         this.XButton.GetComponent<CancelCanvasScript>().Activate(this.gameObject);
+        this.UpdateUI();
     }
 
     public void Deactivate()

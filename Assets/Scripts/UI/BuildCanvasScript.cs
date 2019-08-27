@@ -10,17 +10,18 @@ public class BuildCanvasScript : MonoBehaviour
     public GameObject Content;
     public GameObject XButton;
     public GameObject OkCancelCanvas;
+    [SerializeField] private GameManagerController gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Activate()
@@ -43,7 +44,7 @@ public class BuildCanvasScript : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        List<GameObject> machines = PrefabDatabase.Instance.GetPrefabsForType("Machine").Values.OrderByDescending(x => x.GetComponent<MachineController>().Machine.IsUnlocked).ToList();
+        List<GameObject> machines = PrefabDatabase.Instance.GetPrefabsForType("Machine").Values.Where(x => x.GetComponent<MachineController>().Machine.IsUnlocked).ToList();
 
         foreach (GameObject machine in machines)
         {
@@ -63,8 +64,28 @@ public class BuildCanvasScript : MonoBehaviour
                     () => Camera.main.GetComponent<PlayerScript>().CancelBuild()
                     );
             });
-
-            newButton.enabled = machine.GetComponent<MachineController>().Machine.IsUnlocked;
         }
+
+        //List<Machine> machines = this.gameManager.machineDatabase.machines.Where(x => x.Value.IsUnlocked).Select(x => x.Value).ToList();
+
+        //foreach (Machine machine in machines)
+        //{
+        //    Button newButton = Instantiate<Button>(this.BuildMachineButtonPrefab, this.Content.transform);
+        //    newButton.transform.Find("Image").GetComponent<Image>().sprite = machine.Sprite;
+        //    newButton.transform.Find("NameText").GetComponent<Text>().text = machine.MachineName;
+        //    newButton.transform.Find("DescriptionText").GetComponent<Text>().text = "Don't forget to replace this text with machine description. Please";
+        //    newButton.transform.Find("PriceText").GetComponent<Text>().text = string.Format("${0}", machine.BuildCost);
+
+        //    newButton.onClick.AddListener(() =>
+        //    {
+        //        Camera.main.GetComponent<PlayerScript>().SetMachine(machine);
+        //        this.Deactivate();
+        //        this.OkCancelCanvas.GetComponent<OkCancelCanvasScript>().Activate(
+        //            $"Tap to build a {machine.MachineName}",
+        //            () => Camera.main.GetComponent<PlayerScript>().AcceptBuild(),
+        //            () => Camera.main.GetComponent<PlayerScript>().CancelBuild()
+        //            );
+        //    });
+        //}
     }
 }
