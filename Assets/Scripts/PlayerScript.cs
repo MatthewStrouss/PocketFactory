@@ -39,8 +39,8 @@ public class PlayerScript : MonoBehaviour
     private static readonly float ZoomSpeedTouch = 0.1f;
     private static readonly float ZoomSpeedMouse = 0.5f;
 
-    private static readonly float[] BoundsX = new float[] { -7f, 8f };
-    private static readonly float[] BoundsY = new float[] { -7f, -8f };
+    private static readonly float[] BoundsX = new float[] { -8f, 7f };
+    private static readonly float[] BoundsY = new float[] { -8f, 7f };
     private static readonly float[] ZoomBounds = new float[] { 10f, 85f };
 
     private Camera cam;
@@ -53,13 +53,31 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField] private GameObject gameManager;
 
+    [SerializeField] public InputMaster controls;
+
     private void Awake()
     {
         this.playerScriptableObject.Money = 0;
         Debug.Log(string.Format("Screen resolution is: {0}x{1}", Screen.width, Screen.height));
         Debug.Log(string.Format("PersistentDataPath: {0}", Application.persistentDataPath));
         cam = GetComponent<Camera>();
+
+        //controls = new InputMaster();
+        //controls.Player.Place.performed += Place;
+        //controls.Player.Place.Enable();
+        //controls.Player.Pan.performed += Pan;
+        //controls.Player.Pan.Enable();
     }
+
+    //void Place(InputAction.CallbackContext callbackContext)
+    //{
+    //    Debug.Log("Place");
+    //}
+
+    //void Pan(InputAction.CallbackContext callbackContext)
+    //{
+    //    Debug.Log(callbackContext.control.IsActuated());
+    //}
 
     // Start is called before the first frame update
     void Start()
@@ -74,7 +92,11 @@ public class PlayerScript : MonoBehaviour
 
         if ((playerStateEnum != PlayerStateEnum.NONE) && (machineToPlace != null))
         {
-            machineToPlace.transform.position = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y), -8);
+            machineToPlace.transform.position = new Vector3(
+                Mathf.Clamp(Mathf.Round(mousePos.x), BoundsX[0], BoundsX[1]), 
+                Mathf.Clamp(Mathf.Round(mousePos.y), BoundsY[0], BoundsY[1]),
+                -8
+                );
         }
 
         if (playerStateEnum == PlayerStateEnum.NONE)
@@ -94,7 +116,7 @@ public class PlayerScript : MonoBehaviour
             if (playerStateEnum == PlayerStateEnum.NONE)
             {
                 Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
+                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
 
                 if (test)
                 {
@@ -109,7 +131,7 @@ public class PlayerScript : MonoBehaviour
                     //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     Vector3 cursorPosition = machineToPlace.transform.position;
                     Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                    RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 8);
+                    RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1<<8);
 
                     if (test)
                     {
@@ -190,92 +212,93 @@ public class PlayerScript : MonoBehaviour
                 rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
             }
         }
-        else if (Input.touchCount == 1 && !EventSystem.current.IsPointerOverGameObject())
+        else if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);
 
             mousePos = Camera.main.ScreenToWorldPoint(touch.position);
 
-            
-
-            if (playerStateEnum == PlayerStateEnum.NONE)
+            if (touch.phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(touch.fingerId))
             {
-                Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
-
-                if (test)
+                if (playerStateEnum == PlayerStateEnum.NONE)
                 {
-                    
-                    test.transform.gameObject.GetComponent<MachineController>().OnClick();
-                    //this.starterCanvas.GetComponent<StarterPanelScript>().Activate(test.transform.gameObject);
-                }
-            }
-            else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE)
-            {
-                if (machineToPlace != null)
-                {
-                    //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    Vector3 cursorPosition = machineToPlace.transform.position;
                     Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
                     RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
 
                     if (test)
                     {
-                        Debug.Log("Machine already as this position");
-                    }
-                    else
-                    {
-                        cursorPosition.z = 0;
-                        this.machineToPlace.GetComponent<MachineController>().Place(cursorPosition, Quaternion.identity);
+
+                        test.transform.gameObject.GetComponent<MachineController>().OnClick();
+                        //this.starterCanvas.GetComponent<StarterPanelScript>().Activate(test.transform.gameObject);
                     }
                 }
-            }
-            else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE_PASTE)
-            {
-                if (machineToPlace != null)
+                else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE)
                 {
-                    Vector3 cursorPosition = machineToPlace.transform.position;
+                    if (machineToPlace != null)
+                    {
+                        //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        Vector3 cursorPosition = machineToPlace.transform.position;
+                        Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+                        RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
+
+                        if (test)
+                        {
+                            Debug.Log("Machine already as this position");
+                        }
+                        else
+                        {
+                            cursorPosition.z = 0;
+                            this.machineToPlace.GetComponent<MachineController>().Place(cursorPosition, Quaternion.identity);
+                        }
+                    }
+                }
+                else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE_PASTE)
+                {
+                    if (machineToPlace != null)
+                    {
+                        Vector3 cursorPosition = machineToPlace.transform.position;
+                        Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+                        RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
+                        cursorPosition.z = 0;
+
+                        List<MachineController> test1 = machineToPlace.GetComponentsInChildren<MachineController>().ToList();
+                        machineToPlace.GetComponentsInChildren<MachineController>().ToList().ForEach(x =>
+                        {
+                            GameObject go = Instantiate(x.gameObject, x.transform.position, x.transform.rotation);
+                            go.GetComponent<MachineController>().SetControllerValues(x.controller);
+                        });
+                    }
+                }
+                else if (playerStateEnum == PlayerStateEnum.ROTATE_MACHINE)
+                {
                     Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
                     RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
-                    cursorPosition.z = 0;
 
-                    List<MachineController> test1 = machineToPlace.GetComponentsInChildren<MachineController>().ToList();
-                    machineToPlace.GetComponentsInChildren<MachineController>().ToList().ForEach(x =>
+                    if (test && test.transform.gameObject.GetComponent<MachineController>().Machine.CanRotate)
                     {
-                        GameObject go = Instantiate(x.gameObject, x.transform.position, x.transform.rotation);
-                        go.GetComponent<MachineController>().SetControllerValues(x.controller);
-                    });
+                        test.transform.rotation = machineToPlace.transform.rotation;
+                    }
                 }
-            }
-            else if (playerStateEnum == PlayerStateEnum.ROTATE_MACHINE)
-            {
-                Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
-
-                if (test && test.transform.gameObject.GetComponent<MachineController>().Machine.CanRotate)
+                else if (playerStateEnum == PlayerStateEnum.SELECT)
                 {
-                    test.transform.rotation = machineToPlace.transform.rotation;
+                    mouseStartPos = mousePos;
+                    mouseStartPos.z = -1;
+                    selectionRectangle.transform.position = mouseStartPos;
+                    selectionRectangle.SetActive(true);
                 }
-            }
-            else if (playerStateEnum == PlayerStateEnum.SELECT)
-            {
-                mouseStartPos = mousePos;
-                mouseStartPos.z = -1;
-                selectionRectangle.transform.position = mouseStartPos;
-                selectionRectangle.SetActive(true);
-            }
-            else if (playerStateEnum == PlayerStateEnum.SPAWN_RESOURCE)
-            {
-                Vector3 coords = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                coords.z = 0;
+                else if (playerStateEnum == PlayerStateEnum.SPAWN_RESOURCE)
+                {
+                    Vector3 coords = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+                    coords.z = 0;
 
-                GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), coords, Quaternion.Euler(transform.eulerAngles));
+                    GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), coords, Quaternion.Euler(transform.eulerAngles));
 
-                go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", this.resourceToSpawn.name);
-                ResourceController rc = go.GetComponent<ResourceController>();
-                rc.SetResource(this.resourceToSpawn, 1);
-                //rc.Move(moveToPosition.position);
-                rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
+                    go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", this.resourceToSpawn.name);
+                    ResourceController rc = go.GetComponent<ResourceController>();
+                    rc.SetResource(this.resourceToSpawn, 1);
+                    //rc.Move(moveToPosition.position);
+                    rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
+                }
             }
         }
         else if (Input.GetMouseButtonUp(1) || Input.touchCount == 2)
@@ -415,10 +438,10 @@ public class PlayerScript : MonoBehaviour
         transform.Translate(move, Space.World);
 
         // Ensure the camera remains within bounds.
-        //Vector3 pos = transform.position;
-        //pos.x = Mathf.Clamp(transform.position.x, BoundsX[0], BoundsX[1]);
-        //pos.y = Mathf.Clamp(transform.position.y, BoundsY[0], BoundsY[1]);
-        //transform.position = pos;
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(transform.position.x, BoundsX[0], BoundsX[1]);
+        pos.y = Mathf.Clamp(transform.position.y, BoundsY[0], BoundsY[1]);
+        transform.position = pos;
 
         // Cache the position
         lastPanPosition = newPanPosition;
@@ -630,6 +653,7 @@ public class PlayerScript : MonoBehaviour
     {
         // Finalize building of all machines
         this.placedMachines.Clear();
+        GameObject.Destroy(this.machineToPlace);
         this.machineToPlace = null;
         this.ResetPlayerState();
         this.DeselectMachines();
@@ -643,6 +667,7 @@ public class PlayerScript : MonoBehaviour
             x?.GetComponent<MachineController>().Sell(true);
         });
         this.placedMachines.Clear();
+        GameObject.Destroy(this.machineToPlace);
         this.machineToPlace = null;
         this.ResetPlayerState();
         this.DeselectMachines();

@@ -44,7 +44,7 @@ public class BuildCanvasScript : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        List<GameObject> machines = PrefabDatabase.Instance.GetPrefabsForType("Machine").Values.Where(x => x.GetComponent<MachineController>().Machine.IsUnlocked).ToList();
+        List<GameObject> machines = PrefabDatabase.Instance.GetPrefabsForType("Machine").Values.ToList();
 
         foreach (GameObject machine in machines)
         {
@@ -64,6 +64,8 @@ public class BuildCanvasScript : MonoBehaviour
                     () => Camera.main.GetComponent<PlayerScript>().CancelBuild()
                     );
             });
+
+            newButton.interactable = machine.GetComponent<MachineController>().Machine.IsUnlocked;
         }
 
         //List<Machine> machines = this.gameManager.machineDatabase.machines.Where(x => x.Value.IsUnlocked).Select(x => x.Value).ToList();
