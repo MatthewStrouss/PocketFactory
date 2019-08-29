@@ -41,9 +41,9 @@ public class PlayerScript : MonoBehaviour
 
     private static readonly float[] BoundsX = new float[] { -8f, 7f };
     private static readonly float[] BoundsY = new float[] { -8f, 7f };
-    private static readonly float[] ZoomBounds = new float[] { 10f, 85f };
+    private static readonly float[] ZoomBounds = new float[] { 3f, 16f };
 
-    private Camera cam;
+    [SerializeField] private Camera cam;
 
     private Vector3 lastPanPosition;
     private int panFingerId; // Touch mode only
@@ -57,10 +57,10 @@ public class PlayerScript : MonoBehaviour
 
     private void Awake()
     {
-        this.playerScriptableObject.Money = 0;
+        //this.playerScriptableObject.Money = 0;
         Debug.Log(string.Format("Screen resolution is: {0}x{1}", Screen.width, Screen.height));
         Debug.Log(string.Format("PersistentDataPath: {0}", Application.persistentDataPath));
-        cam = GetComponent<Camera>();
+        //cam = GetComponent<Camera>();
 
         //controls = new InputMaster();
         //controls.Player.Place.performed += Place;
@@ -454,7 +454,8 @@ public class PlayerScript : MonoBehaviour
             return;
         }
 
-        cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - (offset * speed), ZoomBounds[0], ZoomBounds[1]);
+        //cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - (offset * speed), ZoomBounds[0], ZoomBounds[1]);
+        cam.orthographicSize = Mathf.Clamp(cam.orthographicSize - (offset * speed), ZoomBounds[0], ZoomBounds[1]);
     }
 
     public void ResetPlayerState()
