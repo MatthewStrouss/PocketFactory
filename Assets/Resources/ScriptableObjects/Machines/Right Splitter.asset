@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Right Splitter
   m_EditorClassIdentifier: 
   buildCost: 100000
-  unlockCost: 600000
   actionTime: 0
   electricityCost: 5
   machineID: 15
   machineName: Right Splitter
   canRotate: 1
-  sprite: {fileID: 0}
+  sprite: {fileID: 828266602273431565, guid: 76ed14452ff7d37449b552bb8148ea6c, type: 3}
+  isUnlocked: 0
+  unlockCost: 600000
+  description: 

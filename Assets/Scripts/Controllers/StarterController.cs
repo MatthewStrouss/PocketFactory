@@ -23,7 +23,7 @@ public class StarterController : MonoBehaviour, IMachineController
 
     void Awake()
     {
-        this.ChosenRecipe = RecipeDatabase.Instance.GetRecipe(recipeType, "(None)");
+        this.ChosenRecipe = RecipeDatabase.GetRecipe(this.recipeType, "(None)");
         this.starterGUI = PrefabDatabase.Instance.GetPrefab("UI", "Starter");
     }
 

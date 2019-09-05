@@ -15,7 +15,7 @@ public class RecipesPanelScript : MonoBehaviour
     public GameObject recipePrefab;
     public GameObject resourcePrefab;
 
-    public GameObject recipeCanvasPrefab;
+    public Button recipeCanvasPrefab;
 
     public Button unlockButtonPrefab;
 
@@ -64,33 +64,14 @@ public class RecipesPanelScript : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        Dictionary<string, Recipe> basicRecipes = RecipeDatabase.Instance.GetRecipesForType(this.recipeType);
+        List<Recipe> basicRecipes = RecipeDatabase.GetRecipesForType(this.recipeType).Values.OrderBy(x => x.UnlockCost).ToList();
 
-        foreach (KeyValuePair<string, Recipe> recipe in basicRecipes)
+        basicRecipes.ForEach(x =>
         {
             Button newButton;
-
-            if (recipe.Value.IsUnlocked)
-            {
-                //Debug.Log(string.Format("{0} = {1}",
-                //    string.Join(" + ", recipe.Value.Requirements.Select(x => x.name).ToArray()),
-                //    recipe.Value.Result.name
-                //    ));
-                newButton = Instantiate<Button>(this.recipeCanvasPrefab.transform.Find("Button").GetComponent<Button>(), this.content.transform);
-                newButton.GetComponent<RecipeCanvasScript>().SetRecipe(recipe.Value, () => this.Deactivate(recipe.Value));
-            }
-            else
-            {
-                newButton = Instantiate<Button>(this.unlockButtonPrefab, this.content.transform);
-                newButton.transform.Find("CostText").GetComponent<Text>().text = string.Format("${0}", recipe.Value.UnlockCost);
-                newButton.transform.Find("NameText").GetComponent<Text>().text = recipe.Value.Name;
-
-                newButton.onClick.AddListener(() =>
-                {
-                    RecipeDatabase.Instance.UnlockRecipe(recipe.Value);
-                    this.UpdateUI();
-                });
-            }
-        }
+            newButton = Instantiate<Button>(this.recipeCanvasPrefab, this.content.transform);
+            newButton.GetComponent<RecipeCanvasScript>().SetRecipe(x, () => this.Deactivate(x));
+            newButton.interactable = x.IsUnlocked;
+        });
     }
 }

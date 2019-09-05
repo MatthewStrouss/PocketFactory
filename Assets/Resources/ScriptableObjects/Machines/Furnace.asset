@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Furnace
   m_EditorClassIdentifier: 
   buildCost: 10000
-  unlockCost: 20000
   actionTime: 3
   electricityCost: 5
   machineID: 3
   machineName: Furnace
   canRotate: 1
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 7dabd5b245fec94499984bd0945c9223, type: 3}
+  isUnlocked: 0
+  unlockCost: 20000
+  description: 

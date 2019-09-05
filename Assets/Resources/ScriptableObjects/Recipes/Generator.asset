@@ -23,4 +23,5 @@ MonoBehaviour:
   - requirement: {fileID: 11400000, guid: 05a28e219f675bb47be99ca0e2e222e0, type: 2}
     quantity: 5
   sprite: {fileID: 0}
-  type: 
+  type: Recipe
+  description: 

@@ -153,11 +153,11 @@ namespace Assets.Scripts
             if (imachineController is StarterController starterController)
             {
                 starterController.SpawnCount = machineModel.SpawnCount;
-                starterController.SetRecipe(RecipeDatabase.Instance.GetRecipe(starterController.recipeType, machineModel.ChosenRecipe));
+                starterController.SetRecipe(RecipeDatabase.GetRecipe(starterController.recipeType, machineModel.ChosenRecipe));
             }
             else if (imachineController is CrafterController crafterController)
             {
-                crafterController.ChosenRecipe = RecipeDatabase.Instance.GetRecipe(crafterController.recipeType, machineModel.ChosenRecipe);
+                crafterController.ChosenRecipe = RecipeDatabase.GetRecipe(crafterController.recipeType, machineModel.ChosenRecipe);
                 crafterController.Inventory = machineModel.Inventory;
             }
             else if (imachineController is CutterController cutterController)
@@ -211,11 +211,11 @@ namespace Assets.Scripts
             if (imachineController is StarterController starterController)
             {
                 starterController.SpawnCount = machineModel.SpawnCount;
-                starterController.SetRecipe(RecipeDatabase.Instance.GetRecipe(starterController.recipeType, machineModel.ChosenRecipe));
+                starterController.SetRecipe(RecipeDatabase.GetRecipe(starterController.recipeType, machineModel.ChosenRecipe));
             }
             else if (imachineController is CrafterController crafterController)
             {
-                crafterController.ChosenRecipe = RecipeDatabase.Instance.GetRecipe(crafterController.recipeType, machineModel.ChosenRecipe);
+                crafterController.ChosenRecipe = RecipeDatabase.GetRecipe(crafterController.recipeType, machineModel.ChosenRecipe);
                 crafterController.Inventory = machineModel.Inventory;
             }
             else if (imachineController is CutterController cutterController)

@@ -15,7 +15,7 @@ MonoBehaviour:
   isUnlocked: 0
   unlockCost: 1300000
   result:
-    requirement: {fileID: 0}
+    requirement: {fileID: 11400000, guid: e12b2c5829a55c0479f1fc65bb93926f, type: 2}
     quantity: 1
   requirements:
   - requirement: {fileID: 11400000, guid: 39358d2dd521dcc4f9af1f9764b48f3e, type: 2}
@@ -25,4 +25,5 @@ MonoBehaviour:
   - requirement: {fileID: 11400000, guid: 6cae7c2069efc2149b8a8b42c2167258, type: 2}
     quantity: 1
   sprite: {fileID: 0}
-  type: 
+  type: Recipe
+  description: 

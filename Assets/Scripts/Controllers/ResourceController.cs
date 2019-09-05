@@ -84,7 +84,7 @@ public class ResourceController : MonoBehaviour
         }
     }
 
-    public void SetResource(Resource resource, int quantity)
+    public void SetResource(Resource resource, long quantity)
     {
         this.resource = new Resource(resource);
         this.resource.quantity = quantity;

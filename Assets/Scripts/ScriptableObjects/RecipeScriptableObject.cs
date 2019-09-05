@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Interfaces;
+﻿using Assets;
+using Assets.Scripts.Interfaces;
 using Malee;
 using System;
 using System.Collections;
@@ -7,7 +8,7 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "New Recipe")]
-public class RecipeScriptableObject : ScriptableObject, IUnlockable
+public class RecipeScriptableObject : ScriptableObject, IResearch
 {
     [SerializeField] private bool isUnlocked;
     public bool IsUnlocked { get => this.isUnlocked; set => this.isUnlocked = value; }
@@ -32,7 +33,7 @@ public class RecipeScriptableObject : ScriptableObject, IUnlockable
     [SerializeField] private Sprite sprite;
     public Sprite Sprite
     {
-        get => this.sprite;
+        get => this.Result.requirement.Sprite;
         set => this.sprite = value;
     }
 
@@ -49,14 +50,16 @@ public class RecipeScriptableObject : ScriptableObject, IUnlockable
         set => this.type = value;
     }
 
-    public void Unlock()
+    [SerializeField] private string description;
+    public string Description
     {
-        this.IsUnlocked = true;
+        get => this.description;
+        set => this.description = value;
     }
 
-    public void Lock()
+    public void Unlock()
     {
-        this.IsUnlocked = false;
+        RecipeDatabase.GetRecipe(this.Type, this.Name).IsUnlocked = true;
     }
 }
 

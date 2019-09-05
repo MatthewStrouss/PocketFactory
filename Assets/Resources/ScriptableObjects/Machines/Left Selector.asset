@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Left Selector
   m_EditorClassIdentifier: 
   buildCost: 50000
-  unlockCost: 100000
   actionTime: 0
   electricityCost: 5
   machineID: 16
   machineName: Left Selector
   canRotate: 1
-  sprite: {fileID: 0}
+  sprite: {fileID: -9066336348952289405, guid: 76ed14452ff7d37449b552bb8148ea6c, type: 3}
+  isUnlocked: 0
+  unlockCost: 100000
+  description: 

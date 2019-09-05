@@ -43,33 +43,17 @@ public class MachinesPanelScript : MonoBehaviour
             MachineController machineController = machine.Value.GetComponent<MachineController>();
 
             Button newButton;
-            
 
-            if (machineController.Machine.IsUnlocked)
-            {
-                newButton = Instantiate<Button>(this.buttonPrefab, this.machinesPanel.transform);
-                newButton.transform.Find("Panel").transform.Find("Image").GetComponent<Image>().sprite = machine.Value.GetComponent<SpriteRenderer>().sprite;
-                newButton.transform.Find("CostText").GetComponent<Text>().text = string.Format("${0}", machineController.Machine.BuildCost);
-
-                newButton.onClick.AddListener(() =>
-                {
-                    Camera.main.GetComponent<PlayerScript>().SetMachine(machine.Value);
-                    this.gameObject.SetActive(false);
-                });
-            }
-            else
-            {
-                newButton = Instantiate<Button>(this.unlockButtonPrefab, this.machinesPanel.transform);
-                newButton.transform.Find("CostText").GetComponent<Text>().text = string.Format("${0}", machineController.Machine.UnlockCost);
-
-                newButton.onClick.AddListener(() =>
-                {
-                    machineController.Unlock();
-                    this.UpdateUI();
-                });
-            }
-
+            newButton = Instantiate<Button>(this.buttonPrefab, this.machinesPanel.transform);
             newButton.transform.Find("NameText").GetComponent<Text>().text = machine.Key;
+            newButton.transform.Find("Panel").transform.Find("Image").GetComponent<Image>().sprite = machine.Value.GetComponent<SpriteRenderer>().sprite;
+            newButton.transform.Find("CostText").GetComponent<Text>().text = string.Format("${0}", machineController.Machine.BuildCost);
+
+            newButton.onClick.AddListener(() =>
+            {
+                Camera.main.GetComponent<PlayerScript>().SetMachine(machine.Value);
+                this.gameObject.SetActive(false);
+            });
         }
     }
 

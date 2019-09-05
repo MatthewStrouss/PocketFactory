@@ -34,21 +34,9 @@ public class CheatCanvasScript : MonoBehaviour
             PrefabDatabase.Instance.GetPrefabsForType("Machine").Values.ToList().ForEach(x => x.GetComponent<MachineController>().Machine.IsUnlocked = true);
         });
 
-        cheatDict.Add("player.unlockAllRecipes", (_) =>
-        {
-            Debug.Log("Unlocking all recipes");
-            RecipeDatabase.Instance.GetAllRecipeTypes().ForEach(x =>
-            {
-                RecipeDatabase.Instance.GetRecipesForType(x).Values.ToList().ForEach(y =>
-                {
-                    y.IsUnlocked = true;
-                });
-            });
-        });
-
         cheatDict.Add("ui.recipeCanvas", (recipe) =>
         {
-            Recipe recipeToUse = RecipeDatabase.Instance.GetRecipe("Recipe", recipe.FirstOrDefault());
+            Recipe recipeToUse = RecipeDatabase.GetRecipe("Recipe", recipe.FirstOrDefault());
 
             GameObject recipeCanvas = Instantiate(PrefabDatabase.Instance.GetPrefab("UI", "Recipe"));
             recipeCanvas.GetComponent<RecipeCanvasScript>().SetRecipe(recipeToUse, () =>
@@ -77,8 +65,7 @@ public class CheatCanvasScript : MonoBehaviour
             GameSaveModel gameSaveModel = new GameSaveModel();
             gameSaveModel.PlacedMachineModels = UnityEngine.Object.FindObjectsOfType<GameObject>().Where(x => x.layer == 8).ToList().ToMachineModelList();
             gameSaveModel.PlayerModel = playerScriptableObject.ToPlayerModel();
-            gameSaveModel.MachineDatabase = MachineDatabase.Instance.machines;
-            gameSaveModel.RecipeDatabase = RecipeDatabase.Instance.recipes;
+            gameSaveModel.ResearchDatabase = ResearchDatabase.database;
 
             File.WriteAllText(Path.Combine(Application.persistentDataPath, "PlayerSave.json"), Newtonsoft.Json.JsonConvert.SerializeObject(gameSaveModel));
         });

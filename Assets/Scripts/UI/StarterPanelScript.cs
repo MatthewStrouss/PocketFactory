@@ -14,6 +14,7 @@ public class StarterPanelScript : MonoBehaviour
     public InputField quantityInputField;
 
     public GameObject ResourceGameObject;
+    public CancelCanvasScript xButton;
 
     // Start is called before the first frame update
     void Start()
@@ -35,12 +36,14 @@ public class StarterPanelScript : MonoBehaviour
     public void Activate()
     {
         this.gameObject.SetActive(true);
+        this.xButton.Activate(this.gameObject);
     }
 
     public void Deactivate()
     {
         this.starter = null;
         this.gameObject.SetActive(false);
+        this.xButton.Deactivate();
     }
 
     public void RecipeButton_Click()

@@ -7,18 +7,19 @@ using UnityEngine;
 [Serializable]
 public class Resource
 {
-    public int cost;
+    public long cost;
 
-    public int value;
+    public long value;
 
-    public int quantity;
+    public long quantity;
 
-    public int id;
+    public long id;
 
     public string name;
+    private RecipeRequirement result;
 
     [JsonConstructor]
-    public Resource(int value, int cost, int quantity, int id, string name)
+    public Resource(long value, long cost, long quantity, long id, string name)
     {
         this.id = id;
         this.cost = cost;
@@ -33,6 +34,15 @@ public class Resource
         this.cost = resource.cost;
         this.name = resource.name;
         this.value = resource.value;
+        this.quantity = resource.quantity;
+    }
+
+    public Resource(RecipeRequirement resource)
+    {
+        //this.id = resource.requirement.id;
+        this.cost = resource.requirement.Cost;
+        this.name = resource.requirement.name;
+        this.value = resource.requirement.Value;
         this.quantity = resource.quantity;
     }
 }

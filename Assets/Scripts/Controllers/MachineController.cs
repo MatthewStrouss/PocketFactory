@@ -52,8 +52,7 @@ public class MachineController : MonoBehaviour
 
     public void SetupMachine()
     {
-        this.machine = MachineDatabase.Instance.GetMachine(this.MachineName);
-        //this.machine2 = this.gameManager.machineDatabase.machines.FirstOrDefault(x => x.Key.Equals(this.MachineName, StringComparison.InvariantCultureIgnoreCase)).Value;
+        this.machine = MachineDatabase.database[this.MachineName];
     }
 
     private bool isOn;
@@ -156,15 +155,6 @@ public class MachineController : MonoBehaviour
 
         this.playerScriptableObject.AddMoney(moneyToAdd, false);
         Destroy(this.gameObject);
-    }
-
-    public void Unlock()
-    {
-        if (this.playerScriptableObject.Money - this.Machine.UnlockCost >= 0)
-        {
-            this.playerScriptableObject.SubMoney(Convert.ToInt64(this.Machine.UnlockCost), false);
-            MachineDatabase.Instance.GetMachine(this.MachineName).IsUnlocked = true;
-        }
     }
 
     public GameObject Place(Vector3 position, Quaternion rotation)

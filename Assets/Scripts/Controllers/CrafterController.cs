@@ -34,7 +34,7 @@ public class CrafterController : MonoBehaviour, IMachineController
 
         if (string.IsNullOrWhiteSpace(this.ChosenRecipe.Name))
         {
-            this.ChosenRecipe = RecipeDatabase.Instance.GetRecipe(recipeType, "(None)");
+            this.ChosenRecipe = RecipeDatabase.GetRecipe(this.recipeType, "(None)");
         }
         //this.chosenRecipe = RecipeDatabase.Instance.GetRecipesForType(recipeType).Values.ToList();
         this.crafterGUI = PrefabDatabase.Instance.GetPrefab("UI", "Crafter");

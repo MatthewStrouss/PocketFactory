@@ -77,7 +77,7 @@ public class CrafterCanvasScript : MonoBehaviour
         //StarterController sc = this.starter.GetComponent<StarterController>();
         //this.chosenImage.GetComponent<Image>().sprite = SpriteDatabase.Instance.GetSprite("Resource", this.crafter.ChosenRecipe.Result.name);
         //this.chosenImage.GetComponent<ResourceCanvasScript>().SetResource(this.crafter.ChosenRecipe.Result);
-        this.recipeCanvas.GetComponent<RecipeCanvasScript>().SetRecipe(RecipeDatabase.Instance.GetRecipe("Recipe", "(None)"), null);
+        this.recipeCanvas.GetComponent<RecipeCanvasScript>().SetRecipe(RecipeDatabase.GetRecipe("Recipe", "(None)"), null);
         this.recipeCanvas.GetComponent<RecipeCanvasScript>().SetRecipe(this.crafter.ChosenRecipe, null);
 
         //foreach (Transform child in this.inventoryContent.transform)

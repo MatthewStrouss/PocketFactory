@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Cutter
   m_EditorClassIdentifier: 
   buildCost: 10000
-  unlockCost: 30000
   actionTime: 3
   electricityCost: 5
   machineID: 4
   machineName: Cutter
   canRotate: 1
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 08fbd8bde16f1e54887fa8c63dadaa6e, type: 3}
+  isUnlocked: 0
+  unlockCost: 30000
+  description: 

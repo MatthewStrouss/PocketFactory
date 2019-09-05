@@ -15,10 +15,11 @@ MonoBehaviour:
   isUnlocked: 1
   unlockCost: 0
   result:
-    requirement: {fileID: 0}
-    quantity: 0
+    requirement: {fileID: 11400000, guid: f20af3d9f69e4464e8b96294c6542dac, type: 2}
+    quantity: 1
   requirements:
-  - requirement: {fileID: 0}
+  - requirement: {fileID: 11400000, guid: d4b6576ecfa32b34cafe2e61ec26c6a5, type: 2}
     quantity: 1
   sprite: {fileID: 0}
-  type: 
+  type: Wire
+  description: 

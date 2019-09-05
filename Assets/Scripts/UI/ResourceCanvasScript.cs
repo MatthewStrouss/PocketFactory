@@ -1,4 +1,5 @@
 ﻿using Assets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +32,7 @@ public class ResourceCanvasScript : MonoBehaviour
         {
             this.resourceQuantity.text = resource.quantity.ToString();
         }
+
         //Debug.Log(string.Format("Setting resource to {0} and sprite to {1}", resource.name, this.resourceImage.sprite));
     }
 }

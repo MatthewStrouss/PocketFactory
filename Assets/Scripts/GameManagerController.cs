@@ -39,8 +39,6 @@ public class GameManagerController : MonoBehaviour
         this.isPaused = false;
     }
 
-    public MachineDatabase2 machineDatabase;
-
     [SerializeField] public PlayerScriptableObject playerScriptableObject;
 
     private void Awake()
@@ -57,14 +55,24 @@ public class GameManagerController : MonoBehaviour
 
             gameSaveModel.PlayerModel.ToPlayerScript(this.playerScriptableObject);
 
-            MachineDatabase.Instance.machines = gameSaveModel.MachineDatabase;
-            PrefabDatabase.Instance.GetPrefabsForType("Machine").Values.ToList().ForEach(x => x.GetComponent<MachineController>().SetupMachine());
+            //MachineDatabase.Instance.machines = gameSaveModel.MachineDatabase;
+            //PrefabDatabase.Instance.GetPrefabsForType("Machine").Values.ToList().ForEach(x => x.GetComponent<MachineController>().SetupMachine());
 
-            RecipeDatabase.Instance.recipes = gameSaveModel.RecipeDatabase;
+            //RecipeDatabase.Instance.recipes = gameSaveModel.RecipeDatabase;
+
+            ResearchDatabase.OverwriteFromSave(gameSaveModel.ResearchDatabase);
         }
         else
         {
             this.playerScriptableObject.AddMoney(100000, false);
+        }
+    }
+
+    private void OnApplicationPause(bool isPaused)
+    {
+        if (isPaused)
+        {
+            this.Save();
         }
     }
 
@@ -82,6 +90,11 @@ public class GameManagerController : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        this.Save();
+    }
+
+    private void Save()
+    {
         File.Delete(Path.Combine(Application.persistentDataPath, "PlayerSave.json.bak.old"));
 
         if (File.Exists(Path.Combine(Application.persistentDataPath, "PlayerSave.json")))
@@ -92,8 +105,10 @@ public class GameManagerController : MonoBehaviour
         GameSaveModel gameSaveModel = new GameSaveModel();
         gameSaveModel.PlacedMachineModels = UnityEngine.Object.FindObjectsOfType<GameObject>().Where(x => x.layer == 8).ToList().ToMachineModelList();
         gameSaveModel.PlayerModel = this.playerScriptableObject.ToPlayerModel();
-        gameSaveModel.MachineDatabase = MachineDatabase.Instance.machines;
-        gameSaveModel.RecipeDatabase = RecipeDatabase.Instance.recipes;
+        //gameSaveModel.MachineDatabase = MachineDatabase.Instance.machines;
+        //gameSaveModel.RecipeDatabase = RecipeDatabase.Instance.recipes;
+        gameSaveModel.ResearchDatabase = ResearchDatabase.database;
+
 
         File.WriteAllText(Path.Combine(Application.persistentDataPath, "PlayerSave.json"), Newtonsoft.Json.JsonConvert.SerializeObject(gameSaveModel, new Newtonsoft.Json.JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
 

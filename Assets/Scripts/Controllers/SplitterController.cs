@@ -121,7 +121,7 @@ public class SplitterController : MonoBehaviour, IMachineController
 
     public void AddToInventory(Resource resourceToAdd)
     {
-        int resourceQuantity = resourceToAdd.quantity;
+        long resourceQuantity = resourceToAdd.quantity;
 
         for (int i = 0; i < resourceQuantity; i++)
         {

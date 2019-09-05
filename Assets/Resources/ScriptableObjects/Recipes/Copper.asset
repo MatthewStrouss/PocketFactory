@@ -15,8 +15,9 @@ MonoBehaviour:
   isUnlocked: 1
   unlockCost: 0
   result:
-    requirement: {fileID: 0}
-    quantity: 0
+    requirement: {fileID: 11400000, guid: 9bdd193862fa9484b9599f6b13aaee94, type: 2}
+    quantity: 1
   requirements: []
   sprite: {fileID: -3613687454404029453, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
-  type: 
+  type: Basic
+  description: 

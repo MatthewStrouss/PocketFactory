@@ -15,10 +15,11 @@ MonoBehaviour:
   isUnlocked: 1
   unlockCost: 0
   result:
-    requirement: {fileID: 0}
-    quantity: 0
+    requirement: {fileID: 11400000, guid: 4b19e5ce0b29ba24e928e89e75a92f65, type: 2}
+    quantity: 1
   requirements:
-  - requirement: {fileID: 0}
+  - requirement: {fileID: 11400000, guid: 2e3461db026e3324f9c91240d9e2881a, type: 2}
     quantity: 1
   sprite: {fileID: 0}
-  type: 
+  type: Liquid
+  description: 

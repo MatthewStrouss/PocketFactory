@@ -30,7 +30,8 @@ public class FurnaceController : MonoBehaviour, IMachineController
     void Start()
     {
         this.Inventory = new List<Resource>();
-        this.chosenRecipes = RecipeDatabase.Instance.GetRecipesForType(recipeType).Values.ToList();
+        //this.chosenRecipes = RecipeDatabase.recipes.Values.Where(x => x.Type == recipeType).ToList();
+        this.chosenRecipes = RecipeDatabase.GetRecipesForType(recipeType).Values.ToList();
 
         //InvokeRepeating("ActionToPerformOnTimer", 0.0f, 2.0f); 
     }

@@ -12,4 +12,5 @@ public class GameSaveModel
     public PlayerModel PlayerModel;
     public Dictionary<string, Machine> MachineDatabase;
     public Dictionary<string, Dictionary<string, Recipe>> RecipeDatabase;
+    public Dictionary<string, Dictionary<string, Research>> ResearchDatabase;
 }

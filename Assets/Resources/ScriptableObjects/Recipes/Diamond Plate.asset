@@ -15,10 +15,11 @@ MonoBehaviour:
   isUnlocked: 1
   unlockCost: 0
   result:
-    requirement: {fileID: 0}
-    quantity: 0
+    requirement: {fileID: 11400000, guid: 9f7fbc56ac458234f8acccdccf3541dc, type: 2}
+    quantity: 1
   requirements:
-  - requirement: {fileID: 0}
+  - requirement: {fileID: 11400000, guid: dcd84e9ad83616a44bdebe89f62c48b5, type: 2}
     quantity: 1
   sprite: {fileID: 0}
-  type: 
+  type: Plate
+  description: 

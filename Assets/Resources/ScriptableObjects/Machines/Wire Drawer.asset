@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Wire Drawer
   m_EditorClassIdentifier: 
   buildCost: 10000
-  unlockCost: 40000
   actionTime: 3
   electricityCost: 5
   machineID: 5
   machineName: Wire Drawer
   canRotate: 1
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: c17e0e81b90f1b3428038b9ad9f07685, type: 3}
+  isUnlocked: 0
+  unlockCost: 40000
+  description: 

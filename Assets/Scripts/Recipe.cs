@@ -28,6 +28,21 @@ namespace Assets
             }
         }
 
+        public Recipe(RecipeScriptableObject otherRecipe)
+        {
+            this.name = otherRecipe.name;
+            this.result = new Resource(otherRecipe.Result);
+            this.type = otherRecipe.Type;
+            this.isUnlocked = otherRecipe.IsUnlocked;
+            this.unlockCost = otherRecipe.UnlockCost;
+
+            this.requirements = new List<Resource>();
+            if (otherRecipe.Requirements != null)
+            {
+                otherRecipe.Requirements.ForEach(x => this.requirements.Add(new Resource(x)));
+            }
+        }
+
         private bool isUnlocked;
 
         private float unlockCost;

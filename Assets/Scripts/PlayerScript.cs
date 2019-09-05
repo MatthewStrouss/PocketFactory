@@ -25,6 +25,7 @@ public class PlayerScript : MonoBehaviour
     private Vector3 mouseEndPos;
     [SerializeField]
     private GameObject selectionRectangle;
+
     List<GameObject> selectedObjects = new List<GameObject>();
 
     public GameObject guiCanvas;
@@ -54,6 +55,9 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private GameObject gameManager;
 
     [SerializeField] public InputMaster controls;
+
+    public Action aAction;
+    public Event aEvent;
 
     private void Awake()
     {
@@ -346,6 +350,8 @@ public class PlayerScript : MonoBehaviour
                         }
                     }
                 });
+
+                PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText($"Selected {selectedObjects.Count} machines");
             }
         }
 
@@ -487,6 +493,27 @@ public class PlayerScript : MonoBehaviour
     {
         this.ResetPlayerState();
         this.playerStateEnum = PlayerStateEnum.SELECT;
+        PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().Activate(
+            "Please select the machines you wish to operate on",
+            () => this.AdvanceSelectMode(),
+            () => this.CancelSelectMode()
+            );
+    }
+
+    public void AdvanceSelectMode()
+    {
+        PrefabDatabase.Instance.GetPrefab("UI", "SelectionActionCanvas").GetComponent<SelectionActionCanvasScript>().Activate(() => this.CancelSelectMode());
+    }
+
+    public void CancelSelectMode()
+    {
+        this.DeselectMachines();
+        this.ResetPlayerState();
+    }
+
+    public void SaveBlueprint()
+    {
+        throw new NotImplementedException();
     }
 
     public void Copy()
@@ -577,7 +604,7 @@ public class PlayerScript : MonoBehaviour
             .Where(x => x.controller is CrafterController)
             .Select(x => x.controller)
             .Cast<CrafterController>()
-            .All(x => RecipeDatabase.Instance.GetRecipe(x.recipeType, x.ChosenRecipe.Name).IsUnlocked);
+            .All(x => RecipeDatabase.GetRecipe(x.recipeType, x.ChosenRecipe.Name).IsUnlocked);
     }
 
     public void SellSelection()

@@ -62,6 +62,13 @@ public class RecipeCanvasScript : MonoBehaviour
 
     public void SetResultContent()
     {
-        this.resultObject.GetComponent<ResourceCanvasScript>().SetResource(this.recipe.Result);
+        try
+        { 
+            this.resultObject.GetComponent<ResourceCanvasScript>().SetResource(this.recipe.Result);
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 }

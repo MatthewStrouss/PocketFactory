@@ -15,10 +15,11 @@ MonoBehaviour:
   isUnlocked: 1
   unlockCost: 0
   result:
-    requirement: {fileID: 0}
-    quantity: 0
+    requirement: {fileID: 11400000, guid: cf568b0ecec641f448b1c6bb3a8090d1, type: 2}
+    quantity: 1
   requirements:
-  - requirement: {fileID: 0}
+  - requirement: {fileID: 11400000, guid: 2e3461db026e3324f9c91240d9e2881a, type: 2}
     quantity: 1
   sprite: {fileID: 4583642077928635171, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
-  type: 
+  type: Gear
+  description: 

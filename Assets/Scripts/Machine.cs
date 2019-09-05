@@ -14,37 +14,37 @@ public class Machine
         set => this.isUnlocked = value;
     }
 
-    [SerializeField] private int actionTime;
-    public int ActionTime
+    [SerializeField] private long actionTime;
+    public long ActionTime
     {
         get => this.actionTime;
         set => this.actionTime = value;
     }
 
-    [SerializeField] private int electricityCost;
-    public int ElectricityCost
+    [SerializeField] private long electricityCost;
+    public long ElectricityCost
     {
         get => this.electricityCost;
         set => this.electricityCost = value;
     }
 
-    [SerializeField] private MachineScriptableObject machineData;
-    public MachineScriptableObject MachineData
-    {
-        get => this.machineData;
-        set => this.machineData = value;
-    }
+    //[SerializeField] private MachineScriptableObject machineData;
+    //public MachineScriptableObject MachineData
+    //{
+    //    get => this.machineData;
+    //    set => this.machineData = value;
+    //}
 
     #region Delete These When I Figure Out SOs
-    private int buildCost;
-    public int BuildCost
+    private long buildCost;
+    public long BuildCost
     {
         get => this.buildCost;
         set => this.buildCost = value;
     }
 
-    private int unlockCost;
-    public int UnlockCost
+    private long unlockCost;
+    public long UnlockCost
     {
         get => this.unlockCost;
         set => this.unlockCost = value;
@@ -80,7 +80,7 @@ public class Machine
         this.isUnlocked = isUnlocked;
         this.electricityCost = electricityCost;
         this.actionTime = actionTime;
-        this.machineData = machineData;
+        //this.machineData = machineData;
     }
 
     public Machine(Machine machineToCopy)
@@ -88,6 +88,23 @@ public class Machine
         this.isUnlocked = machineToCopy.isUnlocked;
         this.electricityCost = machineToCopy.electricityCost;
         this.actionTime = machineToCopy.actionTime;
-        this.machineData = machineToCopy.machineData;
+        //this.machineData = machineToCopy.machineData;
+    }
+
+    public Machine(MachineScriptableObject machineScriptableObject)
+    {
+        this.isUnlocked = machineScriptableObject.IsUnlocked;
+        this.electricityCost = machineScriptableObject.ElectricityCost;
+        this.actionTime = machineScriptableObject.ActionTime;
+        this.BuildCost = machineScriptableObject.BuildCost;
+        this.UnlockCost = machineScriptableObject.UnlockCost;
+        this.MachineName = machineScriptableObject.Name;
+        this.MachineID = machineScriptableObject.MachineID;
+        this.CanRotate = machineScriptableObject.CanRotate;
+    }
+
+    public void Unlock()
+    {
+        this.IsUnlocked = true;
     }
 }
