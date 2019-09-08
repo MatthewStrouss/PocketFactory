@@ -173,6 +173,23 @@ public class MachineController : MonoBehaviour
         return gameObjectToReturn;
     }
 
+    public GameObject Place(Vector2 position, Quaternion rotation)
+    {
+        GameObject gameObjectToReturn = null;
+
+        if (this.playerScriptableObject.Money - this.Machine.BuildCost >= 0)
+        {
+            this.playerScriptableObject.SubMoney(Convert.ToInt64(this.Machine.BuildCost), false);
+
+            Vector3 machinePosition = new Vector3(position.x, position.y, -8);
+            gameObjectToReturn = Instantiate(this.gameObject, machinePosition, rotation);
+            gameObjectToReturn.GetComponent<MachineController>().SetupMachine();
+            gameObjectToReturn.GetComponent<BoxCollider2D>().enabled = true;
+        }
+
+        return gameObjectToReturn;
+    }
+
     public GameObject Place(Vector3 position, Quaternion rotation, MonoBehaviour otherController)
     {
         GameObject gameObjectToReturn = null;

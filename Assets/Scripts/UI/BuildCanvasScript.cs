@@ -44,13 +44,14 @@ public class BuildCanvasScript : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        List<GameObject> machines = PrefabDatabase.Instance.GetPrefabsForType("Machine").Values.ToList();
+        List<GameObject> machines = PrefabDatabase.Instance.GetPrefabsForType("Machine").Values.Where(x => x.GetComponent<MachineController>().Machine.IsUnlocked).ToList();
 
         foreach (GameObject machine in machines)
         {
+            MachineController machineController = machine.GetComponent<MachineController>();
             Button newButton = Instantiate<Button>(this.BuildMachineButtonPrefab, this.Content.transform);
             newButton.transform.Find("Image").GetComponent<Image>().sprite = machine.GetComponent<SpriteRenderer>().sprite;
-            newButton.transform.Find("NameText").GetComponent<Text>().text = machine.GetComponent<MachineController>().Machine.MachineName;
+            newButton.transform.Find("NameText").GetComponent<Text>().text = machineController.Machine.MachineName;
             newButton.transform.Find("DescriptionText").GetComponent<Text>().text = "Don't forget to replace this text with machine description. Please";
             newButton.transform.Find("PriceText").GetComponent<Text>().text = string.Format("${0}", machine.GetComponent<MachineController>().Machine.BuildCost);
 
@@ -58,14 +59,15 @@ public class BuildCanvasScript : MonoBehaviour
             {
                 Camera.main.GetComponent<PlayerScript>().SetMachine(machine);
                 this.Deactivate();
-                this.OkCancelCanvas.GetComponent<OkCancelCanvasScript>().Activate(
-                    $"Tap to build a {machine.GetComponent<MachineController>().Machine.MachineName}",
-                    () => Camera.main.GetComponent<PlayerScript>().AcceptBuild(),
-                    () => Camera.main.GetComponent<PlayerScript>().CancelBuild()
-                    );
+                //this.OkCancelCanvas.GetComponent<OkCancelCanvasScript>().Activate(
+                //    $"Tap to build a {machine.GetComponent<MachineController>().Machine.MachineName}",
+                //    () => Camera.main.GetComponent<PlayerScript>().AcceptBuild(),
+                //    () => Camera.main.GetComponent<PlayerScript>().CancelBuild()
+                //    );
+                Camera.main.GetComponent<PlayerScript>().BuildMode();
             });
 
-            newButton.interactable = machine.GetComponent<MachineController>().Machine.IsUnlocked;
+            newButton.interactable = gameManager.playerScriptableObject.Money >= machineController.Machine.BuildCost;
         }
 
         //List<Machine> machines = this.gameManager.machineDatabase.machines.Where(x => x.Value.IsUnlocked).Select(x => x.Value).ToList();

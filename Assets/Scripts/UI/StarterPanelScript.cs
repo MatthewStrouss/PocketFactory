@@ -16,6 +16,8 @@ public class StarterPanelScript : MonoBehaviour
     public GameObject ResourceGameObject;
     public CancelCanvasScript xButton;
 
+    public Image radialTimer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +27,9 @@ public class StarterPanelScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //float currentTime = Time.time;
+        //if (currentTime >= this.nextActionTime)
+        this.radialTimer.fillAmount = 1-(this.starter.MachineController.nextActionTime - Time.time) / this.starter.MachineController.Machine.ActionTime;
     }
 
     public void XButton_Click()
@@ -51,7 +55,6 @@ public class StarterPanelScript : MonoBehaviour
         this.gameObject.SetActive(false);
         this.recipePanel.GetComponent<RecipesPanelScript>().Activate("Basic", (r) => 
         {
-            Debug.Log(string.Format("Clicked on the recipe: {0}", r.Name));
             this.starter.SetRecipe(r);
             this.Activate();
         });

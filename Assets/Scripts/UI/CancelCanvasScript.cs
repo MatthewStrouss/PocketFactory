@@ -40,9 +40,19 @@ public class CancelCanvasScript : MonoBehaviour
         this.Activate();
     }
 
+    public void Activate(Action action)
+    {
+        this.action = action;
+        this.Activate();
+    }
+
     public void XButton_Clicked()
     {
-        this.objectToCancel.SetActive(false);
+        if (this.objectToCancel != null)
+        {
+            this.objectToCancel.SetActive(false);
+        }
+
         this.Deactivate();
         this.action?.DynamicInvoke();
     }

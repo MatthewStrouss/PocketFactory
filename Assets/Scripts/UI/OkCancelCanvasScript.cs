@@ -11,6 +11,7 @@ public class OkCancelCanvasScript : MonoBehaviour
     private Action okButtonAction;
     private Action cancelButtonAction;
     public GameObject Navbar;
+    public Button okButton;
 
     // Start is called before the first frame update
     void Start()
@@ -37,11 +38,12 @@ public class OkCancelCanvasScript : MonoBehaviour
         this.Activate();
     }
 
-    public void Activate(string instructionText, Action okButtonAction, Action cancelButtonAction)
+    public void Activate(string instructionText, Action okButtonAction, Action cancelButtonAction, bool isOkButtonActive = true)
     {
         UpdateInstructionText(instructionText);
         this.okButtonAction = okButtonAction;
         this.cancelButtonAction = cancelButtonAction;
+        this.SetOkButtonActive(isOkButtonActive);
         this.Activate();
     }
 
@@ -49,6 +51,11 @@ public class OkCancelCanvasScript : MonoBehaviour
     {
         this.gameObject.SetActive(false);
         this.Navbar.SetActive(true);
+    }
+
+    public void SetOkButtonActive(bool isOkButtonActive)
+    {
+        this.okButton.interactable = isOkButtonActive;
     }
 
     public void OkButton_Clicked()

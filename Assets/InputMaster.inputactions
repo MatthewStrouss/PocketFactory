@@ -46,10 +46,76 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "Button With One Modifier",
+                    "id": "d12aa1d3-b69b-46ff-978b-32a3b30cc088",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pan",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "38eb7fdc-f363-4a28-85e6-a9453071bbdd",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pan",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "b142b109-e0f8-4fbc-be01-673c574e1c79",
+                    "path": "<Mouse>/delta/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pan",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "8f70c87b-1e0e-4ec4-af3e-831391870e1c",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pan",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "ea41b1e6-f172-472c-a8a5-5f6d39ada89b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pan",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "d7ac7bda-d60d-4aca-a77c-9e408309d847",
+                    "path": "<Mouse>/delta/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pan",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
-                    "id": "a433597b-5903-4186-bd71-24de3fc18f43",
-                    "path": "<Touchscreen>/touch0/delta",
-                    "interactions": "Press(behavior=2)",
+                    "id": "7b63253f-c5ca-4bc7-8384-f1646ed7542a",
+                    "path": "<Touchscreen>/touch1/delta/x",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Pan",
@@ -57,15 +123,37 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "55e35026-a2fc-45f7-90fc-f34ab276c220",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "Press(behavior=2)",
+                    "name": "Button With One Modifier",
+                    "id": "929a4629-4604-4b5a-b50c-e2b9c9adb39d",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pan",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "1a668d11-7767-4d00-aa38-e9fa49c20766",
+                    "path": "<Touchscreen>/touch0",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Pan",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "d708d1fb-adff-48af-9dcf-cc0dfb650d86",
+                    "path": "<Touchscreen>/delta/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pan",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

@@ -69,8 +69,8 @@ RectTransform:
   m_Children:
   - {fileID: 7913867033998557448}
   - {fileID: 6787045138894130363}
-  - {fileID: 3642652893246870027}
-  - {fileID: 7011434812577939674}
+  - {fileID: 1097944423135643481}
+  - {fileID: 1554030202666574153}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -92,12 +92,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 6787045139426516777}
-  SelectedGameObject: {fileID: 3642652893246870024}
-  ArrowGameObject: {fileID: 5968230563399880624}
+  machine2:
+    isUnlocked: 0
+    actionTime: 0
+    electricityCost: 0
+  machineData: {fileID: 0}
+  SelectedGameObject: {fileID: 1097944423135643482}
+  ArrowGameObject: {fileID: 1554030202666574154}
   MachineName: Starter
   nextActionTime: 0
   playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
     type: 2}
+  gameManager: {fileID: 0}
 --- !u!114 &6787045139426516777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +168,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -315,13 +322,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c0b2541b6a4d8d42ba52fbfb90ff490, type: 3}
---- !u!1 &3642652893246870024 stripped
+--- !u!1 &1097944423135643482 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4445584046689899859, guid: 6c0b2541b6a4d8d42ba52fbfb90ff490,
     type: 3}
   m_PrefabInstance: {fileID: 1097944423135643483}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &3642652893246870027 stripped
+--- !u!4 &1097944423135643481 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4445584046689899856, guid: 6c0b2541b6a4d8d42ba52fbfb90ff490,
     type: 3}
@@ -396,13 +403,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27742accd66fda248aad54ef69eba7dd, type: 3}
---- !u!1 &5968230563399880624 stripped
+--- !u!1 &1554030202666574154 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5134785477852737275, guid: 27742accd66fda248aad54ef69eba7dd,
     type: 3}
   m_PrefabInstance: {fileID: 1554030202666574155}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7011434812577939674 stripped
+--- !u!4 &1554030202666574153 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8420773542683959697, guid: 27742accd66fda248aad54ef69eba7dd,
     type: 3}

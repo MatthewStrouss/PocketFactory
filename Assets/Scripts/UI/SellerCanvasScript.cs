@@ -9,6 +9,7 @@ public class SellerCanvasScript : MonoBehaviour
     public SellerController SellerController;
     public GameObject ScrollViewContent;
     public Button ButtonPrefab;
+    [SerializeField] private CancelCanvasScript XButton;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,7 @@ public class SellerCanvasScript : MonoBehaviour
     public void Activate()
     {
         this.gameObject.SetActive(true);
+        this.XButton.Activate(this.XButton_Click);
     }
 
     public void UpdateGUI(SellerController sellerController)
@@ -53,6 +55,7 @@ public class SellerCanvasScript : MonoBehaviour
     public void Deactivate()
     {
         this.gameObject.SetActive(false);
+        this.XButton.Deactivate();
     }
 
     public void XButton_Click()

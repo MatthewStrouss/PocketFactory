@@ -1,5 +1,6 @@
 ﻿using Assets;
 using Assets.Scripts;
+using DigitalRubyShared;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -36,7 +37,7 @@ public class PlayerScript : MonoBehaviour
 
     public Resource resourceToSpawn;
     public List<GameObject> placedMachines;
-    private static readonly float PanSpeed = 10f;
+    private static readonly float PanSpeed = 0.1f;
     private static readonly float ZoomSpeedTouch = 0.1f;
     private static readonly float ZoomSpeedMouse = 0.5f;
 
@@ -47,6 +48,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private Camera cam;
 
     private Vector3 lastPanPosition;
+    private Vector3 originalClickPosition;
     private int panFingerId; // Touch mode only
 
     private bool wasZoomingLastFrame; // Touch mode only
@@ -56,8 +58,9 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField] public InputMaster controls;
 
-    public Action aAction;
-    public Event aEvent;
+    [SerializeField] public MovementScript movementScript;
+
+    [SerializeField] private Text debugText;
 
     private void Awake()
     {
@@ -69,24 +72,48 @@ public class PlayerScript : MonoBehaviour
         //controls = new InputMaster();
         //controls.Player.Place.performed += Place;
         //controls.Player.Place.Enable();
-        //controls.Player.Pan.performed += Pan;
+        //controls.Player.Pan.performed += PanX;
         //controls.Player.Pan.Enable();
     }
 
-    //void Place(InputAction.CallbackContext callbackContext)
+    //void PanX(UnityEngine.InputSystem.InputAction.CallbackContext callbackContext)
     //{
-    //    Debug.Log("Place");
+        //float deltaX = 0f;
+        //float deltaY = 0f;
+        ////Debug.Log(callbackContext.control);
+        //if (callbackContext.control.displayName == "delta X")
+        //{
+        //    deltaX = -1 * callbackContext.ReadValue<Single>();
+        //    xText.text = $"{deltaX}";
+        //}
+        //else if (callbackContext.control.displayName == "delta Y")
+        //{
+        //    deltaY = -1 * callbackContext.ReadValue<Single>();
+        //    yText.text = $"{deltaY}";
+        //}
+        ////Debug.Log("Pan");
+        ////PanCamera(callbackContext.ReadValue());
+
+        ////Vector3 offset = cam.ScreenToViewportPoint(lastPanPosition - newPanPosition);
+        //Vector3 move = new Vector3(deltaX * PanSpeed, deltaY * PanSpeed, 0);
+
+        //// Perform the movement
+        //transform.Translate(move, Space.World);
+        //Vector3 pos = transform.position;
+        //pos.x = Mathf.Clamp(transform.position.x, BoundsX[0], BoundsX[1]);
+        //pos.y = Mathf.Clamp(transform.position.y, BoundsY[0], BoundsY[1]);
+        //transform.position = pos;
     //}
 
-    //void Pan(InputAction.CallbackContext callbackContext)
+    //void PanY(UnityEngine.InputSystem.InputAction.CallbackContext callbackContext)
     //{
-    //    Debug.Log(callbackContext.control.IsActuated());
+    //    xText.text = $"{callbackContext.ReadValue<Single>()}";
     //}
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -94,271 +121,174 @@ public class PlayerScript : MonoBehaviour
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if ((playerStateEnum != PlayerStateEnum.NONE) && (machineToPlace != null))
-        {
-            machineToPlace.transform.position = new Vector3(
-                Mathf.Clamp(Mathf.Round(mousePos.x), BoundsX[0], BoundsX[1]), 
-                Mathf.Clamp(Mathf.Round(mousePos.y), BoundsY[0], BoundsY[1]),
-                -8
-                );
-        }
+        //if ((playerStateEnum != PlayerStateEnum.NONE) && (machineToPlace != null))
+        //{
+        //    machineToPlace.transform.position = new Vector3(
+        //        Mathf.Clamp(Mathf.Round(mousePos.x), BoundsX[0], BoundsX[1]), 
+        //        Mathf.Clamp(Mathf.Round(mousePos.y), BoundsY[0], BoundsY[1]),
+        //        -8
+        //        );
+        //}
 
-        if (playerStateEnum == PlayerStateEnum.NONE)
-        {
-            if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer)
-            {
-                HandleTouch();
-            }
-            else
-            {
-                HandleMouse();
-            }
-        }
+        //if (Input.touchSupported && Application.platform != RuntimePlatform.WebGLPlayer)
+        //{
+        //    if (playerStateEnum == PlayerStateEnum.NONE)
+        //    {
+        //        HandleTouch();
+        //    }
+        //    else
+        //    {
+        //        HandleBuildTouch();
+        //    }
+        //}
+        //else
+        //{
+        //    HandleMouse();
+        //}
 
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
-        {
-            if (playerStateEnum == PlayerStateEnum.NONE)
-            {
-                Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
+        //if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        //{
 
-                if (test)
-                {
-                    test.transform.gameObject.GetComponent<MachineController>().OnClick();
-                    //this.starterCanvas.GetComponent<StarterPanelScript>().Activate(test.transform.gameObject);
-                }
-            }
-            else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE)
-            {
-                if (machineToPlace != null)
-                {
-                    //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    Vector3 cursorPosition = machineToPlace.transform.position;
-                    Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                    RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1<<8);
+        //}
+        //else if (Input.touchCount == 1)
+        //{
+        //    Touch touch = Input.GetTouch(0);
 
-                    if (test)
-                    {
-                        Debug.Log("Machine already as this position");
+        //    mousePos = Camera.main.ScreenToWorldPoint(touch.position);
 
-                        MachineController offender = test.transform.gameObject.GetComponent<MachineController>();
+        //    if (touch.phase == TouchPhase.Ended && !EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+        //    {
+        //        if (playerStateEnum == PlayerStateEnum.NONE)
+        //        {
+        //            Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+        //            RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
 
-                        if (offender.Machine.MachineID == this.machineToPlace.GetComponent<MachineController>().Machine.MachineID)
-                        {
-                            if (this.placedMachines.Contains(test.transform.gameObject))
-                            {
-                                offender.Sell(true);
-                                this.placedMachines.Remove(test.transform.gameObject);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //cursorPosition.z = 0;
-                        GameObject goToAdd = this.machineToPlace.GetComponent<MachineController>().Place(cursorPosition, Quaternion.identity);
+        //            if (test)
+        //            {
 
-                        if (goToAdd != null)
-                        {
-                            this.placedMachines.Add(goToAdd);
-                        }
-                    }
+        //                test.transform.gameObject.GetComponent<MachineController>().OnClick();
+        //                //this.starterCanvas.GetComponent<StarterPanelScript>().Activate(test.transform.gameObject);
+        //            }
+        //        }
+        //        else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE)
+        //        {
+        //            if (machineToPlace != null)
+        //            {
+        //                //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //                Vector3 cursorPosition = machineToPlace.transform.position;
+        //                Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+        //                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
 
-                    PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText($"Place {this.placedMachines.Count} {this.machineToPlace.GetComponent<MachineController>().Machine.MachineName}");
-                    PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText2($"${this.placedMachines.Sum(x => x.GetComponent<MachineController>().Machine.BuildCost)}");
-                }
-            }
-            else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE_PASTE)
-            {
-                if (machineToPlace != null)
-                {
-                    Vector3 cursorPosition = machineToPlace.transform.position;
-                    Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                    RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
-                    cursorPosition.z = 0;
+        //                if (test)
+        //                {
+        //                    Debug.Log("Machine already as this position");
+        //                }
+        //                else
+        //                {
+        //                    cursorPosition.z = 0;
+        //                    this.machineToPlace.GetComponent<MachineController>().Place(cursorPosition, Quaternion.identity);
+        //                }
+        //            }
+        //        }
+        //        else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE_PASTE)
+        //        {
+        //            if (machineToPlace != null)
+        //            {
+        //                Vector3 cursorPosition = machineToPlace.transform.position;
+        //                Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+        //                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
+        //                cursorPosition.z = 0;
 
-                    List<MachineController> test1 = machineToPlace.GetComponentsInChildren<MachineController>().ToList();
+        //                List<MachineController> test1 = machineToPlace.GetComponentsInChildren<MachineController>().ToList();
+        //                machineToPlace.GetComponentsInChildren<MachineController>().ToList().ForEach(x =>
+        //                {
+        //                    GameObject go = Instantiate(x.gameObject, x.transform.position, x.transform.rotation);
+        //                    go.GetComponent<MachineController>().SetControllerValues(x.controller);
+        //                });
+        //            }
+        //        }
+        //        else if (playerStateEnum == PlayerStateEnum.ROTATE_MACHINE)
+        //        {
+        //            Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+        //            RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
 
-                    machineToPlace.GetComponentsInChildren<MachineController>().ToList().ForEach(x =>
-                    {
-                        //x.transform.position = new Vector3(x.transform.position.x, x.transform.position.y, -8);
-                        x.Place(x.transform.position, x.transform.rotation, x.controller);
-                    });
-                }
-            }
-            else if (playerStateEnum == PlayerStateEnum.ROTATE_MACHINE)
-            {
-                Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
+        //            if (test && test.transform.gameObject.GetComponent<MachineController>().Machine.CanRotate)
+        //            {
+        //                test.transform.rotation = machineToPlace.transform.rotation;
+        //            }
+        //        }
+        //        else if (playerStateEnum == PlayerStateEnum.SELECT)
+        //        {
+        //            mouseStartPos = mousePos;
+        //            mouseStartPos.z = -1;
+        //            selectionRectangle.transform.position = mouseStartPos;
+        //            selectionRectangle.SetActive(true);
+        //        }
+        //        else if (playerStateEnum == PlayerStateEnum.SPAWN_RESOURCE)
+        //        {
+        //            Vector3 coords = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+        //            coords.z = 0;
 
-                if (test && test.transform.gameObject.GetComponent<MachineController>().Machine.CanRotate)
-                {
-                    test.transform.rotation = machineToPlace.transform.rotation;
-                }
-            }
-            else if (playerStateEnum == PlayerStateEnum.SELECT)
-            {
-                mouseStartPos = mousePos;
-                mouseStartPos.z = -1;
-                selectionRectangle.transform.position = mouseStartPos;
-                selectionRectangle.SetActive(true);
-            }
-            else if (playerStateEnum == PlayerStateEnum.SPAWN_RESOURCE)
-            {
-                Vector3 coords = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                coords.z = 0;
+        //            GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), coords, Quaternion.Euler(transform.eulerAngles));
 
-                GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), coords, Quaternion.Euler(transform.eulerAngles));
+        //            go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", this.resourceToSpawn.name);
+        //            ResourceController rc = go.GetComponent<ResourceController>();
+        //            rc.SetResource(this.resourceToSpawn, 1);
+        //            //rc.Move(moveToPosition.position);
+        //            rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
+        //        }
+        //    }
+        //}
 
-                go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", this.resourceToSpawn.name);
-                ResourceController rc = go.GetComponent<ResourceController>();
-                rc.SetResource(this.resourceToSpawn, 1);
-                //rc.Move(moveToPosition.position);
-                rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
-            }
-        }
-        else if (Input.touchCount == 1)
-        {
-            Touch touch = Input.GetTouch(0);
+        //if (!EventSystem.current.IsPointerOverGameObject())
+        //{
+        //    if (Input.GetMouseButton(0) && playerStateEnum == PlayerStateEnum.SELECT)
+        //    {
+        //        mouseEndPos = mousePos;
+        //        selectionRectangle.transform.localScale = mouseEndPos - mouseStartPos;
+        //    }
 
-            mousePos = Camera.main.ScreenToWorldPoint(touch.position);
+        //    if (Input.GetMouseButtonUp(0) && playerStateEnum == PlayerStateEnum.SELECT)
+        //    {
+        //        selectionRectangle.SetActive(false);
+        //        Vector2 lowerLeftPosition = new Vector2(Mathf.Round(Mathf.Min(mouseStartPos.x, mouseEndPos.x)), Mathf.Round(Mathf.Min(mouseStartPos.y, mouseEndPos.y)));
+        //        Vector2 upperRightPosition = new Vector2(Mathf.Round(Mathf.Max(mouseStartPos.x, mouseEndPos.x)), Mathf.Round(Mathf.Max(mouseStartPos.y, mouseEndPos.y)));
 
-            if (touch.phase == TouchPhase.Began && !EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-            {
-                if (playerStateEnum == PlayerStateEnum.NONE)
-                {
-                    Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                    RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
+        //        //this.DeselectMachines();
 
-                    if (test)
-                    {
+        //        List<GameObject> allGameObjects = UnityEngine.Object.FindObjectsOfType<GameObject>().ToList();
+        //        allGameObjects.Where(x => x.layer == 8).ToList().ForEach(x =>
+        //        {
+        //            MachineController mc = x.GetComponent<MachineController>();
+        //            if (mc != null)
+        //            {
+        //                if (x.transform.position.x >= lowerLeftPosition.x &&
+        //                    x.transform.position.y >= lowerLeftPosition.y &&
+        //                    x.transform.position.x <= upperRightPosition.x &&
+        //                    x.transform.position.y <= upperRightPosition.y)
+        //                {
+        //                    if (this.selectedObjects.Contains(x))
+        //                    {
+        //                        mc.DeactivateSelected();
+        //                        this.selectedObjects.Remove(x);
+        //                    }
+        //                    else
+        //                    {
+        //                        mc.ActivateSelected();
+        //                        selectedObjects.Add(x);
+        //                    }
+        //                }
+        //            }
+        //        });
 
-                        test.transform.gameObject.GetComponent<MachineController>().OnClick();
-                        //this.starterCanvas.GetComponent<StarterPanelScript>().Activate(test.transform.gameObject);
-                    }
-                }
-                else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE)
-                {
-                    if (machineToPlace != null)
-                    {
-                        //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        Vector3 cursorPosition = machineToPlace.transform.position;
-                        Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                        RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
+        //        PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText($"Selected {selectedObjects.Count} machines");
+        //    }
+        //}
 
-                        if (test)
-                        {
-                            Debug.Log("Machine already as this position");
-                        }
-                        else
-                        {
-                            cursorPosition.z = 0;
-                            this.machineToPlace.GetComponent<MachineController>().Place(cursorPosition, Quaternion.identity);
-                        }
-                    }
-                }
-                else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE_PASTE)
-                {
-                    if (machineToPlace != null)
-                    {
-                        Vector3 cursorPosition = machineToPlace.transform.position;
-                        Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                        RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
-                        cursorPosition.z = 0;
-
-                        List<MachineController> test1 = machineToPlace.GetComponentsInChildren<MachineController>().ToList();
-                        machineToPlace.GetComponentsInChildren<MachineController>().ToList().ForEach(x =>
-                        {
-                            GameObject go = Instantiate(x.gameObject, x.transform.position, x.transform.rotation);
-                            go.GetComponent<MachineController>().SetControllerValues(x.controller);
-                        });
-                    }
-                }
-                else if (playerStateEnum == PlayerStateEnum.ROTATE_MACHINE)
-                {
-                    Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                    RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
-
-                    if (test && test.transform.gameObject.GetComponent<MachineController>().Machine.CanRotate)
-                    {
-                        test.transform.rotation = machineToPlace.transform.rotation;
-                    }
-                }
-                else if (playerStateEnum == PlayerStateEnum.SELECT)
-                {
-                    mouseStartPos = mousePos;
-                    mouseStartPos.z = -1;
-                    selectionRectangle.transform.position = mouseStartPos;
-                    selectionRectangle.SetActive(true);
-                }
-                else if (playerStateEnum == PlayerStateEnum.SPAWN_RESOURCE)
-                {
-                    Vector3 coords = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                    coords.z = 0;
-
-                    GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), coords, Quaternion.Euler(transform.eulerAngles));
-
-                    go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", this.resourceToSpawn.name);
-                    ResourceController rc = go.GetComponent<ResourceController>();
-                    rc.SetResource(this.resourceToSpawn, 1);
-                    //rc.Move(moveToPosition.position);
-                    rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
-                }
-            }
-        }
-        else if (Input.GetMouseButtonUp(1) || Input.touchCount == 2)
-        {
-            ResetPlayerState();
-        }
-
-        if (!EventSystem.current.IsPointerOverGameObject())
-        {
-            if (Input.GetMouseButton(0) && playerStateEnum == PlayerStateEnum.SELECT)
-            {
-                mouseEndPos = mousePos;
-                selectionRectangle.transform.localScale = mouseEndPos - mouseStartPos;
-            }
-
-            if (Input.GetMouseButtonUp(0) && playerStateEnum == PlayerStateEnum.SELECT)
-            {
-                selectionRectangle.SetActive(false);
-                Vector2 lowerLeftPosition = new Vector2(Mathf.Round(Mathf.Min(mouseStartPos.x, mouseEndPos.x)), Mathf.Round(Mathf.Min(mouseStartPos.y, mouseEndPos.y)));
-                Vector2 upperRightPosition = new Vector2(Mathf.Round(Mathf.Max(mouseStartPos.x, mouseEndPos.x)), Mathf.Round(Mathf.Max(mouseStartPos.y, mouseEndPos.y)));
-
-                //this.DeselectMachines();
-
-                List<GameObject> allGameObjects = UnityEngine.Object.FindObjectsOfType<GameObject>().ToList();
-                allGameObjects.Where(x => x.layer == 8).ToList().ForEach(x =>
-                {
-                    MachineController mc = x.GetComponent<MachineController>();
-                    if (mc != null)
-                    {
-                        if (x.transform.position.x >= lowerLeftPosition.x &&
-                            x.transform.position.y >= lowerLeftPosition.y &&
-                            x.transform.position.x <= upperRightPosition.x &&
-                            x.transform.position.y <= upperRightPosition.y)
-                        {
-                            if (this.selectedObjects.Contains(x))
-                            {
-                                mc.DeactivateSelected();
-                                this.selectedObjects.Remove(x);
-                            }
-                            else
-                            {
-                                mc.ActivateSelected();
-                                selectedObjects.Add(x);
-                            }
-                        }
-                    }
-                });
-
-                PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText($"Selected {selectedObjects.Count} machines");
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.BackQuote) || Input.touchCount == 3)
-        {
-            PrefabDatabase.Instance.GetPrefab("UI", "Cheat").GetComponent<CheatCanvasScript>().Activate();
-        }
+        //if (Input.GetKeyUp(KeyCode.BackQuote) || Input.touchCount == 3)
+        //{
+        //    PrefabDatabase.Instance.GetPrefab("UI", "Cheat").GetComponent<CheatCanvasScript>().Activate();
+        //}
     }
 
     void DeselectMachines()
@@ -367,90 +297,148 @@ public class PlayerScript : MonoBehaviour
         this.selectedObjects.Clear();
     }
 
-    void HandleTouch()
+    public void HandleClick(GestureRecognizer gesture)
     {
-        switch (Input.touchCount)
+        if (playerStateEnum == PlayerStateEnum.NONE)
         {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(gesture.FocusX, gesture.FocusY));
+            Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+            RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
 
-            case 1: // Panning
-                wasZoomingLastFrame = false;
+            if (test)
+            {
+                test.transform.gameObject.GetComponent<MachineController>().OnClick();
+                //this.starterCanvas.GetComponent<StarterPanelScript>().Activate(test.transform.gameObject);
+            }
+        }
+        else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE)
+        {
+            if (machineToPlace != null)
+            {
+                //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                //Vector3 cursorPosition = machineToPlace.transform.position;
+                Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
 
-                // If the touch began, capture its position and its finger ID.
-                // Otherwise, if the finger ID of the touch doesn't match, skip it.
-                Touch touch = Input.GetTouch(0);
-                if (touch.phase == TouchPhase.Began)
+                if (test)
                 {
-                    lastPanPosition = touch.position;
-                    panFingerId = touch.fingerId;
-                }
-                else if (touch.fingerId == panFingerId && touch.phase == TouchPhase.Moved)
-                {
-                    PanCamera(touch.position);
-                }
-                break;
+                    MachineController offender = test.transform.gameObject.GetComponent<MachineController>();
 
-            case 2: // Zooming
-                Vector2[] newPositions = new Vector2[] { Input.GetTouch(0).position, Input.GetTouch(1).position };
-                if (!wasZoomingLastFrame)
-                {
-                    lastZoomPositions = newPositions;
-                    wasZoomingLastFrame = true;
+                    if (offender.Machine.MachineID == this.machineToPlace.GetComponent<MachineController>().Machine.MachineID)
+                    {
+                        if (this.placedMachines.Contains(test.transform.gameObject))
+                        {
+                            offender.Sell(true);
+                            this.placedMachines.Remove(test.transform.gameObject);
+                        }
+                    }
                 }
                 else
                 {
-                    // Zoom based on the distance between the new positions compared to the 
-                    // distance between the previous positions.
-                    float newDistance = Vector2.Distance(newPositions[0], newPositions[1]);
-                    float oldDistance = Vector2.Distance(lastZoomPositions[0], lastZoomPositions[1]);
-                    float offset = newDistance - oldDistance;
+                    GameObject goToAdd = this.machineToPlace.GetComponent<MachineController>().Place(rayPos, Quaternion.identity);
 
-                    ZoomCamera(offset, ZoomSpeedTouch);
-
-                    lastZoomPositions = newPositions;
+                    if (goToAdd != null)
+                    {
+                        this.placedMachines.Add(goToAdd);
+                    }
                 }
-                break;
 
-            default:
-                wasZoomingLastFrame = false;
-                break;
+                PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText($"Place {this.placedMachines.Count} {this.machineToPlace.GetComponent<MachineController>().Machine.MachineName}");
+                PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText2($"${this.placedMachines.Sum(x => x.GetComponent<MachineController>().Machine.BuildCost)}");
+                PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().SetOkButtonActive(this.placedMachines.Count > 0);
+            }
+        }
+        else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE_PASTE)
+        {
+            if (machineToPlace != null)
+            {
+                Vector3 cursorPosition = machineToPlace.transform.position;
+                Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
+                cursorPosition.z = 0;
+
+                List<MachineController> test1 = machineToPlace.GetComponentsInChildren<MachineController>().ToList();
+
+                machineToPlace.GetComponentsInChildren<MachineController>().ToList().ForEach(x =>
+                {
+                //x.transform.position = new Vector3(x.transform.position.x, x.transform.position.y, -8);
+                x.Place(x.transform.position, x.transform.rotation, x.controller);
+                });
+            }
+        }
+        else if (playerStateEnum == PlayerStateEnum.ROTATE_MACHINE)
+        {
+            Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+            RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
+
+            if (test && test.transform.gameObject.GetComponent<MachineController>().Machine.CanRotate)
+            {
+                test.transform.rotation = machineToPlace.transform.rotation;
+            }
+        }
+        else if (playerStateEnum == PlayerStateEnum.SPAWN_RESOURCE)
+        {
+            Vector3 coords = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+            coords.z = 0;
+
+            GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), coords, Quaternion.Euler(transform.eulerAngles));
+
+            go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", this.resourceToSpawn.name);
+            ResourceController rc = go.GetComponent<ResourceController>();
+            rc.SetResource(this.resourceToSpawn, 1);
+            //rc.Move(moveToPosition.position);
+            rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
         }
     }
 
-    void HandleMouse()
+    public void HandlePan(GestureRecognizer gesture)
     {
-        // On mouse down, capture it's position.
-        // Otherwise, if the mouse is still down, pan the camera.
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (playerStateEnum == PlayerStateEnum.SELECT)
         {
-            lastPanPosition = Input.mousePosition;
+            if (gesture.State == GestureRecognizerState.Began)
+            {
+                mouseStartPos = mousePos;
+                mouseStartPos.z = -1;
+                selectionRectangle.transform.position = mouseStartPos;
+                selectionRectangle.SetActive(true);
+            }
+            else if (gesture.State == GestureRecognizerState.Executing)
+            {
+                Vector3 start = Camera.main.ScreenToWorldPoint(new Vector3(gesture.StartFocusX, gesture.StartFocusY));
+                Vector3 end = Camera.main.ScreenToWorldPoint(new Vector3(gesture.FocusX, gesture.FocusY));
+
+                selectionRectangle.transform.localScale = end - start;
+            }
+            else if (gesture.State == GestureRecognizerState.Ended)
+            {
+                selectionRectangle.SetActive(false);
+            }
         }
-        else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
+        else if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE)
         {
-            PanCamera(Input.mousePosition);
+            if (gesture.State == GestureRecognizerState.Executing)
+            {
+                if (machineToPlace != null)
+                {
+                    if (this.placedMachines.Count > 0)
+                    {
+                        GameObject lastMachinePlaced = this.placedMachines.LastOrDefault();
+
+                        Vector3 objPos = Camera.main.WorldToScreenPoint(lastMachinePlaced.transform.position);
+                        Vector3 mousePos = new Vector3(gesture.FocusX, gesture.FocusY);
+
+                        float distX = mousePos.x - objPos.x;
+                        float distY = mousePos.y - objPos.y;
+
+                        float angle = 90*Mathf.Ceil((Mathf.Atan2(distY, distX) * Mathf.Rad2Deg)/90);
+                        this.debugText.text = angle.ToString();
+                        //Debug.Log($"Rotating {lastMachinePlaced.name} to {angle}");
+
+                        lastMachinePlaced.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+                    }
+                }
+            }
         }
-
-        // Check for scrolling to zoom the camera
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        ZoomCamera(scroll, ZoomSpeedMouse);
-    }
-
-    void PanCamera(Vector3 newPanPosition)
-    {
-        // Determine how much to move the camera
-        Vector3 offset = cam.ScreenToViewportPoint(lastPanPosition - newPanPosition);
-        Vector3 move = new Vector3(offset.x * PanSpeed, offset.y * PanSpeed, 0);
-
-        // Perform the movement
-        transform.Translate(move, Space.World);
-
-        // Ensure the camera remains within bounds.
-        Vector3 pos = transform.position;
-        pos.x = Mathf.Clamp(transform.position.x, BoundsX[0], BoundsX[1]);
-        pos.y = Mathf.Clamp(transform.position.y, BoundsY[0], BoundsY[1]);
-        transform.position = pos;
-
-        // Cache the position
-        lastPanPosition = newPanPosition;
     }
 
     void ZoomCamera(float offset, float speed)
@@ -467,8 +455,9 @@ public class PlayerScript : MonoBehaviour
     public void ResetPlayerState()
     {
         this.playerStateEnum = PlayerStateEnum.NONE;
-        Destroy(this.machineToPlace);
-        //this.machineToPlace = null;
+        //Destroy(this.machineToPlace);
+        this.machineToPlace = null;
+        this.movementScript.DisableBuildMode();
     }
 
     public void SetMachine(GameObject machineToPlace)
@@ -498,6 +487,8 @@ public class PlayerScript : MonoBehaviour
             () => this.AdvanceSelectMode(),
             () => this.CancelSelectMode()
             );
+
+        this.movementScript.EnableBuildMode();
     }
 
     public void AdvanceSelectMode()
@@ -664,24 +655,22 @@ public class PlayerScript : MonoBehaviour
 
     public void BuildMode()
     {
-        // Disable MainUICanvas
-        PrefabDatabase.Instance.GetPrefab("UI", "MainUI").SetActive(false);
-
-        // Enable BuildUICanvas
-        PrefabDatabase.Instance.GetPrefab("UI", "BuildUI").SetActive(true);
-
         // Enable OkCancelCanvas
-        PrefabDatabase.Instance.GetPrefab("UI", "OkCancelUI").GetComponent<OkCancelCanvasScript>().Activate(
+        PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().Activate(
+            $"Tap to build a {this.machineToPlace.GetComponent<MachineController>().Machine.MachineName}",
             okButtonAction: () => this.AcceptBuild(),
-            cancelButtonAction: () => this.CancelBuild()
+            cancelButtonAction: () => this.CancelBuild(),
+            false
             );
+
+        this.movementScript.EnableBuildMode();
     }
 
     public void AcceptBuild()
     {
         // Finalize building of all machines
         this.placedMachines.Clear();
-        GameObject.Destroy(this.machineToPlace);
+        //GameObject.Destroy(this.machineToPlace);
         this.machineToPlace = null;
         this.ResetPlayerState();
         this.DeselectMachines();
@@ -695,7 +684,7 @@ public class PlayerScript : MonoBehaviour
             x?.GetComponent<MachineController>().Sell(true);
         });
         this.placedMachines.Clear();
-        GameObject.Destroy(this.machineToPlace);
+        //GameObject.Destroy(this.machineToPlace);
         this.machineToPlace = null;
         this.ResetPlayerState();
         this.DeselectMachines();

@@ -16,6 +16,8 @@ public class CrafterCanvasScript : MonoBehaviour
 
     public GameObject recipeCanvas;
 
+    [SerializeField] private CancelCanvasScript XButton;
+
 
     // Start is called before the first frame update
     void Start()
@@ -37,12 +39,14 @@ public class CrafterCanvasScript : MonoBehaviour
     public void Activate()
     {
         this.gameObject.SetActive(true);
+        this.XButton.Activate(this.XButton_Click);
     }
 
     public void Deactivate()
     {
         this.crafter = null;
         this.gameObject.SetActive(false);
+        this.XButton.Deactivate();
     }
 
     public void RecipeButton_Click()
