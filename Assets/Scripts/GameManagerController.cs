@@ -39,32 +39,19 @@ public class GameManagerController : MonoBehaviour
         this.isPaused = false;
     }
 
-    [SerializeField] public PlayerScriptableObject playerScriptableObject;
-
     private void Awake()
     {
         if (File.Exists(Path.Combine(Application.persistentDataPath, "PlayerSave.json")))
         {
             GameSaveModel gameSaveModel = Newtonsoft.Json.JsonConvert.DeserializeObject<GameSaveModel>(File.ReadAllText(Path.Combine(Application.persistentDataPath, "PlayerSave.json")));
 
-            gameSaveModel.PlacedMachineModels.ToGameObjectList();/*.ForEach(x =>
-            {
-                GameObject go = Instantiate(x.gameObject, x.transform.position, x.transform.rotation);
-                go.GetComponent<MachineController>().SetControllerValues(x.GetComponent<MachineController>().controller);
-            });*/
-
-            gameSaveModel.PlayerModel.ToPlayerScript(this.playerScriptableObject);
-
-            //MachineDatabase.Instance.machines = gameSaveModel.MachineDatabase;
-            //PrefabDatabase.Instance.GetPrefabsForType("Machine").Values.ToList().ForEach(x => x.GetComponent<MachineController>().SetupMachine());
-
-            //RecipeDatabase.Instance.recipes = gameSaveModel.RecipeDatabase;
-
+            gameSaveModel.PlacedMachineModels.ToGameObjectList();
+            Player.playerModel.SetValues(gameSaveModel.PlayerModel);
             ResearchDatabase.OverwriteFromSave(gameSaveModel.ResearchDatabase);
         }
         else
         {
-            this.playerScriptableObject.AddMoney(100000, false);
+            Player.playerModel.SetMoney(ResearchDatabase.GetRemainingResearchCost() + 1000000);
         }
     }
 
@@ -104,20 +91,11 @@ public class GameManagerController : MonoBehaviour
 
         GameSaveModel gameSaveModel = new GameSaveModel();
         gameSaveModel.PlacedMachineModels = UnityEngine.Object.FindObjectsOfType<GameObject>().Where(x => x.layer == 8).ToList().ToMachineModelList();
-        gameSaveModel.PlayerModel = this.playerScriptableObject.ToPlayerModel();
-        //gameSaveModel.MachineDatabase = MachineDatabase.Instance.machines;
-        //gameSaveModel.RecipeDatabase = RecipeDatabase.Instance.recipes;
+        gameSaveModel.PlayerModel = Player.playerModel;
         gameSaveModel.ResearchDatabase = ResearchDatabase.database;
 
 
         File.WriteAllText(Path.Combine(Application.persistentDataPath, "PlayerSave.json"), Newtonsoft.Json.JsonConvert.SerializeObject(gameSaveModel, new Newtonsoft.Json.JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
-
-        //BinaryFormatter bf = new BinaryFormatter();
-        //using (var ms = new MemoryStream())
-        //{
-        //    bf.Serialize(ms, gameSaveModel);
-        //    File.WriteAllBytes(@"Assets/StreamingAssets/PlayerSave", ms.ToArray());
-        //}
     }
 
     public bool PlayPause()

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class ResearchCanvasScript : MonoBehaviour
 {
-    public PlayerScriptableObject playerScriptableObject;
     public Button buttonPrefab;
     public ToggleGroup toggleGroup;
     public GameObject content;
@@ -60,10 +59,11 @@ public class ResearchCanvasScript : MonoBehaviour
             newButton.transform.Find("NameText").GetComponent<Text>().text = x.Value.Name;
             newButton.transform.Find("DescriptionText").GetComponent<Text>().text = x.Value.Description;
             newButton.transform.Find("PriceText").GetComponent<Text>().text = x.Value.Cost.ToString();
-            newButton.interactable = this.playerScriptableObject.Money - x.Value.Cost > 0;
+            newButton.interactable = Player.playerModel.Money - x.Value.Cost > 0;
 
             newButton.onClick.AddListener(() => 
             {
+                Player.playerModel.SubMoney(x.Value.Cost, false);
                 x.Value.Unlock();
                 Destroy(newButton.gameObject);
             });

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class ResearchDatabase
@@ -67,6 +68,18 @@ public static class ResearchDatabase
                 //database.Add("Recipe", new Dictionary<string, Research>(StringComparer.InvariantCultureIgnoreCase));
             }
         }
+    }
+
+    public static long GetRemainingResearchCost()
+    {
+        long total = 0;
+
+        foreach (KeyValuePair<string, Dictionary<string, Research>> researchType in database)
+        {
+            total += researchType.Value.Values.Where(x => !x.IsUnlocked).Sum(x => x.Cost);
+        }
+
+        return total;
     }
 }
 

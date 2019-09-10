@@ -22,8 +22,6 @@ public class ResourceController : MonoBehaviour
     public Vector3 finalDestination = new Vector3(2f, 2f, 0f);
     public bool destroy;
 
-    public PlayerScriptableObject playerScriptableObject;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -92,7 +90,7 @@ public class ResourceController : MonoBehaviour
 
     public void SellResource()
     {
-        this.playerScriptableObject.AddMoney(this.resource.value * this.resource.quantity);
+        Player.playerModel.AddMoney(this.resource.value * this.resource.quantity);
 
         Destroy(this.gameObject);
     }

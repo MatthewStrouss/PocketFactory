@@ -127,10 +127,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 7476982919455726942}
+  machine2:
+    isUnlocked: 0
+    actionTime: 0
+    electricityCost: 0
+  machineData: {fileID: 0}
   SelectedGameObject: {fileID: 664269347369997622}
   ArrowGameObject: {fileID: 2915138771788232336}
   MachineName: Wire Drawer
   nextActionTime: 0
+  playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
+    type: 2}
+  gameManager: {fileID: 0}
 --- !u!114 &7476982919455726942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +203,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

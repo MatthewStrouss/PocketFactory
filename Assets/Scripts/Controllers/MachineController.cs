@@ -34,7 +34,6 @@ public class MachineController : MonoBehaviour
 
     public float nextActionTime;
 
-    public PlayerScriptableObject playerScriptableObject;
     public GameManagerController gameManager;
 
     private void Awake()
@@ -153,7 +152,7 @@ public class MachineController : MonoBehaviour
     {
         long moneyToAdd = Mathf.RoundToInt((sellFullAmount ? this.Machine.BuildCost : 0.9f * this.Machine.BuildCost));
 
-        this.playerScriptableObject.AddMoney(moneyToAdd, false);
+        Player.playerModel.AddMoney(moneyToAdd, false);
         Destroy(this.gameObject);
     }
 
@@ -161,9 +160,9 @@ public class MachineController : MonoBehaviour
     {
         GameObject gameObjectToReturn = null;
 
-        if (this.playerScriptableObject.Money - this.Machine.BuildCost >= 0)
+        if (Player.playerModel.Money - this.Machine.BuildCost >= 0)
         {
-            this.playerScriptableObject.SubMoney(Convert.ToInt64(this.Machine.BuildCost), false);
+            Player.playerModel.SubMoney(Convert.ToInt64(this.Machine.BuildCost), false);
 
             gameObjectToReturn = Instantiate(this.gameObject, position, rotation);
             gameObjectToReturn.GetComponent<MachineController>().SetupMachine();
@@ -177,9 +176,9 @@ public class MachineController : MonoBehaviour
     {
         GameObject gameObjectToReturn = null;
 
-        if (this.playerScriptableObject.Money - this.Machine.BuildCost >= 0)
+        if (Player.playerModel.Money - this.Machine.BuildCost >= 0)
         {
-            this.playerScriptableObject.SubMoney(Convert.ToInt64(this.Machine.BuildCost), false);
+            Player.playerModel.SubMoney(Convert.ToInt64(this.Machine.BuildCost), false);
 
             Vector3 machinePosition = new Vector3(position.x, position.y, -8);
             gameObjectToReturn = Instantiate(this.gameObject, machinePosition, rotation);
@@ -194,9 +193,9 @@ public class MachineController : MonoBehaviour
     {
         GameObject gameObjectToReturn = null;
 
-        if (this.playerScriptableObject.Money - this.Machine.BuildCost >= 0)
+        if (Player.playerModel.Money - this.Machine.BuildCost >= 0)
         {
-            this.playerScriptableObject.SubMoney(Convert.ToInt64(this.Machine.BuildCost), false);
+            Player.playerModel.SubMoney(Convert.ToInt64(this.Machine.BuildCost), false);
 
             gameObjectToReturn = Instantiate(this.gameObject, position, rotation);
             gameObjectToReturn.GetComponent<MachineController>().SetupMachine();
@@ -214,6 +213,15 @@ public class MachineController : MonoBehaviour
 
     public void SubtractElectricityCost()
     {
-        this.playerScriptableObject.SubMoney(Convert.ToInt64(this.Machine.ElectricityCost));
+        //this.playerScriptableObject.SubMoney(this.Machine.ElectricityCost);
+        Player.playerModel.SubMoney(this.Machine.ElectricityCost);
+    }
+
+    public void Rotate(Quaternion rotation)
+    {
+        if (this.Machine.CanRotate)
+        {
+            this.transform.rotation = rotation;
+        }
     }
 }

@@ -67,7 +67,7 @@ public class BuildCanvasScript : MonoBehaviour
                 Camera.main.GetComponent<PlayerScript>().BuildMode();
             });
 
-            newButton.interactable = gameManager.playerScriptableObject.Money >= machineController.Machine.BuildCost;
+            newButton.interactable = Player.playerModel.Money >= machineController.Machine.BuildCost;
         }
 
         //List<Machine> machines = this.gameManager.machineDatabase.machines.Where(x => x.Value.IsUnlocked).Select(x => x.Value).ToList();

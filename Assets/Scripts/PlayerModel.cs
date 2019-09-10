@@ -6,21 +6,76 @@ using UnityEngine;
 [Serializable]
 public class PlayerModel
 {
-    public long Money;
+    public event EventHandler MoneyUpdated;
+
+    [SerializeField] private long money;
+    public long Money
+    {
+        get
+        {
+            return money;
+        }
+        set
+        {
+            money = value;
+            OnMoneyUpdated(new MoneyEventArgs() { money = this.money });
+        }
+    }
+
+    public void SetValues(PlayerModel otherPlayerModel)
+    {
+        this.Money = otherPlayerModel.Money;
+    }
+
+    public void AddMoney(long moneyToAdd, bool addToAverage = true)
+    {
+        Money += moneyToAdd;
+
+        if (addToAverage)
+        {
+
+        }
+    }
+
+    public void SubMoney(long moneyToSub, bool addToAverage = true)
+    {
+        Money -= moneyToSub;
+
+        if (addToAverage)
+        {
+
+        }
+    }
+
+    public void SetMoney(long moneyToSet)
+    {
+        Money = moneyToSet;
+    }
+
+    public void OnMoneyUpdated(MoneyEventArgs e)
+    {
+        EventHandler handler = MoneyUpdated;
+        handler?.Invoke(null, e);
+    }
 }
 
-public static class Extensions
+public class MoneyEventArgs : EventArgs
 {
-    public static PlayerModel ToPlayerModel(this PlayerScriptableObject playerScript)
-    {
-        PlayerModel playerModel = new PlayerModel();
-        playerModel.Money = playerScript.Money;
-
-        return playerModel;
-    }
-
-    public static void ToPlayerScript(this PlayerModel playerModel, PlayerScriptableObject playerScript)
-    {
-        playerScript.Money = playerModel.Money;
-    }
+    public long money;
 }
+
+//public static class Extensions
+//{
+//    public static PlayerModel ToPlayerModel(this PlayerScriptableObject playerScript)
+//    {
+//        PlayerModel playerModel = new PlayerModel();
+//        playerModel.Money = playerScript.Money;
+
+//        return playerModel;
+//    }
+
+//    public static void ToPlayerScript(this PlayerModel playerModel, PlayerScriptableObject playerScript)
+//    {
+//        playerScript.Money = playerModel.Money;
+//    }
+//}

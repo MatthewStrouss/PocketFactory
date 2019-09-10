@@ -8,6 +8,8 @@ public class SelectionActionCanvasScript : MonoBehaviour
 {
     [SerializeField] private PlayerScript playerScript;
     [SerializeField] private GameObject xButton;
+    [SerializeField] private RotationActionCanvasScript rotationCanvas;
+    [SerializeField] private OkCancelCanvasScript okCancel;
     private Action action;
 
     public void Activate()
@@ -31,12 +33,19 @@ public class SelectionActionCanvasScript : MonoBehaviour
 
     public void MoveButton_Clicked()
     {
+        this.playerScript.MoveMode();
 
+        this.okCancel.Activate(
+            "Tap to place center of selection",
+            this.playerScript.AcceptMoveSelection,
+            this.playerScript.CancelMoveSelection
+            );
     }
 
     public void RotateButton_Clicked()
     {
-
+        this.rotationCanvas.Activate();
+        this.gameObject.gameObject.SetActive(false);
     }
 
     public void FlipXButton_Clicked()

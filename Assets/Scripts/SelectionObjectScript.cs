@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SelectionObjectScript : MonoBehaviour
 {
+    [SerializeField] private PlayerScript playerScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,17 +18,21 @@ public class SelectionObjectScript : MonoBehaviour
         
     }
 
-    public List<GameObject> collidedMachines = new List<GameObject>();
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collidedMachines.Add(collision.gameObject);
-        collision.gameObject.GetComponent<MachineController>().ActivateSelected();
+        if (collision.gameObject.layer == 8)
+        {
+            this.playerScript.AddToSelection(collision.gameObject);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        collidedMachines.Remove(collision.gameObject);
-        collision.gameObject.GetComponent<MachineController>().DeactivateSelected();
+
+    }
+
+    private void OnDisable()
+    {
+        this.transform.localScale = new Vector3(0f, 0f);
     }
 }

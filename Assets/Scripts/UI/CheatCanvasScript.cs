@@ -14,18 +14,16 @@ public class CheatCanvasScript : MonoBehaviour
 
     public Dictionary<string, Action<string[]>> cheatDict = new Dictionary<string, Action<string[]>>(StringComparer.InvariantCultureIgnoreCase);
 
-    public PlayerScriptableObject playerScriptableObject;
-
     private void Awake()
     {
         cheatDict.Add("player.addMoney", (moneyAmount) => {
             Debug.Log(string.Format("Adding {0} money", moneyAmount));
-            playerScriptableObject.AddMoney(Convert.ToInt64(moneyAmount.FirstOrDefault()));
+            Player.playerModel.AddMoney(Convert.ToInt64(moneyAmount.FirstOrDefault()));
         });
 
         cheatDict.Add("player.setMoney", (moneyAmount) =>
         {
-            playerScriptableObject.Money = Convert.ToInt64(moneyAmount.FirstOrDefault());
+            Player.playerModel.Money = Convert.ToInt64(moneyAmount.FirstOrDefault());
         });
 
         cheatDict.Add("player.unlockAllMachines", (_) =>
@@ -64,7 +62,7 @@ public class CheatCanvasScript : MonoBehaviour
 
             GameSaveModel gameSaveModel = new GameSaveModel();
             gameSaveModel.PlacedMachineModels = UnityEngine.Object.FindObjectsOfType<GameObject>().Where(x => x.layer == 8).ToList().ToMachineModelList();
-            gameSaveModel.PlayerModel = playerScriptableObject.ToPlayerModel();
+            //gameSaveModel.PlayerModel = playerScriptableObject.ToPlayerModel();
             gameSaveModel.ResearchDatabase = ResearchDatabase.database;
 
             File.WriteAllText(Path.Combine(Application.persistentDataPath, "PlayerSave.json"), Newtonsoft.Json.JsonConvert.SerializeObject(gameSaveModel));

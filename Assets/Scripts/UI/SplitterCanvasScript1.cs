@@ -45,9 +45,7 @@ public class SplitterCanvasScript1 : MonoBehaviour
         this.splitterGameObject = splitterGameObject;
         this.splitterController = this.splitterGameObject.GetComponent<SplitterController>();
 
-        Debug.Log(string.Format("Rotating panel {0}", this.splitterGameObject.transform.rotation.eulerAngles.z));
         this.mainPanel.transform.rotation = Quaternion.Euler(this.mainPanel.transform.rotation.eulerAngles.x, this.mainPanel.transform.rotation.eulerAngles.y, this.splitterGameObject.transform.rotation.eulerAngles.z);
-        Debug.Log(string.Format("Changing leftText rotation from {0} to {1}", this.leftText.transform.rotation.eulerAngles.z, - 1*this.splitterGameObject.transform.rotation.eulerAngles.z));
         this.leftText.transform.rotation = Quaternion.Euler(this.leftText.transform.rotation.eulerAngles.x, this.leftText.transform.rotation.eulerAngles.y, 0);
         this.forwardText.transform.rotation = Quaternion.Euler(this.forwardText.transform.rotation.eulerAngles.x, this.forwardText.transform.rotation.eulerAngles.y, 0);
         this.rightText.transform.rotation = Quaternion.Euler(this.rightText.transform.rotation.eulerAngles.x, this.rightText.transform.rotation.eulerAngles.y, 0);

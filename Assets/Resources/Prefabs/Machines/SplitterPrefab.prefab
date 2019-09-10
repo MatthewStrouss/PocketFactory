@@ -272,12 +272,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 5012350640839776937}
+  machine2:
+    isUnlocked: 0
+    actionTime: 0
+    electricityCost: 0
+  machineData: {fileID: 0}
   SelectedGameObject: {fileID: 7397062521756441752}
   ArrowGameObject: {fileID: 0}
   MachineName: Splitter
   nextActionTime: 0
   playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
     type: 2}
+  gameManager: {fileID: 0}
 --- !u!114 &5012350640839776937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +304,8 @@ MonoBehaviour:
   directions:
   - resourceSpawnPosition: {fileID: 6972346726363791089}
     moveToPosition: {fileID: 1791371499361478267}
+  - resourceSpawnPosition: {fileID: 1598917972634565024}
+    moveToPosition: {fileID: 2919506836867682756}
   - resourceSpawnPosition: {fileID: 4759392540491470288}
     moveToPosition: {fileID: 6192517061585428682}
   - resourceSpawnPosition: {fileID: 5074439763273151415}

@@ -14,7 +14,7 @@ public class MovementScript : MonoBehaviour
     public PanGestureRecognizer actionGesture;
     public ScaleGestureRecognizer scaleGesture;
     public SwipeGestureRecognizer swipeGesture;
-    private static readonly float PanSpeed = 0.1f;
+    private static readonly float PanSpeed = 0.02f;
     private static readonly float[] BoundsX = new float[] { -8f, 7f };
     private static readonly float[] BoundsY = new float[] { -8f, 7f };
     private static readonly float[] ZoomBounds = new float[] { 3f, 16f };
@@ -116,8 +116,8 @@ public class MovementScript : MonoBehaviour
             float deltaX = panGesture.DeltaX / 25.0f;
             float deltaY = panGesture.DeltaY / 25.0f;
             Vector3 pos = transform.position;
-            pos.x += -1 * deltaX * PanSpeed;
-            pos.y += -1 * deltaY * PanSpeed;
+            pos.x += -1 * deltaX * PanSpeed * cam.orthographicSize;
+            pos.y += -1 * deltaY * PanSpeed * cam.orthographicSize;
             transform.position = pos;
             pos.x = Mathf.Clamp(transform.position.x, BoundsX[0], BoundsX[1]);
             pos.y = Mathf.Clamp(transform.position.y, BoundsY[0], BoundsY[1]);
