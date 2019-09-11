@@ -18,7 +18,7 @@ MonoBehaviour:
   machineID: 2
   machineName: Roller
   canRotate: 1
-  sprite: {fileID: 21300000, guid: 95183290db217be4e996eb848877b9de, type: 3}
+  sprite: {fileID: 21300000, guid: 8ea2426c5125caa41a928068e0175cc1, type: 3}
   isUnlocked: 1
   unlockCost: 5000
   description: Rolls the resource from one position to another.

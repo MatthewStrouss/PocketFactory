@@ -18,7 +18,7 @@ MonoBehaviour:
   machineID: 9
   machineName: Hydraulic Press
   canRotate: 1
-  sprite: {fileID: 21300000, guid: 88d44df148f7a8b47aae95f5c7bec0ae, type: 3}
+  sprite: {fileID: 21300000, guid: e243976fcfb297843b06c7ea9a16a266, type: 3}
   isUnlocked: 0
   unlockCost: 300000
   description: 

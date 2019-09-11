@@ -54,7 +54,8 @@ namespace Assets
             RegisterSprite("Resource", "Computer", resourceSprites[11]);
             RegisterSprite("Resource", "Generator", resourceSprites[12]);
             RegisterSprite("Resource", "Iron", resourceSprites[13]);
-            RegisterSprite("Resource", "Aluminum", resourceSprites[14]);
+            //RegisterSprite("Resource", "Aluminum", resourceSprites[14]);
+            RegisterSprite("Resource", "Aluminum", Resources.LoadAll<Sprite>(@"16-raw-aluminium").FirstOrDefault() as Sprite);
             RegisterSprite("Resource", "Gold", resourceSprites[15]);
             RegisterSprite("Resource", "Copper", resourceSprites[16]);
             RegisterSprite("Resource", "Diamond", resourceSprites[17]);

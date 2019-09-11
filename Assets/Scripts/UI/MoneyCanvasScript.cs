@@ -27,7 +27,7 @@ public class MoneyCanvasScript : MonoBehaviour
 
     public void UpdateUI(long money)
     {
-        this.moneyText.text = string.Format("¤{0:n0}", money);
+        this.moneyText.text = string.Format("{0:n0}", money);
     }
 
     public void MoneyUpdated(object sender, EventArgs e)

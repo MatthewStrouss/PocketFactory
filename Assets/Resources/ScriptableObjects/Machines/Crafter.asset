@@ -18,9 +18,7 @@ MonoBehaviour:
   machineID: 6
   machineName: Crafter
   canRotate: 1
-  sprite: {fileID: 21300000, guid: 7ed30f6b79ede7344b31ebd64059f283, type: 3}
+  sprite: {fileID: 21300000, guid: 8da7d302f96ab074fab29a6f1d1c6d94, type: 3}
   isUnlocked: 0
   unlockCost: 80000
   description: 
-  researchResults:
-  - {fileID: 11400000, guid: 0dd6a83c93134bf45bcdaa642f43cc1b, type: 2}

@@ -17,7 +17,7 @@ GameObject:
   m_Layer: 8
   m_Name: HydraulicPressPrefab
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: 88d44df148f7a8b47aae95f5c7bec0ae, type: 3}
+  m_Icon: {fileID: 2800000, guid: e243976fcfb297843b06c7ea9a16a266, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -66,8 +66,6 @@ MonoBehaviour:
   ArrowGameObject: {fileID: 3387154656760221539}
   MachineName: Hydraulic Press
   nextActionTime: 0
-  playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
-    type: 2}
   gameManager: {fileID: 0}
 --- !u!114 &3290722250891002270
 MonoBehaviour:
@@ -146,7 +144,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 88d44df148f7a8b47aae95f5c7bec0ae, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e243976fcfb297843b06c7ea9a16a266, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

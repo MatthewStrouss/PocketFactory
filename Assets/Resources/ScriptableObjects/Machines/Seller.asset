@@ -18,7 +18,7 @@ MonoBehaviour:
   machineID: 1
   machineName: Seller
   canRotate: 0
-  sprite: {fileID: 21300000, guid: 997b6e669c603514ab559241ae4b7b33, type: 3}
+  sprite: {fileID: 21300000, guid: 4e44f363c563c1240b61825b9c7730b1, type: 3}
   isUnlocked: 1
   unlockCost: 1000
   description: 

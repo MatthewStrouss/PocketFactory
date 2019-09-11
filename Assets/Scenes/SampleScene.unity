@@ -1016,10 +1016,10 @@ RectTransform:
   m_Father: {fileID: 1903081192}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 32, y: -32}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &23945018
 MonoBehaviour:
@@ -6310,7 +6310,7 @@ MonoBehaviour:
   rightanvas: {fileID: 2080952166}
   XButton: {fileID: 692113204}
   leftText: {fileID: 993150342}
-  forwardText: {fileID: 1546506369}
+  forwardText: {fileID: 0}
   rightText: {fileID: 1525988480}
 --- !u!1 &160515904
 GameObject:
@@ -6425,10 +6425,10 @@ RectTransform:
   m_Father: {fileID: 1580345645}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -15}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 0, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &163141559
 MonoBehaviour:
@@ -6510,7 +6510,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 163141557}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ee1f7ef285ec5f41b96ec44a4241f91, type: 3}
   m_Name: 
@@ -9194,8 +9194,6 @@ MonoBehaviour:
   selectionRectangle: {fileID: 2015016437}
   guiCanvas: {fileID: 0}
   starterCanvas: {fileID: 0}
-  playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
-    type: 2}
   resourceToSpawn:
     cost: 0
     value: 0
@@ -12283,8 +12281,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 27f213ec9b43a4f4f87e40fac117ca7b, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -13071,7 +13069,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 328, y: 608}
+  m_AnchoredPosition: {x: 328, y: 578}
   m_SizeDelta: {x: -656, y: -1216}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &461868551
@@ -14439,7 +14437,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 67.7, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &531944555
@@ -14469,13 +14467,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 123
 --- !u!222 &531944556
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20670,8 +20668,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 6.9, y: 0}
+  m_SizeDelta: {x: 146.2, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &881493892
 MonoBehaviour:
@@ -20700,7 +20698,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 8
+    m_Alignment: 6
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -23052,8 +23050,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e57bec6cafb874fbbcec1e1d88d353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
-    type: 2}
   buttonPrefab: {fileID: 4663436227580386018, guid: acb76457da1c1254dbb857bff21c46ab,
     type: 3}
   toggleGroup: {fileID: 1814391839}
@@ -25865,7 +25861,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1111162931
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25883,7 +25879,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -54.3, y: -30}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1111162932
@@ -36836,8 +36832,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gUIManagerController: {fileID: 1788113106}
-  playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
-    type: 2}
 --- !u!4 &1788113108
 Transform:
   m_ObjectHideFlags: 0
@@ -38858,10 +38852,10 @@ RectTransform:
   m_Father: {fileID: 1580345645}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 32, y: -62}
+  m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1903081193
 MonoBehaviour:
@@ -39687,8 +39681,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -200, y: -15}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -130.19998, y: -49}
+  m_SizeDelta: {x: 132.4, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1930835755
 MonoBehaviour:
@@ -41404,8 +41398,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputField: {fileID: 1917366783}
-  playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
-    type: 2}
 --- !u!114 &2047552366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42377,6 +42369,7 @@ MonoBehaviour:
   playerScript: {fileID: 312522034}
   xButton: {fileID: 692113199}
   rotationCanvas: {fileID: 1889029367}
+  okCancel: {fileID: 418418821}
 --- !u!114 &2118157807
 MonoBehaviour:
   m_ObjectHideFlags: 0

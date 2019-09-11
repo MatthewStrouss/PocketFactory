@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -45,6 +46,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] public MovementScript movementScript;
 
     [SerializeField] private Text debugText;
+
+    private bool settingMachine = false;
 
     private void Awake()
     {
@@ -257,37 +260,40 @@ public class PlayerScript : MonoBehaviour
         {
             if (machineToPlace != null)
             {
-                //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                //Vector3 cursorPosition = machineToPlace.transform.position;
-                Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
-
-                if (test)
+                if (gesture.State == GestureRecognizerState.Ended)
                 {
-                    MachineController offender = test.transform.gameObject.GetComponent<MachineController>();
+                    //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    //Vector3 cursorPosition = machineToPlace.transform.position;
+                    Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+                    RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
 
-                    if (offender.Machine.MachineID == this.machineToPlace.GetComponent<MachineController>().Machine.MachineID)
+                    if (test)
                     {
-                        if (this.placedMachines.Contains(test.transform.gameObject))
+                        MachineController offender = test.transform.gameObject.GetComponent<MachineController>();
+
+                        if (offender.Machine.MachineID == this.machineToPlace.GetComponent<MachineController>().Machine.MachineID)
                         {
-                            offender.Sell(true);
-                            this.placedMachines.Remove(test.transform.gameObject);
+                            if (this.placedMachines.Contains(test.transform.gameObject))
+                            {
+                                offender.Sell(true);
+                                this.placedMachines.Remove(test.transform.gameObject);
+                            }
                         }
                     }
-                }
-                else
-                {
-                    GameObject goToAdd = this.machineToPlace.GetComponent<MachineController>().Place(rayPos, Quaternion.identity);
-
-                    if (goToAdd != null)
+                    else
                     {
-                        this.placedMachines.Add(goToAdd);
-                    }
-                }
+                        GameObject goToAdd = this.machineToPlace.GetComponent<MachineController>().Place(rayPos, Quaternion.identity);
 
-                PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText($"Place {this.placedMachines.Count} {this.machineToPlace.GetComponent<MachineController>().Machine.MachineName}");
-                PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText2($"${this.placedMachines.Sum(x => x.GetComponent<MachineController>().Machine.BuildCost)}");
-                PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().SetOkButtonActive(this.placedMachines.Count > 0);
+                        if (goToAdd != null)
+                        {
+                            this.placedMachines.Add(goToAdd);
+                        }
+                    }
+
+                    PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText($"Place {this.placedMachines.Count} {this.machineToPlace.GetComponent<MachineController>().Machine.MachineName}");
+                    PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().UpdateInstructionText2($"${this.placedMachines.Sum(x => x.GetComponent<MachineController>().Machine.BuildCost)}");
+                    PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().SetOkButtonActive(this.placedMachines.Count > 0);
+                }
             }
         }
         else if (playerStateEnum == PlayerStateEnum.SELECT)
@@ -328,8 +334,8 @@ public class PlayerScript : MonoBehaviour
 
                 machineToPlace.GetComponentsInChildren<MachineController>().ToList().ForEach(x =>
                 {
-                    //x.transform.position = new Vector3(x.transform.position.x, x.transform.position.y, -8);
-                    x.Place(x.transform.position, x.transform.rotation, x.controller);
+                //x.transform.position = new Vector3(x.transform.position.x, x.transform.position.y, -8);
+                x.Place(x.transform.position, x.transform.rotation, x.controller);
                 });
             }
         }
@@ -360,18 +366,32 @@ public class PlayerScript : MonoBehaviour
         {
             if (machineToPlace != null)
             {
+                Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+                this.machineToPlace.transform.position = new Vector3(rayPos.x, rayPos.y, -8);
+                bool canPlace = true;
+                foreach(Transform child in this.machineToPlace.transform)
+                {
+                    Vector2 machineRayPos = new Vector2(Mathf.Round(child.transform.position.x), Mathf.Round(child.transform.position.y));
+                    RaycastHit2D test = Physics2D.Raycast(machineRayPos, Vector2.zero, 0f, 1 << 8);
+                    canPlace &= !test;
+
+                    if (!canPlace) break;
+                }
+
+                if (canPlace)
+                {
+                    Debug.Log("You can place here");
+                }
+                else
+                {
+                    Debug.Log("You can't place here");
+                }
+
                 //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 //Vector3 cursorPosition = machineToPlace.transform.position;
-                //Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
                 //RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
 
-                //bool canPlace = true;
 
-                //foreach(Transform child in this.machineToPlace.transform)
-                //{
-                //    RaycastHit2D test = Physics2D.Raycast(child.transform.position, Vector2.zero, 0f, 1 << 8);
-                //    canPlace &= test;
-                //}
 
                 //if (canPlace)
                 //{
@@ -663,20 +683,33 @@ public class PlayerScript : MonoBehaviour
 
         List<GameObject> newGameObjectsList = new List<GameObject>();
 
-        parent.transform.position = new Vector3(
-            Mathf.Round(this.selectedObjects.Sum(x => x.transform.position.x) / this.selectedObjects.Count),
-            Mathf.Round(this.selectedObjects.Sum(x => x.transform.position.y) / this.selectedObjects.Count),
-            -8
-            );
-
         this.selectedObjects.ForEach(x =>
         {
-            GameObject clone = Instantiate(x, parent.transform);
+            GameObject clone = Instantiate(x);
             clone.GetComponent<BoxCollider2D>().enabled = false;
             newGameObjectsList.Add(clone);
             x.SetActive(false);
         });
 
+        //if (this.selectedObjects.Count > 1)
+        //{
+            parent.transform.position = new Vector3(
+                Mathf.Round(newGameObjectsList.Sum(x => x.transform.position.x) / newGameObjectsList.Count),
+                Mathf.Round(newGameObjectsList.Sum(x => x.transform.position.y) / newGameObjectsList.Count),
+                -8
+                );
+        //}
+        //else
+        //{
+        //    parent.transform.position = new Vector3(
+        //        Mathf.Round(this.selectedObjects.FirstOrDefault().transform.position.x),
+        //        Mathf.Round(this.selectedObjects.FirstOrDefault().transform.position.y),
+        //        -8
+        //        );
+        //}
+
+        newGameObjectsList.ForEach(x => x.transform.parent = parent.transform);
+        newGameObjectsList.ForEach(x => x.transform.position = new Vector3(x.transform.position.x, x.transform.position.y, x.transform.position.z));
         this.machineToPlace = parent;
     }
 
@@ -684,7 +717,7 @@ public class PlayerScript : MonoBehaviour
     {
         // Finalize building of all machines
         this.placedMachines.Clear();
-        //GameObject.Destroy(this.machineToPlace);
+        GameObject.Destroy(this.machineToPlace);
         this.machineToPlace = null;
         this.ResetPlayerState();
         this.DeselectMachines();
@@ -698,7 +731,7 @@ public class PlayerScript : MonoBehaviour
             x?.GetComponent<MachineController>().Sell(true);
         });
         this.placedMachines.Clear();
-        //GameObject.Destroy(this.machineToPlace);
+        GameObject.Destroy(this.machineToPlace);
         this.machineToPlace = null;
         this.ResetPlayerState();
         this.DeselectMachines();

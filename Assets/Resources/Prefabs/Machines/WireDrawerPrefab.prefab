@@ -87,7 +87,7 @@ GameObject:
   m_Layer: 8
   m_Name: WireDrawerPrefab
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: c17e0e81b90f1b3428038b9ad9f07685, type: 3}
+  m_Icon: {fileID: 2800000, guid: 98aa179f381e92541a6cbb738d25863c, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -136,8 +136,6 @@ MonoBehaviour:
   ArrowGameObject: {fileID: 2915138771788232336}
   MachineName: Wire Drawer
   nextActionTime: 0
-  playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
-    type: 2}
   gameManager: {fileID: 0}
 --- !u!114 &7476982919455726942
 MonoBehaviour:
@@ -216,7 +214,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c17e0e81b90f1b3428038b9ad9f07685, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 98aa179f381e92541a6cbb738d25863c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
