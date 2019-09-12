@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Smartwatch
   m_EditorClassIdentifier: 
+  id: 60
   cost: 0
   value: 10170
   quantity: 1
-  sprite: {fileID: -5346764139844927469, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: bf6f0d9af533e8c43964b514389275b3, type: 3}

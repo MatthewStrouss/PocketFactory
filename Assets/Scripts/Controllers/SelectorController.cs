@@ -47,7 +47,7 @@ public class SelectorController : MonoBehaviour, IMachineController
                 x.Inventory = new List<Resource>();
             }
 
-            x.SelectedResource = ResourceDatabase.Instance.GetResource("(None)");
+            x.SelectedResource = ResourceDatabase.GetResource("(None)");
         });
 
         this.selectorCanvas = PrefabDatabase.Instance.GetPrefab("UI", "Selector");
@@ -79,7 +79,7 @@ public class SelectorController : MonoBehaviour, IMachineController
         for (int i = 0; i < DirectionCount; i++)
         {
             this.Directions[i].Inventory
-                .Where(x => x.quantity > 0)
+                .Where(x => x.Quantity > 0)
                 .ToList()
                 .ForEach(x =>
                 {
@@ -138,7 +138,7 @@ public class SelectorController : MonoBehaviour, IMachineController
 
         go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", resource.name);
         ResourceController rc = go.GetComponent<ResourceController>();
-        rc.SetResource(resource, resource.quantity);
+        rc.SetResource(resource, resource.Quantity);
         rc.Move(this.Directions[direction].MoveToPosition.position);
         rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
     }

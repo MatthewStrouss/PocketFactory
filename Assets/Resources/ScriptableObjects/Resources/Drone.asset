@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Drone
   m_EditorClassIdentifier: 
+  id: 29
   cost: 0
   value: 17220
   quantity: 1
-  sprite: {fileID: -7903135750918113082, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: ea53c7b0ce9f2a942a42f10c71c4955d, type: 3}

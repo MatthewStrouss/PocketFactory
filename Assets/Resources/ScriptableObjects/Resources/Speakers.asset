@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Speakers
   m_EditorClassIdentifier: 
+  id: 62
   cost: 0
   value: 3300
   quantity: 1
-  sprite: {fileID: -5062414758191533323, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: 0b678e70ae848c44e8a001b0ec862afa, type: 3}

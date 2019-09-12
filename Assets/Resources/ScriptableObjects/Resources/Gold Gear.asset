@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Gold Gear
   m_EditorClassIdentifier: 
+  id: 37
   cost: 0
   value: 100
   quantity: 1
-  sprite: {fileID: -1706012087271766422, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: 53273a56ea3b101489b388e6b5b3cb63, type: 3}

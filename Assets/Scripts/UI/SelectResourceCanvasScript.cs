@@ -52,7 +52,7 @@ public class SelectResourceCanvasScript : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        List<Resource> resources = ResourceDatabase.Instance.resources.Values.ToList();
+        List<Resource> resources = ResourceDatabase.database.Values.ToList();
 
         foreach (Resource resource in resources)
         {

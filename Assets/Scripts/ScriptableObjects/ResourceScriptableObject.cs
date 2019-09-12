@@ -5,6 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "New Resource")]
 public class ResourceScriptableObject : ScriptableObject
 {
+    [SerializeField] private long id;
+    public long ID
+    {
+        get => this.id;
+        set => this.id = value;
+    }
+
     [SerializeField] private long cost;
     public long Cost
     {

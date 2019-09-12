@@ -260,7 +260,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (machineToPlace != null)
             {
-                if (gesture.State == GestureRecognizerState.Ended)
+                if ((gesture.State != GestureRecognizerState.Failed) && (gesture.State != GestureRecognizerState.Possible))
                 {
                     //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     //Vector3 cursorPosition = machineToPlace.transform.position;
@@ -378,14 +378,7 @@ public class PlayerScript : MonoBehaviour
                     if (!canPlace) break;
                 }
 
-                if (canPlace)
-                {
-                    Debug.Log("You can place here");
-                }
-                else
-                {
-                    Debug.Log("You can't place here");
-                }
+                PrefabDatabase.Instance.GetPrefab("UI", "OkCancelCanvas").GetComponent<OkCancelCanvasScript>().SetOkButtonActive(canPlace);
 
                 //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 //Vector3 cursorPosition = machineToPlace.transform.position;
@@ -686,7 +679,10 @@ public class PlayerScript : MonoBehaviour
         this.selectedObjects.ForEach(x =>
         {
             GameObject clone = Instantiate(x);
+            clone.GetComponent<MachineController>().SetControllerValues(x.GetComponent<MachineController>().controller);
             clone.GetComponent<BoxCollider2D>().enabled = false;
+            clone.GetComponent<MachineController>().enabled = false;
+            //clone.GetComponent<MachineController>().controller.enabled = false;
             newGameObjectsList.Add(clone);
             x.SetActive(false);
         });
@@ -769,20 +765,25 @@ public class PlayerScript : MonoBehaviour
     
     public void AcceptMoveSelection()
     {
+        foreach(Transform child in this.machineToPlace.transform)
+        {
+            child.GetComponent<BoxCollider2D>().enabled = true;
+            child.GetComponent<MachineController>().enabled = true;
+            //child.GetComponent<MachineController>().controller.enabled = true;
+        }
 
+        this.machineToPlace.transform.DetachChildren();
+        Destroy(this.machineToPlace);
+        this.selectedObjects.ForEach(x => Destroy(x));
+        this.selectedObjects?.Clear();
+        this.ResetPlayerState();
     }
 
     public void CancelMoveSelection()
     {
-        //this.selectedObjectsCopy.ForEach(x =>
-        //{
-        //    GameObject test = this.selectedObjects.FirstOrDefault(y => y.name == x.GetInstanceID().ToString());
-        //    Debug.Log("Test");
-        //    //.transform.position = x.transform.position;
-        //});
-
         Destroy(this.machineToPlace);
         this.selectedObjects.ForEach(x => x.SetActive(true));
+        this.ResetPlayerState();
     }
 }
 

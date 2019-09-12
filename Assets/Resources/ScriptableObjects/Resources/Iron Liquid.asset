@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Iron Liquid
   m_EditorClassIdentifier: 
+  id: 46
   cost: 0
   value: 100
   quantity: 1
-  sprite: {fileID: -8349051178029223322, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: cd99721eb7bd91049bfc516a6e1f05df, type: 3}

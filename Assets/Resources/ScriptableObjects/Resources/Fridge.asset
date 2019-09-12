@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Fridge
   m_EditorClassIdentifier: 
+  id: 34
   cost: 0
   value: 7400
   quantity: 1
-  sprite: {fileID: 5313424779309508149, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: b26e7a4a4cedef04caf834fc2d7b8448, type: 3}

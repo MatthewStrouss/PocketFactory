@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Power Supply
   m_EditorClassIdentifier: 
+  id: 54
   cost: 0
   value: 1920
   quantity: 1
-  sprite: {fileID: 6564908754257826288, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: 6a10437233713aa42a0415a40bb3f044, type: 3}

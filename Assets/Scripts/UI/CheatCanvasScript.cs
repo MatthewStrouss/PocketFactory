@@ -46,7 +46,7 @@ public class CheatCanvasScript : MonoBehaviour
 
         cheatDict.Add("resource.spawn", (resourceName) =>
         {
-            Resource resourceToSpawn = ResourceDatabase.Instance.GetResource(resourceName.FirstOrDefault());
+            Resource resourceToSpawn = new Resource(ResourceDatabase.GetResource(resourceName.FirstOrDefault()));
             Camera.main.GetComponent<PlayerScript>().SpawnResource(resourceToSpawn);
         });
 

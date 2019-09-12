@@ -40,13 +40,13 @@ public class SellerCanvasScript : MonoBehaviour
 
         foreach (KeyValuePair<string, Resource> resource in this.SellerController.Inventory)
         {
-            if (resource.Value.quantity > 0)
+            if (resource.Value.Quantity > 0)
             {
                 Button newButton = Instantiate<Button>(this.ButtonPrefab, this.ScrollViewContent.transform);
                 Text[] texts = newButton.GetComponentsInChildren<Text>();
 
                 texts[0].text = resource.Value.name;
-                texts[1].text = resource.Value.quantity.ToString();
+                texts[1].text = resource.Value.Quantity.ToString();
                 newButton.image.sprite = SpriteDatabase.Instance.GetSprite("Resource", resource.Value.name);
             }
         }

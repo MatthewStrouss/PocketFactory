@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Iron Gear
   m_EditorClassIdentifier: 
+  id: 45
   cost: 0
   value: 100
   quantity: 1
-  sprite: {fileID: 4583642077928635171, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: e0d272fbf5cbd354fafaf59aa990c561, type: 3}

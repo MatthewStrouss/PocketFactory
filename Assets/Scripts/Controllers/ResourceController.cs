@@ -75,7 +75,7 @@ public class ResourceController : MonoBehaviour
         {
             if ((rc.resource.id == this.resource.id) && (!this.destroy))
             {
-                this.resource.quantity += rc.resource.quantity;
+                this.resource.Quantity += rc.resource.Quantity;
                 rc.destroy = true;
                 Destroy(collision.gameObject);
             }
@@ -85,12 +85,12 @@ public class ResourceController : MonoBehaviour
     public void SetResource(Resource resource, long quantity)
     {
         this.resource = new Resource(resource);
-        this.resource.quantity = quantity;
+        this.resource.Quantity = quantity;
     }
 
     public void SellResource()
     {
-        Player.playerModel.AddMoney(this.resource.value * this.resource.quantity);
+        Player.playerModel.AddMoney(this.resource.Value * this.resource.Quantity);
 
         Destroy(this.gameObject);
     }

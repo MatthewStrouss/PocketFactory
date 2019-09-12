@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Aluminum Wire
   m_EditorClassIdentifier: 
+  id: 11
   cost: 0
   value: 100
   quantity: 1
-  sprite: {fileID: -378921415219690756, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: 9ad3d3e1d3349374aaae067c8457fc29, type: 3}

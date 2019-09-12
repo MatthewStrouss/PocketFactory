@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Iron
   m_EditorClassIdentifier: 
+  id: 44
   cost: 5
   value: 80
   quantity: 1
-  sprite: {fileID: 5094897060209936446, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: 96630d01f8329a942830e2a47d957527, type: 3}

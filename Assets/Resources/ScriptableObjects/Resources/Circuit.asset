@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Circuit
   m_EditorClassIdentifier: 
+  id: 14
   cost: 0
   value: 300
   quantity: 1
-  sprite: {fileID: 3232568121257934338, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: 4967053a1ee78a346abde443e428fcb4, type: 3}

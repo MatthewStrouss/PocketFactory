@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Air Conditioner
   m_EditorClassIdentifier: 
+  id: 6
   cost: 0
   value: 900
   quantity: 1
-  sprite: {fileID: 6782718397184002912, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: dc6ca1f43403dd94fac37c83ec6b5d65, type: 3}

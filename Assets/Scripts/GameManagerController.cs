@@ -41,6 +41,7 @@ public class GameManagerController : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         if (File.Exists(Path.Combine(Application.persistentDataPath, "PlayerSave.json")))
         {
             GameSaveModel gameSaveModel = Newtonsoft.Json.JsonConvert.DeserializeObject<GameSaveModel>(File.ReadAllText(Path.Combine(Application.persistentDataPath, "PlayerSave.json")));

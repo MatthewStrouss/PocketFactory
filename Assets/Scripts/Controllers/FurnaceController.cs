@@ -48,12 +48,12 @@ public class FurnaceController : MonoBehaviour, IMachineController
 
         if (resourceInInventory?.name == null)
         {
-            this.Inventory.Add(ResourceDatabase.Instance.resources[resourceToAdd.name]);
+            this.Inventory.Add(new Resource(ResourceDatabase.GetResource(resourceToAdd.name)));
             resourceInInventory = this.Inventory.FirstOrDefault(y => y.name.Equals(resourceToAdd.name, StringComparison.OrdinalIgnoreCase));
-            resourceInInventory.quantity = 0;
+            resourceInInventory.Quantity = 0;
         }
 
-        resourceInInventory.quantity++;
+        resourceInInventory.Quantity++;
     }
 
     public void OnCollision(Collider2D col)
@@ -81,7 +81,7 @@ public class FurnaceController : MonoBehaviour, IMachineController
 
         go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", resource.name);
         ResourceController rc = go.GetComponent<ResourceController>();
-        rc.SetResource(resource, resource.quantity);
+        rc.SetResource(resource, resource.Quantity);
         rc.Move(moveToPosition.position);
         rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
     }
@@ -92,7 +92,7 @@ public class FurnaceController : MonoBehaviour, IMachineController
 
         // First item in inventory that matches a recipe
 
-        Resource firstInventoryItem = this.Inventory.FirstOrDefault(x => x.quantity > 0);
+        Resource firstInventoryItem = this.Inventory.FirstOrDefault(x => x.Quantity > 0);
 
         if (firstInventoryItem != null)
         {
@@ -115,7 +115,7 @@ public class FurnaceController : MonoBehaviour, IMachineController
 
     public void RemoveFromInventory(Resource resource)
     {
-        this.Inventory.FirstOrDefault(x => x.id.Equals(resource.id)).quantity -= resource.quantity;
+        this.Inventory.FirstOrDefault(x => x.id.Equals(resource.id)).Quantity -= resource.Quantity;
     }
 
     public void OnClick()

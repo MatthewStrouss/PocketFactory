@@ -53,7 +53,8 @@ public class StarterController : MonoBehaviour, IMachineController
         {
             this.MachineController.SubtractElectricityCost();
             GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), resourceSpawnPosition.position, Quaternion.Euler(transform.eulerAngles));
-            go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", ChosenRecipe.Result.name);
+            //go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", ChosenRecipe.Result.name);
+            go.GetComponent<SpriteRenderer>().sprite = ResourceDatabase.GetResource(ChosenRecipe.Result.name).Sprite;
             ResourceController rc = go.GetComponent<ResourceController>();
             rc.SetResource(ChosenRecipe.Result, SpawnCount);
             rc.Move(moveToPosition.position);

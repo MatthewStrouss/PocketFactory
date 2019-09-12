@@ -33,7 +33,7 @@ public class SellerController : MonoBehaviour, IMachineController
 
         ResourceController rc = col.GetComponent<ResourceController>();
 
-        this.Inventory[rc.resource.name].quantity += rc.resource.quantity;
+        this.Inventory[rc.resource.name].Quantity += rc.resource.Quantity;
 
         rc.SellResource();
 
@@ -41,11 +41,11 @@ public class SellerController : MonoBehaviour, IMachineController
     }
     void Awake()
     {
-        this.Inventory = new Dictionary<string, Resource>(ResourceDatabase.Instance.resources);
+        this.Inventory = new Dictionary<string, Resource>(ResourceDatabase.database);
         
         foreach(KeyValuePair<string, Resource> resource in this.Inventory)
         {
-            resource.Value.quantity = 0;
+            resource.Value.Quantity = 0;
         }
 
         this.SellerGUI = PrefabDatabase.Instance.GetPrefab("UI", "Seller");

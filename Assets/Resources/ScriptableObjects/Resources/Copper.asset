@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Copper
   m_EditorClassIdentifier: 
+  id: 18
   cost: 5
   value: 80
   quantity: 1
-  sprite: {fileID: -3613687454404029453, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: 726d5a5e79e74ea4a8714e894db65199, type: 3}

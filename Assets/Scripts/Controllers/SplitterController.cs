@@ -93,7 +93,7 @@ public class SplitterController : MonoBehaviour, IMachineController
         for (int i = 0; i < DirectionCount; i++)
         {
             this.Directions[i].Inventory
-                .Where(x => x.quantity > 0)
+                .Where(x => x.Quantity > 0)
                 .ToList()
                 .ForEach(x =>
                 {
@@ -121,7 +121,7 @@ public class SplitterController : MonoBehaviour, IMachineController
 
     public void AddToInventory(Resource resourceToAdd)
     {
-        long resourceQuantity = resourceToAdd.quantity;
+        long resourceQuantity = resourceToAdd.Quantity;
 
         for (int i = 0; i < resourceQuantity; i++)
         {
@@ -130,12 +130,12 @@ public class SplitterController : MonoBehaviour, IMachineController
 
             if (existingResource == null)
             {
-                Resource newResource = new Resource(resourceToAdd.value, resourceToAdd.cost, 1, resourceToAdd.id, resourceToAdd.name);
+                Resource newResource = new Resource(resourceToAdd.Value, resourceToAdd.Cost, 1, resourceToAdd.id, resourceToAdd.name);
                 this.Directions[this.Direction].Inventory.Add(newResource);
             }
             else
             {
-                existingResource.quantity++;
+                existingResource.Quantity++;
             }
 
             this.CurrentCount++;
@@ -148,7 +148,7 @@ public class SplitterController : MonoBehaviour, IMachineController
 
         go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", resource.name);
         ResourceController rc = go.GetComponent<ResourceController>();
-        rc.SetResource(resource, resource.quantity);
+        rc.SetResource(resource, resource.Quantity);
         rc.Move(this.Directions[direction].MoveToPosition.position);
         rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
     }

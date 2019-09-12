@@ -54,12 +54,12 @@ public class CrafterController : MonoBehaviour, IMachineController
 
         if (resourceInInventory?.name == null)
         {
-            this.Inventory.Add(ResourceDatabase.Instance.resources[resourceToAdd.name]);
+            this.Inventory.Add(new Resource(ResourceDatabase.GetResource(resourceToAdd.name)));
             resourceInInventory = this.Inventory.FirstOrDefault(y => y.name.Equals(resourceToAdd.name, StringComparison.OrdinalIgnoreCase));
-            resourceInInventory.quantity = 0;
+            resourceInInventory.Quantity = 0;
         }
 
-        resourceInInventory.quantity++;
+        resourceInInventory.Quantity++;
 
         this.UpdateUI();
     }
@@ -92,7 +92,7 @@ public class CrafterController : MonoBehaviour, IMachineController
 
         go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", recipe.Result.name);
         ResourceController rc = go.GetComponent<ResourceController>();
-        rc.SetResource(recipe.Result, recipe.Result.quantity);
+        rc.SetResource(recipe.Result, recipe.Result.Quantity);
         rc.Move(moveToPosition.position);
         rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
     }
@@ -103,7 +103,7 @@ public class CrafterController : MonoBehaviour, IMachineController
 
         if (this.ChosenRecipe != null && this.ChosenRecipe.Name != "(None)")
         {
-            List<Resource> inventoryItemsAbove0 = this.Inventory.Where(x => x.quantity > 0).ToList();
+            List<Resource> inventoryItemsAbove0 = this.Inventory.Where(x => x.Quantity > 0).ToList();
             int inventoryCount = inventoryItemsAbove0.Count;
 
             if (inventoryCount == this.ChosenRecipe.Requirements.Count)
@@ -127,7 +127,7 @@ public class CrafterController : MonoBehaviour, IMachineController
 
     public void RemoveFromInventory(Resource resource)
     {
-        this.Inventory.FirstOrDefault(x => x.id.Equals(resource.id)).quantity -= resource.quantity;
+        this.Inventory.FirstOrDefault(x => x.id.Equals(resource.id)).Quantity -= resource.Quantity;
     }
 
     public void OnClick()

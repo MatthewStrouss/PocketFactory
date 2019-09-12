@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Aluminum Gear
   m_EditorClassIdentifier: 
+  id: 8
   cost: 0
   value: 100
   quantity: 1
-  sprite: {fileID: -2179213628996033861, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: 1fa1f7d9418925e48aef37a0f4f040c0, type: 3}

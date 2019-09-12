@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Toaster
   m_EditorClassIdentifier: 
+  id: 65
   cost: 0
   value: 900
   quantity: 1
-  sprite: {fileID: -8396642212927729647, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: 7138409a93541fa41b2db93bd405b1d4, type: 3}

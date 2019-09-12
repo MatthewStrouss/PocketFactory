@@ -61,12 +61,12 @@ public class Comparers
     {
         public bool Equals(Resource x, Resource y)
         {
-            return x.name.Equals(y.name, StringComparison.OrdinalIgnoreCase) && y.quantity >= x.quantity;
+            return x.name.Equals(y.name, StringComparison.OrdinalIgnoreCase) && y.Quantity >= x.Quantity;
         }
 
         public int GetHashCode(Resource obj)
         {
-            return obj.name.GetHashCode() ^ obj.quantity.GetHashCode();
+            return obj.name.GetHashCode() ^ obj.Quantity.GetHashCode();
         }
     }
 }

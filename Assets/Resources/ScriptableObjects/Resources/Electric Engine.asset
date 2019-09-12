@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0436d7b74c15ed043abb70592fe6f026, type: 3}
   m_Name: Electric Engine
   m_EditorClassIdentifier: 
+  id: 31
   cost: 0
   value: 900000
   quantity: 1
