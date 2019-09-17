@@ -56,7 +56,7 @@ public class WireDrawerController : MonoBehaviour, IMachineController
         resourceInInventory.Quantity++;
     }
 
-    public void OnCollision(Collider2D col)
+    public void CollisionEnter(Collider2D col)
     {
         this.AddToInventory(col.GetComponent<ResourceController>().resource);
         Destroy(col.gameObject);
@@ -79,7 +79,7 @@ public class WireDrawerController : MonoBehaviour, IMachineController
         this.MachineController.SubtractElectricityCost();
         GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), resourceSpawnPosition.position, Quaternion.Euler(transform.eulerAngles));
 
-        go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", resource.name);
+        go.GetComponent<SpriteRenderer>().sprite = resource.Sprite;
         ResourceController rc = go.GetComponent<ResourceController>();
         rc.SetResource(resource, resource.Quantity);
         rc.Move(moveToPosition.position);

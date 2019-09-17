@@ -10,8 +10,6 @@ public class SplitterController : MonoBehaviour, IMachineController
 {
     public MachineController MachineController;
 
-    public SplitterDirectionEnum splitterDirectionEnum;
-
     public int CurrentCount;
 
     public int DirectionCount = 2;
@@ -38,6 +36,12 @@ public class SplitterController : MonoBehaviour, IMachineController
         }
     }
 
+    private long directionCountSum;
+
+    public bool isWaitingToDispense;
+
+    public float timeToWaitForDispense = 0.5f;
+
     void Awake()
     {
         this.CurrentCount = 0;
@@ -58,6 +62,8 @@ public class SplitterController : MonoBehaviour, IMachineController
 
         this.splitterCanvas = PrefabDatabase.Instance.GetPrefab("UI", "Splitter1");
 
+        this.UpdateDirectionSum();
+
         //this.Directions = new Direction[]
         //{
         //    // LEFT
@@ -74,19 +80,58 @@ public class SplitterController : MonoBehaviour, IMachineController
 
     public void OnClick()
     {
-        this.splitterCanvas.GetComponent<SplitterCanvasScript1>().Activate(this.gameObject);
+        this.splitterCanvas.GetComponent<SplitterCanvasScript1>().Activate(this.gameObject, this.UICallback);
     }
 
-    public void OnCollision(Collider2D col)
+    public void UICallback()
     {
-        this.MachineController.SubtractElectricityCost();
+        this.UpdateDirectionSum();
+    }
 
-        Resource resourceCollider = col.GetComponent<ResourceController>().resource;
+    public void UpdateDirectionSum()
+    {
+        this.directionCountSum = this.Directions.Sum(x => x.Count);
+    }
 
-        this.AddToInventory(resourceCollider);
-        GameObject.Destroy(col.gameObject);
+    public void CollisionEnter(Collider2D col)
+    {
+        ResourceController resourceCollider = col.GetComponent<ResourceController>();
+
+        if (resourceCollider.CanCollide)
+        {
+            this.MachineController.SubtractElectricityCost();
+
+            Resource newResource = new Resource(resourceCollider.resource.id, resourceCollider.resource.Quantity);
+            resourceCollider.destroy = true;
+            GameObject.Destroy(col.gameObject);
+            this.AddToInventory(newResource);
+
+            if (!this.isWaitingToDispense)
+            {
+                StartCoroutine("Dispense");
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        //collision.GetComponent<ResourceController>()?.insideMachine.SetValue(false);
+        ResourceController rc = collision.GetComponent<ResourceController>();
+
+        if (rc != null)
+        {
+            rc.insideMachine = false;
+        }
+    }
+
+    IEnumerator Dispense()
+    {
+        this.isWaitingToDispense = true;
+        yield return new WaitForSeconds(timeToWaitForDispense);
+        this.isWaitingToDispense = false;
         this.CreateFromInventory();
     }
+
 
     public void CreateFromInventory()
     {
@@ -123,6 +168,27 @@ public class SplitterController : MonoBehaviour, IMachineController
     {
         long resourceQuantity = resourceToAdd.Quantity;
 
+        for (int i = 0; i < this.Directions.Count(); i++)
+        {
+            long quantityToAdd = Convert.ToInt64(Mathf.Floor(((float)this.Directions[this.Direction].Count / this.directionCountSum) * resourceToAdd.Quantity));
+
+            Resource existingResource = this.Directions[this.Direction].Inventory.FirstOrDefault(x => x.id == resourceToAdd.id);
+
+            if (existingResource == null)
+            {
+                Resource newResource = new Resource(resourceToAdd.id, quantityToAdd);
+                this.Directions[this.Direction].Inventory.Add(newResource);
+            }
+            else
+            {
+                existingResource.Quantity += quantityToAdd;
+            }
+
+            this.Direction++;
+            resourceQuantity -= quantityToAdd;
+        }
+
+
         for (int i = 0; i < resourceQuantity; i++)
         {
             this.CheckInventoryCount();
@@ -130,7 +196,7 @@ public class SplitterController : MonoBehaviour, IMachineController
 
             if (existingResource == null)
             {
-                Resource newResource = new Resource(resourceToAdd.Value, resourceToAdd.Cost, 1, resourceToAdd.id, resourceToAdd.name);
+                Resource newResource = new Resource(resourceToAdd.id, 1);
                 this.Directions[this.Direction].Inventory.Add(newResource);
             }
             else
@@ -146,11 +212,12 @@ public class SplitterController : MonoBehaviour, IMachineController
     {
         GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), this.Directions[direction].ResourceSpawnPosition.position, Quaternion.Euler(transform.eulerAngles));
 
-        go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", resource.name);
+        go.GetComponent<SpriteRenderer>().sprite = resource.Sprite;
         ResourceController rc = go.GetComponent<ResourceController>();
         rc.SetResource(resource, resource.Quantity);
         rc.Move(this.Directions[direction].MoveToPosition.position);
         rc.nextMoveToPosition = new Vector3(2f, 2f, 0f);
+        rc.insideMachine = true;
     }
 
     public void RemoveItemFromInventory(Resource resourceToRemove, int direction)
@@ -163,6 +230,7 @@ public class SplitterController : MonoBehaviour, IMachineController
         SplitterController otherController = other as SplitterController;
         this.Direction = otherController.Direction;
         this.Directions = otherController.Directions;
+        this.UpdateDirectionSum();
     }
 }
 

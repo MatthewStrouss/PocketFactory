@@ -26,14 +26,15 @@ public class FurnaceController : MonoBehaviour, IMachineController
         set => this.inventory = value;
     }
 
+    void Awake()
+    {
+        this.Inventory = new List<Resource>();
+        this.chosenRecipes = RecipeDatabase.GetRecipesForType(recipeType).Values.ToList();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        this.Inventory = new List<Resource>();
-        //this.chosenRecipes = RecipeDatabase.recipes.Values.Where(x => x.Type == recipeType).ToList();
-        this.chosenRecipes = RecipeDatabase.GetRecipesForType(recipeType).Values.ToList();
-
-        //InvokeRepeating("ActionToPerformOnTimer", 0.0f, 2.0f); 
     }
 
     // Update is called once per frame
@@ -56,7 +57,7 @@ public class FurnaceController : MonoBehaviour, IMachineController
         resourceInInventory.Quantity++;
     }
 
-    public void OnCollision(Collider2D col)
+    public void CollisionEnter(Collider2D col)
     {
         this.AddToInventory(col.GetComponent<ResourceController>().resource);
         Destroy(col.gameObject);
@@ -79,7 +80,7 @@ public class FurnaceController : MonoBehaviour, IMachineController
         this.MachineController.SubtractElectricityCost();
         GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), resourceSpawnPosition.position, Quaternion.Euler(transform.eulerAngles));
 
-        go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", resource.name);
+        go.GetComponent<SpriteRenderer>().sprite = resource.Sprite;
         ResourceController rc = go.GetComponent<ResourceController>();
         rc.SetResource(resource, resource.Quantity);
         rc.Move(moveToPosition.position);

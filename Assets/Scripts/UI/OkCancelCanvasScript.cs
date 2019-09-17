@@ -60,14 +60,14 @@ public class OkCancelCanvasScript : MonoBehaviour
 
     public void OkButton_Clicked()
     {
-        okButtonAction?.DynamicInvoke();
         this.Deactivate();
+        okButtonAction?.DynamicInvoke();
     }
 
     public void CancelButton_Clicked()
     {
-        cancelButtonAction?.DynamicInvoke();
         this.Deactivate();
+        cancelButtonAction?.DynamicInvoke();
     }
 
     public void UpdateInstructionText(string instructionText)

@@ -25,14 +25,10 @@ MonoBehaviour:
     Value: {fileID: 11400000, guid: 7751130dd1fba8c46aa8ff46fb656471, type: 2}
   - Key: Left Selector
     Value: {fileID: 11400000, guid: eea8f96396a08cb4cb9045e9d05a346e, type: 2}
-  - Key: Left Splitter
-    Value: {fileID: 11400000, guid: c4b24a728aaa45547aeb0ce369f5de2b, type: 2}
   - Key: Multi Selector
     Value: {fileID: 11400000, guid: ae30cf70fbbf2a649b935bedd89ba67e, type: 2}
   - Key: Right Selector
     Value: {fileID: 11400000, guid: 89414db76224fd04aad8094d6afd47f3, type: 2}
-  - Key: Right Splitter
-    Value: {fileID: 11400000, guid: 11ea40aaa79419a438641ac9a2e72f6b, type: 2}
   - Key: Roller
     Value: {fileID: 11400000, guid: cfd6f9b347ab1524499a8375ce7dc556, type: 2}
   - Key: Seller

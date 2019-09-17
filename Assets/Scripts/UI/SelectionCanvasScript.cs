@@ -46,31 +46,21 @@ public class SelectionCanvasScript : MonoBehaviour
 
     public void SelectButton_Click()
     {
-        this.playerScript.StartSelectMode();
+        //this.playerScript.StartSelectMode();
     }
 
-    public void CopyButton_Click()
-    {
-        this.playerScript.Copy();
-    }
+    //public void CopyButton_Click()
+    //{
+    //    this.playerScript.Copy();
+    //}
 
-    public void PasteButton_Click()
-    {
-        this.playerScript.PasteUI();
-    }
+    //public void PasteButton_Click()
+    //{
+    //    this.playerScript.PasteUI();
+    //}
 
     public void SellButton_Click()
     {
-        this.playerScript.SellSelection();
-    }
-
-    public void FlipXButton_Click()
-    {
-        this.playerScript.FlipSelectionX();
-    }
-
-    public void FlipYButton_Click()
-    {
-        this.playerScript.FlipSelectionY();
+        //this.playerScript.SellSelection();
     }
 }

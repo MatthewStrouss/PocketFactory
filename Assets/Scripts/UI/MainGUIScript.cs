@@ -32,7 +32,7 @@ public class MainGUIScript : MonoBehaviour
 
     public void RotateButton_Click()
     {
-        this.rotationsPanel.GetComponent<RotationPanelScript>().Activate();
+        //this.rotationsPanel.GetComponent<RotationPanelScript>().Activate();
     }
 
     public void SelectButton_Click()
@@ -50,6 +50,6 @@ public class MainGUIScript : MonoBehaviour
 
     public void BuildButton_Click()
     {
-        Camera.main.GetComponent<PlayerScript>().BuildMode();
+        //Camera.main.GetComponent<PlayerScript>().BuildMode();
     }
 }

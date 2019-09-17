@@ -111,7 +111,7 @@ public class MachineController : MonoBehaviour
     {
         if (collision.GetComponent<ResourceController>() != null)
         {
-            (controller as IMachineController).OnCollision(collision);
+            (controller as IMachineController).CollisionEnter(collision);
         }
     }
 

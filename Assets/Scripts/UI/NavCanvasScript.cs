@@ -6,6 +6,7 @@ public class NavCanvasScript : MonoBehaviour
 {
     public GameObject ResearchCanvas;
     public GameObject BuildCanvas;
+    [SerializeField] private SelectionModeCanvasScript SelectionModeCanvasScript;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,7 @@ public class NavCanvasScript : MonoBehaviour
 
     public void SelectButton_Clicked()
     {
-        Camera.main.GetComponent<PlayerScript>().StartSelectMode();
+        this.SelectionModeCanvasScript.Activate();
     }
 
     public void ResearchButton_Clicked()
@@ -31,7 +32,7 @@ public class NavCanvasScript : MonoBehaviour
 
     public void BuildButton_Clicked()
     {
-        this.BuildCanvas.GetComponent<BuildCanvasScript>().Activate();
+        this.BuildCanvas.GetComponent<BuildModeCanvasScript>().Activate();
     }
 
     public void BlueprintButton_Clicked()

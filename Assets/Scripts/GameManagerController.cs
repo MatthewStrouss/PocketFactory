@@ -97,6 +97,8 @@ public class GameManagerController : MonoBehaviour
 
 
         File.WriteAllText(Path.Combine(Application.persistentDataPath, "PlayerSave.json"), Newtonsoft.Json.JsonConvert.SerializeObject(gameSaveModel, new Newtonsoft.Json.JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
+
+        //Debug.Log($"Ended at {System.DateTime.Now.Ticks} with {GameObject.FindGameObjectsWithTag("Resource").Sum(x => x.GetComponent<ResourceController>().resource.Quantity)} resources");
     }
 
     public bool PlayPause()

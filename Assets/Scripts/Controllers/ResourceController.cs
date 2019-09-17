@@ -8,6 +8,10 @@ public class ResourceController : MonoBehaviour
     public Vector3 moveToPosition;
     public Vector3 nextMoveToPosition;
 
+    [SerializeField] private BoxCollider2D boxCollider;
+    [SerializeField] private Rigidbody2D rigidBody;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
     [SerializeField]
     private bool isMoving;
     public bool IsMoving
@@ -16,18 +20,29 @@ public class ResourceController : MonoBehaviour
         set => this.isMoving = value;
     }
 
-    public Rigidbody2D rigidBody;
-    public SpriteRenderer spriteRenderer;
     public float moveSpeed;
     public Vector3 finalDestination = new Vector3(2f, 2f, 0f);
     public bool destroy;
+    public bool insideMachine;
+    //private bool insideMachine;
+    //public bool InsideMachine
+    //{
+    //    get => this.insideMachine;
+    //    set => this.insideMachine = value;
+    //}
+
+    public bool CanCollide
+    {
+        get
+        {
+            return !this.destroy && !this.insideMachine;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         isMoving = false;
-        rigidBody = base.gameObject.GetComponent<Rigidbody2D>();
-        spriteRenderer = base.gameObject.GetComponent<SpriteRenderer>();
         destroy = false;
     }
 
@@ -73,7 +88,7 @@ public class ResourceController : MonoBehaviour
         ResourceController rc = collision.gameObject.GetComponent<ResourceController>();
         if (rc != null)
         {
-            if ((rc.resource.id == this.resource.id) && (!this.destroy))
+            if ((rc.resource.id == this.resource.id) && (this.CanCollide))
             {
                 this.resource.Quantity += rc.resource.Quantity;
                 rc.destroy = true;
@@ -82,10 +97,23 @@ public class ResourceController : MonoBehaviour
         }
     }
 
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    ResourceController rc = collision.gameObject.GetComponent<ResourceController>();
+    //    if (rc != null)
+    //    {
+    //        if ((rc.resource.id == this.resource.id) && (this.CanCollide))
+    //        {
+    //            this.resource.Quantity += rc.resource.Quantity;
+    //            rc.destroy = true;
+    //            Destroy(collision.gameObject);
+    //        }
+    //    }
+    //}
+
     public void SetResource(Resource resource, long quantity)
     {
-        this.resource = new Resource(resource);
-        this.resource.Quantity = quantity;
+        this.resource = new Resource(resource.id, quantity);
     }
 
     public void SellResource()
@@ -93,5 +121,13 @@ public class ResourceController : MonoBehaviour
         Player.playerModel.AddMoney(this.resource.Value * this.resource.Quantity);
 
         Destroy(this.gameObject);
+    }
+}
+
+public static class Extensions
+{
+    public static void SetValue<T>(this T property, T value)
+    {
+        property = value;
     }
 }

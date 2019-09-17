@@ -64,7 +64,7 @@ public class CrafterController : MonoBehaviour, IMachineController
         this.UpdateUI();
     }
 
-    public void OnCollision(Collider2D col)
+    public void CollisionEnter(Collider2D col)
     {
         this.AddToInventory(col.GetComponent<ResourceController>().resource);
         Destroy(col.gameObject);
@@ -90,7 +90,7 @@ public class CrafterController : MonoBehaviour, IMachineController
         this.MachineController.SubtractElectricityCost();
         GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), resourceSpawnPosition.position, Quaternion.Euler(transform.eulerAngles));
 
-        go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", recipe.Result.name);
+        go.GetComponent<SpriteRenderer>().sprite = recipe.Result.Sprite;
         ResourceController rc = go.GetComponent<ResourceController>();
         rc.SetResource(recipe.Result, recipe.Result.Quantity);
         rc.Move(moveToPosition.position);

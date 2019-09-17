@@ -30,6 +30,6 @@ public class MainUICanvasScript : MonoBehaviour
 
     public void BuildButton_Click()
     {
-        Camera.main.GetComponent<PlayerScript>().BuildMode();
+        //Camera.main.GetComponent<PlayerScript>().BuildMode();
     }
 }

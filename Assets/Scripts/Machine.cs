@@ -70,6 +70,13 @@ public class Machine
         get => this.canRotate;
         set => this.canRotate = value;
     }
+
+    private Sprite sprite;
+    public Sprite Sprite
+    {
+        get => this.sprite;
+        set => this.sprite = value;
+    }
     #endregion
 
     public Machine()
@@ -89,6 +96,7 @@ public class Machine
         this.electricityCost = machineToCopy.electricityCost;
         this.actionTime = machineToCopy.actionTime;
         //this.machineData = machineToCopy.machineData;
+        this.sprite = machineToCopy.Sprite;
     }
 
     public Machine(MachineScriptableObject machineScriptableObject)
@@ -101,6 +109,7 @@ public class Machine
         this.MachineName = machineScriptableObject.Name;
         this.MachineID = machineScriptableObject.MachineID;
         this.CanRotate = machineScriptableObject.CanRotate;
+        this.sprite = machineScriptableObject.Sprite;
     }
 
     public void Unlock()

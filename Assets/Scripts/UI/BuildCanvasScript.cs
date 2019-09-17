@@ -57,14 +57,14 @@ public class BuildCanvasScript : MonoBehaviour
 
             newButton.onClick.AddListener(() =>
             {
-                Camera.main.GetComponent<PlayerScript>().SetMachine(machine);
+                //Camera.main.GetComponent<PlayerScript>().SetMachine(machine);
                 this.Deactivate();
                 //this.OkCancelCanvas.GetComponent<OkCancelCanvasScript>().Activate(
                 //    $"Tap to build a {machine.GetComponent<MachineController>().Machine.MachineName}",
                 //    () => Camera.main.GetComponent<PlayerScript>().AcceptBuild(),
                 //    () => Camera.main.GetComponent<PlayerScript>().CancelBuild()
                 //    );
-                Camera.main.GetComponent<PlayerScript>().BuildMode();
+                //Camera.main.GetComponent<PlayerScript>().BuildMode();
             });
 
             newButton.interactable = Player.playerModel.Money >= machineController.Machine.BuildCost;

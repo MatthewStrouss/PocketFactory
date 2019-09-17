@@ -63,7 +63,7 @@ public class SelectorController : MonoBehaviour, IMachineController
         this.selectorCanvas.GetComponent<SelectorCanvasScript>().Activate(this.gameObject);
     }
 
-    public void OnCollision(Collider2D col)
+    public void CollisionEnter(Collider2D col)
     {
         this.MachineController.SubtractElectricityCost();
 
@@ -136,7 +136,7 @@ public class SelectorController : MonoBehaviour, IMachineController
     {
         GameObject go = Instantiate(PrefabDatabase.Instance.GetPrefab("Resource", "ResourcePrefab"), this.Directions[direction].ResourceSpawnPosition.position, Quaternion.Euler(transform.eulerAngles));
 
-        go.GetComponent<SpriteRenderer>().sprite = SpriteDatabase.Instance.GetSprite("Resource", resource.name);
+        go.GetComponent<SpriteRenderer>().sprite = resource.Sprite;
         ResourceController rc = go.GetComponent<ResourceController>();
         rc.SetResource(resource, resource.Quantity);
         rc.Move(this.Directions[direction].MoveToPosition.position);

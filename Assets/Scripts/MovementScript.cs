@@ -19,6 +19,8 @@ public class MovementScript : MonoBehaviour
     private static readonly float[] BoundsY = new float[] { -8f, 7f };
     private static readonly float[] ZoomBounds = new float[] { 3f, 16f };
 
+    private StateEnum StateEnum = StateEnum.NONE;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,18 +43,19 @@ public class MovementScript : MonoBehaviour
     public void EnableBuildMode()
     {
         panGesture.MinimumNumberOfTouchesToTrack = 2;
+        this.StateEnum = StateEnum.BUILD;
     }
 
     public void DisableBuildMode()
     {
         panGesture.MinimumNumberOfTouchesToTrack = 1;
+        this.StateEnum = StateEnum.NONE;
     }
 
     private void CreateTapGesture()
     {
         tapGesture = new TapGestureRecognizer();
         tapGesture.StateUpdated += TapGestureCallback;
-        tapGesture.StateUpdated += this.playerScript.HandleClick;
         tapGesture.RequireGestureRecognizerToFail = doubleTapGesture;
         FingersScript.Instance.AddGesture(tapGesture);
     }
@@ -66,7 +69,6 @@ public class MovementScript : MonoBehaviour
 
         actionGesture = new PanGestureRecognizer();
         actionGesture.MinimumNumberOfTouchesToTrack = 1;
-        actionGesture.StateUpdated += this.playerScript.HandlePan;
         FingersScript.Instance.AddGesture(actionGesture);
     }
 
@@ -103,7 +105,18 @@ public class MovementScript : MonoBehaviour
     {
         if (gesture.State == GestureRecognizerState.Ended)
         {
-            //this.IsBuildMode = !this.IsBuildMode;
+            if (this.StateEnum == StateEnum.NONE)
+            {
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(gesture.FocusX, gesture.FocusY));
+                Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
+
+                if (test)
+                {
+                    test.transform.gameObject.GetComponent<MachineController>().OnClick();
+                    //this.starterCanvas.GetComponent<StarterPanelScript>().Activate(test.transform.gameObject);
+                }
+            }
         }
     }
 
@@ -133,4 +146,10 @@ public class MovementScript : MonoBehaviour
             //DebugText("Swiped from {0},{1} to {2},{3}; velocity: {4}, {5}", gesture.StartFocusX, gesture.StartFocusY, gesture.FocusX, gesture.FocusY, swipeGesture.VelocityX, swipeGesture.VelocityY);
         }
     }
+}
+
+public enum StateEnum
+{
+    NONE,
+    BUILD
 }

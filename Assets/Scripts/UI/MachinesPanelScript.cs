@@ -51,7 +51,7 @@ public class MachinesPanelScript : MonoBehaviour
 
             newButton.onClick.AddListener(() =>
             {
-                Camera.main.GetComponent<PlayerScript>().SetMachine(machine.Value);
+                //Camera.main.GetComponent<PlayerScript>().SetMachine(machine.Value);
                 this.gameObject.SetActive(false);
             });
         }

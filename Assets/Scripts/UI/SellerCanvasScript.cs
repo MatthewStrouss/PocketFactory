@@ -47,7 +47,7 @@ public class SellerCanvasScript : MonoBehaviour
 
                 texts[0].text = resource.Value.name;
                 texts[1].text = resource.Value.Quantity.ToString();
-                newButton.image.sprite = SpriteDatabase.Instance.GetSprite("Resource", resource.Value.name);
+                newButton.image.sprite = resource.Value.Sprite;
             }
         }
     }

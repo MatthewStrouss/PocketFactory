@@ -9,7 +9,7 @@ public class StarterController : MonoBehaviour, IMachineController
 {
     public MachineController MachineController;
 
-    [RangeAttribute(1, 3)]
+    //[RangeAttribute(1, 3)]
     public int SpawnCount = 1;
 
     public string recipeType = "Basic";
@@ -37,7 +37,7 @@ public class StarterController : MonoBehaviour, IMachineController
         //this.starterGUI = GameObject.Find("StarterCanvas");
     }
 
-    public void OnCollision(Collider2D col)
+    public void CollisionEnter(Collider2D col)
     {
 
     }

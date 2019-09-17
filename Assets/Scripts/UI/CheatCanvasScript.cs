@@ -44,9 +44,9 @@ public class CheatCanvasScript : MonoBehaviour
             recipeCanvas.SetActive(true);
         });
 
-        cheatDict.Add("resource.spawn", (resourceName) =>
+        cheatDict.Add("resource.spawn", (resourceInfo) =>
         {
-            Resource resourceToSpawn = new Resource(ResourceDatabase.GetResource(resourceName.FirstOrDefault()));
+            Resource resourceToSpawn = new Resource(ResourceDatabase.GetResource(resourceInfo[0]).id, Convert.ToInt64(resourceInfo[1]));
             Camera.main.GetComponent<PlayerScript>().SpawnResource(resourceToSpawn);
         });
 
@@ -103,7 +103,7 @@ public class CheatCanvasScript : MonoBehaviour
 
         if (cheatDict.TryGetValue(pieces[0], out Action<string[]> existingAction))
         {
-            existingAction(pieces.Skip(Mathf.Max(0, pieces.Count()) - 1).ToArray());
+            existingAction(pieces.Skip(1).ToArray());
         }
         else
         {

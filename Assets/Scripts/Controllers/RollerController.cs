@@ -25,7 +25,7 @@ public class RollerController : MonoBehaviour, IMachineController
         nextMovingPoint = transform.GetChild(0).gameObject;
     }
 
-    public void OnCollision(Collider2D col)
+    public void CollisionEnter(Collider2D col)
     {
         // Subtract money
         this.MachineController.SubtractElectricityCost();

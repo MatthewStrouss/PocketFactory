@@ -57,6 +57,11 @@ public class PlayerModel
         EventHandler handler = MoneyUpdated;
         handler?.Invoke(null, e);
     }
+
+    public bool CanAfford(long moneyNeeded)
+    {
+        return this.money >= moneyNeeded;
+    }
 }
 
 public class MoneyEventArgs : EventArgs

@@ -224,7 +224,7 @@ namespace Assets.Scripts
             }
             else if (imachineController is FurnaceController furnaceController)
             {
-                furnaceController.Inventory = machineModel.Inventory;
+                machineModel.Inventory.ForEach(x => furnaceController.AddToInventory(new Resource(x.id, x.Quantity)));
             }
             else if (imachineController is HydraulicPressController hydraulicPressController)
             {
@@ -251,6 +251,8 @@ namespace Assets.Scripts
                     splitterController.Directions[i].Count = machineModel.Directions[i].Count;
                     //splitterController.Directions[i].Inventory = machineModel.Directions[i].Inventory;
                 }
+
+                splitterController.UpdateDirectionSum();
             }
             else if (imachineController is WireDrawerController wireDrawerController)
             {

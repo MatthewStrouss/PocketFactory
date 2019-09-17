@@ -27,7 +27,7 @@ public class SellerController : MonoBehaviour, IMachineController
         this.UpdateGUI();
     }
 
-    public void OnCollision(Collider2D col)
+    public void CollisionEnter(Collider2D col)
     {
         this.MachineController.SubtractElectricityCost();
 

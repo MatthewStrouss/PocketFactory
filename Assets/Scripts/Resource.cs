@@ -1,13 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using Assets;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
 public class Resource
 {
     private long cost;
+    [JsonIgnore]
     public long Cost
     {
         get => this.cost;
@@ -15,13 +18,14 @@ public class Resource
     }
 
     private long value;
+    [JsonIgnore]
     public long Value
     {
         get => this.value;
         set => this.value = value;
     }
 
-    private long quantity;
+    [SerializeField] private long quantity;
     public long Quantity
     {
         get => this.quantity;
@@ -30,10 +34,13 @@ public class Resource
 
     public long id;
 
+    [JsonIgnore]
     public string name;
+
     private RecipeRequirement result;
 
     private Sprite sprite;
+    [JsonIgnore]
     public Sprite Sprite
     {
         get => this.sprite;
@@ -48,6 +55,17 @@ public class Resource
         this.name = name;
         this.value = value;
         this.quantity = quantity;
+    }
+
+    public Resource(long id, long quantity)
+    {
+        Resource other = ResourceDatabase.database.Values.FirstOrDefault(x => x.id == id);
+        this.id = other.id;
+        this.cost = other.cost;
+        this.name = other.name;
+        this.value = other.value;
+        this.quantity = quantity;
+        this.sprite = other.Sprite;
     }
 
     public Resource(Resource resource)

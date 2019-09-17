@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5073978351847947379}
   m_Layer: 0
   m_Name: Resource
-  m_TagString: Untagged
+  m_TagString: Resource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,18 +144,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resource:
-    cost: 0
-    value: 0
     quantity: 0
     id: 0
     name: 
   moveToPosition: {x: 0, y: 0, z: 0}
   nextMoveToPosition: {x: 0, y: 0, z: 0}
+  boxCollider: {fileID: 6432689107386757484}
+  rigidBody: {fileID: 5881134492242834527}
+  spriteRenderer: {fileID: 5466239598003533685}
   isMoving: 0
-  rigidBody: {fileID: 0}
-  spriteRenderer: {fileID: 0}
   moveSpeed: 1
   finalDestination: {x: 2, y: 2, z: 0}
   destroy: 0
-  playerScriptableObject: {fileID: 11400000, guid: 940cd0a3f8c579d42af379a08cdfc0a6,
-    type: 2}
