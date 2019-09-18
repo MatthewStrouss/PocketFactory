@@ -10,7 +10,6 @@ public class GameSaveModel
 {
     public List<MachineModel> PlacedMachineModels;
     public PlayerModel PlayerModel;
-    public Dictionary<string, Machine> MachineDatabase;
-    public Dictionary<string, Dictionary<string, Recipe>> RecipeDatabase;
     public Dictionary<string, Dictionary<string, Research>> ResearchDatabase;
+    public Dictionary<string, object> BlueprintDatabase;
 }

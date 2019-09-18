@@ -6,6 +6,7 @@ public class NavCanvasScript : MonoBehaviour
 {
     public GameObject ResearchCanvas;
     public GameObject BuildCanvas;
+    [SerializeField] private BlueprintBrowserCanvas BlueprintCanvas;
     [SerializeField] private SelectionModeCanvasScript SelectionModeCanvasScript;
 
     // Start is called before the first frame update
@@ -37,6 +38,6 @@ public class NavCanvasScript : MonoBehaviour
 
     public void BlueprintButton_Clicked()
     {
-        throw new System.Exception("Not implemented");
+        this.BlueprintCanvas.Activate();
     }
 }

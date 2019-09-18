@@ -5,14 +5,49 @@ using UnityEngine;
 
 public static class BlueprintDatabase
 {
-    public static Dictionary<string, object> blueprints = new Dictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
+    public static Dictionary<string, object> database = new Dictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
 
     static BlueprintDatabase()
     {
-        //blueprints = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, object>>(Resources.Load(@"").ToString());
-
-        blueprints.Add("Circuit 3/s", new Blueprint("Circuit 3/s", "[{\"MachineName\":\"Starter\",\"Pos\":[-1,0,-8],\"SpawnCount\":1,\"ChosenRecipe\":\"(None)\"},{\"MachineName\":\"Starter\",\"Pos\":[0,-1,-8],\"SpawnCount\":1,\"ChosenRecipe\":\"(None)\"},{\"MachineName\":\"Starter\",\"Pos\":[0,1,-8],\"SpawnCount\":1,\"ChosenRecipe\":\"(None)\"},{\"MachineName\":\"Starter\",\"Pos\":[0,0,-8],\"SpawnCount\":1,\"ChosenRecipe\":\"(None)\"},{\"MachineName\":\"Starter\",\"Pos\":[1,0,-8],\"SpawnCount\":1,\"ChosenRecipe\":\"(None)\"}]"));
+        database.Add("Circuit 3/s", new Blueprint("Circuit 3/s", "[{\"MachineName\":\"Starter\",\"Pos\":[-1,0,-8],\"SpawnCount\":1,\"ChosenRecipe\":\"(None)\"},{\"MachineName\":\"Starter\",\"Pos\":[0,-1,-8],\"SpawnCount\":1,\"ChosenRecipe\":\"(None)\"},{\"MachineName\":\"Starter\",\"Pos\":[0,1,-8],\"SpawnCount\":1,\"ChosenRecipe\":\"(None)\"},{\"MachineName\":\"Starter\",\"Pos\":[0,0,-8],\"SpawnCount\":1,\"ChosenRecipe\":\"(None)\"},{\"MachineName\":\"Starter\",\"Pos\":[1,0,-8],\"SpawnCount\":1,\"ChosenRecipe\":\"(None)\"}]"));
     }
+
+    public static void OverwriteFromSave(string json)
+    {
+        database = RecreateBlueprintLibrary(json);
+    }
+
+    private static Dictionary<string, object> RecreateBlueprintLibrary(string json)
+    {
+        Dictionary<string, object> newDict = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+        Dictionary<string, object> returnDict = new Dictionary<string, object>();
+
+        foreach (KeyValuePair<string, object> kvp in newDict)
+        {
+            Blueprint blueprint = Newtonsoft.Json.JsonConvert.DeserializeObject<Blueprint>(kvp.Value.ToString());
+
+            if (string.IsNullOrWhiteSpace(blueprint.Name))
+            {
+                returnDict.Add(kvp.Key, RecreateBlueprintLibrary(kvp.Value.ToString()));
+            }
+            else
+            {
+                returnDict.Add(kvp.Key, blueprint);
+            }
+        }
+
+        return returnDict;
+    }
+
+    //public static void Add(string key, object value, List<string> keys)
+    //{
+    //    Dictionary<string, object> currentLevel = database;
+
+    //    foreach (string key in keys)
+    //    {
+    //        database[key]
+    //    }
+    //}
 }
 
 public class Blueprint

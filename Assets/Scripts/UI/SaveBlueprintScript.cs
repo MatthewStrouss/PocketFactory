@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class SaveBlueprintScript : MonoBehaviour
 {
-    [SerializeField] private BlueprintCanvas BlueprintCanvas;
+    [SerializeField] private BlueprintBrowserCanvas BlueprintCanvas;
     [SerializeField] private OkCancelCanvasScript OkCancelButton;
 
     private List<GameObject> SelectedGameObjects;

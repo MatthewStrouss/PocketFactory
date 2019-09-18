@@ -1,27 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BlueprintCanvas : MonoBehaviour
+public class BlueprintBrowserCanvas : MonoBehaviour
 {
+    [SerializeField] private CancelCanvasScript XButton;
     [SerializeField] private Text headerText;
     [SerializeField] private GameObject Content;
     [SerializeField] private Button buttonPrefab;
     [SerializeField] private NewBlueprintCanvas NewBlueprintCanvas;
-    [SerializeField] private PasteBlueprintCanvasScript PasteBlueprintCanvasScript;
+    [SerializeField] private BlueprintCanvasScript BlueprintCanvasScript;
+    [SerializeField] private Text messageText;
+    [SerializeField] private Image messagePanel;
 
     private Dictionary<string, object> homeLevel = new Dictionary<string, object>();
     private Dictionary<string, object> previousLevel = new Dictionary<string, object>();
-    public Dictionary<string, object> currentLevel = new Dictionary<string, object>();
-    private List<string> history = new List<string>();
+    public Dictionary<string, object> currentLevel;
+    private List<string> history;
 
     private void Awake()
     {
-        homeLevel = BlueprintDatabase.blueprints;
-        currentLevel = homeLevel;
 
-        this.UpdateUI();
     }
 
     // Start is called before the first frame update
@@ -38,6 +39,11 @@ public class BlueprintCanvas : MonoBehaviour
 
     public void Activate()
     {
+        this.homeLevel = BlueprintDatabase.database;
+        this.currentLevel = homeLevel;
+        this.history = new List<string>();
+
+        this.XButton.Activate(this.Deactivate);
         this.UpdateUI();
         this.gameObject.SetActive(true);
     }
@@ -48,17 +54,15 @@ public class BlueprintCanvas : MonoBehaviour
         this.NewBlueprint(BlueprintTypeEnum.BLUEPRINT, jsonData);
     }
 
-    public void Deactivate(bool eraseData)
+    public void Deactivate()
     {
         this.gameObject.SetActive(false);
-
-        if (eraseData)
-        {
-            this.homeLevel.Clear();
-            this.previousLevel.Clear();
-            this.currentLevel.Clear();
-            this.history.Clear();
-        }
+        this.homeLevel = null;
+        this.previousLevel = null;
+        this.currentLevel = null;
+        this.history = null;
+        this.messageText.text = null;
+        this.messagePanel.gameObject.SetActive(false);
     }
 
     public void UpdateUI()
@@ -91,12 +95,7 @@ public class BlueprintCanvas : MonoBehaviour
 
                 newButton.onClick.AddListener(() =>
                 {
-                    this.gameObject.SetActive(false);
-
-                    this.PasteBlueprintCanvasScript.Activate(
-                        (kvp.Value as Blueprint).Paste,
-                        this.UpdateUI
-                        );
+                    this.BlueprintCanvasScript.Activate(kvp.Value as Blueprint);
                 });
             }
             else
@@ -154,6 +153,101 @@ public class BlueprintCanvas : MonoBehaviour
             this.UpdateUI,
             jsonData
             );
+    }
+
+    public void ShareFolderButton_Clicked()
+    {
+        GUIUtility.systemCopyBuffer = Newtonsoft.Json.JsonConvert.SerializeObject(this.currentLevel);
+    }
+
+    public void ImportClipboardButton_Clicked()
+    {
+        try
+        {
+            Dictionary<string, object> newEntry = this.RecreateBlueprintLibrary(GUIUtility.systemCopyBuffer);
+
+
+            bool isValid = true;
+            string key = string.Empty;
+
+            foreach(KeyValuePair<string, object> kvp in newEntry)
+            {
+                bool keyExists = this.currentLevel.ContainsKey(kvp.Key);
+
+                if (keyExists)
+                {
+                    key = kvp.Key;
+                    isValid = false;
+                    break;
+                }
+
+                isValid &= true;
+            }
+
+            if (isValid)
+            {
+                foreach (KeyValuePair<string, object> kvp in newEntry)
+                {
+                    object objectToAdd;
+
+                    try
+                    {
+                        objectToAdd = Newtonsoft.Json.JsonConvert.DeserializeObject<Blueprint>(kvp.Value.ToString());
+                    }
+                    catch
+                    {
+                        objectToAdd = kvp.Value;
+                    }
+
+                    if (objectToAdd == default(Blueprint))
+                    {
+                        objectToAdd = kvp.Value;
+                    }
+
+                    this.currentLevel.Add(kvp.Key, objectToAdd);
+                    //BlueprintDatabase.Add(kvp.Key, objectToAdd, this.history);
+                }
+
+                this.messageText.text = "Successfully imported blueprint library";
+                this.messagePanel.color = Color.green;
+
+                this.UpdateUI();
+            }
+            else
+            {
+                this.messageText.text = $"Failed to import blueprint library. Key {key} already exists.";
+                this.messagePanel.color = Color.red;
+            }
+        }
+        catch (Exception ex)
+        {
+            this.messageText.text = "Failed to import blueprint library";
+            this.messagePanel.color = Color.red;
+        }
+
+        this.messagePanel.gameObject.SetActive(!string.IsNullOrWhiteSpace(this.messageText.text));
+    }
+
+    private Dictionary<string, object> RecreateBlueprintLibrary(string json)
+    {
+        Dictionary<string, object> newDict = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+        Dictionary<string, object> returnDict = new Dictionary<string, object>();
+
+        foreach(KeyValuePair<string, object> kvp in newDict)
+        {
+            Blueprint blueprint = Newtonsoft.Json.JsonConvert.DeserializeObject<Blueprint>(kvp.Value.ToString());
+
+            if (string.IsNullOrWhiteSpace(blueprint.Name))
+            {
+                returnDict.Add(kvp.Key, this.RecreateBlueprintLibrary(kvp.Value.ToString()));
+            }
+            else
+            {
+                returnDict.Add(kvp.Key, blueprint);
+            }
+        }
+
+        return returnDict;
     }
 
     //public void IsPasteValid(List<MachineController> machinesToPlace, out bool isPasteValid, out string pasteInvalidString)

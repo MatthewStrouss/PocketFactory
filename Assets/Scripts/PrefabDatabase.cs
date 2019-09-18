@@ -64,16 +64,13 @@ public class PrefabDatabase
 
         Transform Parent = GameObject.Find("Canvas").transform;
         RegisterPrefab("UI", "Starter", Parent.Find("StarterCanvas").gameObject);
+        //RegisterPrefab("UI", "Starter", Parent.Find("StarterCanvasNew").gameObject); // This is the new one
         RegisterPrefab("UI", "Splitter", Parent.Find("SplitterCanvas").gameObject);
         RegisterPrefab("UI", "Splitter1", Parent.Find("SplitterCanvas1").gameObject);
         RegisterPrefab("UI", "Selector", Parent.Find("SelectorCanvas").gameObject);
         RegisterPrefab("UI", "Crafter", Parent.Find("CrafterCanvas").gameObject);
         RegisterPrefab("UI", "Seller", Parent.Find("SellerCanvas").gameObject);
 
-
-        //RegisterPrefab("UI", "Selection", GameObject.Find("Canvas").transform.Find("MainGUICanvas").transform.Find("SelectionCanvas").gameObject);
-        RegisterPrefab("UI", "Copy", Parent.Find("CopyCanvas").gameObject);
-        RegisterPrefab("UI", "Paste", Parent.Find("PasteCanvas").gameObject);
         RegisterPrefab("UI", "Money", Parent.Find("MoneyCanvas").gameObject);
         RegisterPrefab("UI", "Cheat", Parent.Find("CheatCanvas").gameObject);
         RegisterPrefab("UI", "Error", Parent.Find("ErrorCanvas").gameObject);
@@ -82,12 +79,6 @@ public class PrefabDatabase
         RegisterPrefab("UI", "SelectionActionCanvas", Parent.Find("NavCanvas").transform.Find("SelectionActionCanvas").gameObject);
 
         RegisterPrefab("UI", "RotationActionCanvas", Parent.Find("NavCanvas").transform.Find("RotationActionCanvas").gameObject);
-
-        //RegisterPrefab("UI", "MainGUI", GameObject.Find("MainGUICanvas"));
-        //RegisterPrefab("UI", "MainUI", this.GetPrefab("UI", "MainGUI").transform.Find("MainUICanvas").gameObject);
-        //RegisterPrefab("UI", "BuildUI", this.GetPrefab("UI", "MainGUI").transform.Find("BuildUICanvas").gameObject);
-        //RegisterPrefab("UI", "SelectionUI", this.GetPrefab("UI", "MainGUI").transform.Find("SelectionUICanvas").gameObject);
-        //RegisterPrefab("UI", "OkCancelUI", this.GetPrefab("UI", "MainGUI").transform.Find("OkCancelUICanvas").gameObject);
     }
 
     public void RegisterPrefab(string prefabType, string prefabName, GameObject prefab)

@@ -78,6 +78,7 @@ public class StarterController : MonoBehaviour, IMachineController
 
         this.starterGUI.GetComponent<StarterPanelScript>().Activate();
         this.starterGUI.GetComponent<StarterPanelScript>().UpdateUI(this);
+        //this.starterGUI.GetComponent<StarterCanvasScript>().Activate(this);// This is the new one
     }
 
     public void SetControllerValues(IMachineController other)

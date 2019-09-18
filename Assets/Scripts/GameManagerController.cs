@@ -42,18 +42,8 @@ public class GameManagerController : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        if (File.Exists(Path.Combine(Application.persistentDataPath, "PlayerSave.json")))
-        {
-            GameSaveModel gameSaveModel = Newtonsoft.Json.JsonConvert.DeserializeObject<GameSaveModel>(File.ReadAllText(Path.Combine(Application.persistentDataPath, "PlayerSave.json")));
 
-            gameSaveModel.PlacedMachineModels.ToGameObjectList();
-            Player.playerModel.SetValues(gameSaveModel.PlayerModel);
-            ResearchDatabase.OverwriteFromSave(gameSaveModel.ResearchDatabase);
-        }
-        else
-        {
-            Player.playerModel.SetMoney(ResearchDatabase.GetRemainingResearchCost() + 1000000);
-        }
+        this.LoadSaveFile();
     }
 
     private void OnApplicationPause(bool isPaused)
@@ -94,11 +84,28 @@ public class GameManagerController : MonoBehaviour
         gameSaveModel.PlacedMachineModels = UnityEngine.Object.FindObjectsOfType<GameObject>().Where(x => x.layer == 8).ToList().ToMachineModelList();
         gameSaveModel.PlayerModel = Player.playerModel;
         gameSaveModel.ResearchDatabase = ResearchDatabase.database;
-
+        gameSaveModel.BlueprintDatabase = BlueprintDatabase.database;
 
         File.WriteAllText(Path.Combine(Application.persistentDataPath, "PlayerSave.json"), Newtonsoft.Json.JsonConvert.SerializeObject(gameSaveModel, new Newtonsoft.Json.JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore }));
 
         //Debug.Log($"Ended at {System.DateTime.Now.Ticks} with {GameObject.FindGameObjectsWithTag("Resource").Sum(x => x.GetComponent<ResourceController>().resource.Quantity)} resources");
+    }
+
+    private void LoadSaveFile()
+    {
+        if (File.Exists(Path.Combine(Application.persistentDataPath, "PlayerSave.json")))
+        {
+            GameSaveModel gameSaveModel = Newtonsoft.Json.JsonConvert.DeserializeObject<GameSaveModel>(File.ReadAllText(Path.Combine(Application.persistentDataPath, "PlayerSave.json")));
+
+            gameSaveModel.PlacedMachineModels.ToGameObjectList();
+            Player.playerModel.SetValues(gameSaveModel.PlayerModel);
+            ResearchDatabase.OverwriteFromSave(gameSaveModel.ResearchDatabase);
+            BlueprintDatabase.OverwriteFromSave(Newtonsoft.Json.JsonConvert.SerializeObject(gameSaveModel.BlueprintDatabase));
+        }
+        else
+        {
+            Player.playerModel.SetMoney(ResearchDatabase.GetRemainingResearchCost() + 1000000);
+        }
     }
 
     public bool PlayPause()

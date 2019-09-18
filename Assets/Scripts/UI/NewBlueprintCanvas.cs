@@ -13,7 +13,7 @@ public class NewBlueprintCanvas : MonoBehaviour
     [SerializeField] private GameObject dataPanel;
     [SerializeField] private Text errorText;
     [SerializeField] private GameObject errorPanel;
-    [SerializeField] private BlueprintCanvas BlueprintCanvas;
+    [SerializeField] private BlueprintBrowserCanvas BlueprintCanvas;
 
     //private Dictionary<string, object> dict;
     private BlueprintTypeEnum blueprintTypeEnum;
