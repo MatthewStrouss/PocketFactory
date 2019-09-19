@@ -38,16 +38,6 @@ public static class BlueprintDatabase
 
         return returnDict;
     }
-
-    //public static void Add(string key, object value, List<string> keys)
-    //{
-    //    Dictionary<string, object> currentLevel = database;
-
-    //    foreach (string key in keys)
-    //    {
-    //        database[key]
-    //    }
-    //}
 }
 
 public class Blueprint

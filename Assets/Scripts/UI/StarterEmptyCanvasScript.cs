@@ -8,11 +8,10 @@ using UnityEngine.UI;
 public class StarterEmptyCanvasScript : MonoBehaviour
 {
     [SerializeField] private CancelCanvasScript XButton;
-    [SerializeField] private RecipesPanelScript RecipesPanelScript;
     [SerializeField] private Text ClockText;
 
     private StarterController StarterController;
-    private Action Callback;
+    private Action<bool> Callback;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +25,7 @@ public class StarterEmptyCanvasScript : MonoBehaviour
         
     }
 
-    public void Activate(StarterController starterController, Action callback)
+    public void Activate(StarterController starterController, Action<bool> callback)
     {
         this.StarterController = starterController;
         this.Callback = callback;
@@ -37,11 +36,10 @@ public class StarterEmptyCanvasScript : MonoBehaviour
         this.gameObject.SetActive(true);
     }
 
-    public void Deactivate(Recipe recipeChosen)
+    public void Deactivate()
     {
-        this.gameObject.SetActive(true);
-        this.StarterController.ChosenRecipe = recipeChosen;
-        this.Callback();
+        this.gameObject.SetActive(false);
+        this.Callback.DynamicInvoke(false);
     }
 
     public void UpdateUI()
@@ -51,9 +49,6 @@ public class StarterEmptyCanvasScript : MonoBehaviour
 
     public void SelectResourceButton_Clicked()
     {
-        this.RecipesPanelScript.Activate(
-            "Basic",
-            this.Deactivate
-            );
+        this.Callback.DynamicInvoke(true);
     }
 }

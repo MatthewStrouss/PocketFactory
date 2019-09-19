@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class StarterCanvasScript : MonoBehaviour
     [SerializeField] private CancelCanvasScript XButton;
     [SerializeField] private StarterEmptyCanvasScript StarterEmptyCanvasScript;
     [SerializeField] private StarterEnabledCanvas StarterEnabledCanvas;
+    [SerializeField] private RecipesPanelScript RecipesPanelScript;
 
     private StarterController StarterController;
 
@@ -55,8 +57,27 @@ public class StarterCanvasScript : MonoBehaviour
 
             this.StarterEmptyCanvasScript.Activate(
                 this.StarterController,
-                this.UpdateUI
+                this.EmptyStarterCallback
                 );
         }
+    }
+
+    public void EmptyStarterCallback(bool chooseRecipe)
+    {
+        if (chooseRecipe)
+        {
+            this.RecipesPanelScript.Activate(
+                "Basic",
+                this.SetStarter
+                );
+        }
+
+        this.Deactivate();
+    }
+
+    public void SetStarter(Recipe chosenRecipe)
+    {
+        this.StarterController.SetRecipe(chosenRecipe);
+        this.UpdateUI();
     }
 }

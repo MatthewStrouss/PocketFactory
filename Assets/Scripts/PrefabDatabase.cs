@@ -63,8 +63,8 @@ public class PrefabDatabase
         //RegisterPrefab("UI", "Starter", GameObject.Find("Canvas").transform.GetChild(4).gameObject);
 
         Transform Parent = GameObject.Find("Canvas").transform;
-        RegisterPrefab("UI", "Starter", Parent.Find("StarterCanvas").gameObject);
-        //RegisterPrefab("UI", "Starter", Parent.Find("StarterCanvasNew").gameObject); // This is the new one
+        //RegisterPrefab("UI", "Starter", Parent.Find("StarterCanvas").gameObject);
+        RegisterPrefab("UI", "Starter", Parent.Find("StarterCanvasNew").gameObject); // This is the new one
         RegisterPrefab("UI", "Splitter", Parent.Find("SplitterCanvas").gameObject);
         RegisterPrefab("UI", "Splitter1", Parent.Find("SplitterCanvas1").gameObject);
         RegisterPrefab("UI", "Selector", Parent.Find("SelectorCanvas").gameObject);

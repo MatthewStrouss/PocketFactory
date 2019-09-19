@@ -66,7 +66,7 @@ public class StarterController : MonoBehaviour, IMachineController
     {
         this.ChosenRecipe = newRecipe;
         //GameManagerController.Instance.gUIManagerController.starterCanvas.GetComponent<StarterPanelScript>().UpdateUI(this);
-        this.starterGUI.GetComponent<StarterPanelScript>().UpdateUI(this);
+        //this.starterGUI.GetComponent<StarterPanelScript>().UpdateUI(this);
     }
 
     public void OnClick()
@@ -76,9 +76,9 @@ public class StarterController : MonoBehaviour, IMachineController
             this.starterGUI = PrefabDatabase.Instance.GetPrefab("UI", "Starter");
         }
 
-        this.starterGUI.GetComponent<StarterPanelScript>().Activate();
-        this.starterGUI.GetComponent<StarterPanelScript>().UpdateUI(this);
-        //this.starterGUI.GetComponent<StarterCanvasScript>().Activate(this);// This is the new one
+        //this.starterGUI.GetComponent<StarterPanelScript>().Activate();
+        //this.starterGUI.GetComponent<StarterPanelScript>().UpdateUI(this);
+        this.starterGUI.GetComponent<StarterCanvasScript>().Activate(this);// This is the new one
     }
 
     public void SetControllerValues(IMachineController other)

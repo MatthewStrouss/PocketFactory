@@ -53,6 +53,8 @@ public class NewBlueprintCanvas : MonoBehaviour
     public void Deactivate(Action callback)
     {
         this.gameObject.SetActive(false);
+        this.nameText.text = string.Empty;
+        this.dataText.text = string.Empty;
         callback?.DynamicInvoke();
     }
 

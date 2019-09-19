@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class ArrowToggleCanvasScript : MonoBehaviour
 {
     private bool showArrows = false;
-    [SerializeField] private Text showText;
-    [SerializeField] private Text hideText;
+    [SerializeField] private Image showImage;
+    [SerializeField] private Image hideImage;
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +26,8 @@ public class ArrowToggleCanvasScript : MonoBehaviour
     {
         showArrows = !showArrows;
 
-        showText.gameObject.SetActive(!showArrows);
-        hideText.gameObject.SetActive(showArrows);
+        showImage.gameObject.SetActive(!showArrows);
+        hideImage.gameObject.SetActive(showArrows);
 
         UnityEngine.Object.FindObjectsOfType<GameObject>().ToList().Where(x => x.layer.Equals(8)).ToList().ForEach(x =>
         {
