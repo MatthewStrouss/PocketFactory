@@ -14,10 +14,14 @@ public class MovementScript : MonoBehaviour
     public PanGestureRecognizer actionGesture;
     public ScaleGestureRecognizer scaleGesture;
     public SwipeGestureRecognizer swipeGesture;
+    public LongPressGestureRecognizer longPressGestureRecognizer;
     private static readonly float PanSpeed = 0.02f;
     private static readonly float[] BoundsX = new float[] { -8f, 7f };
     private static readonly float[] BoundsY = new float[] { -8f, 7f };
     private static readonly float[] ZoomBounds = new float[] { 3f, 16f };
+
+    private GameObject machineToRotate;
+    Vector3 machineToRotatePos;
 
     private StateEnum StateEnum = StateEnum.NONE;
 
@@ -30,6 +34,7 @@ public class MovementScript : MonoBehaviour
         CreatePanGesture();
         CreateScaleGesture();
         CreateSwipeGesture();
+        CreateLongPressGesture();
 
         panGesture.AllowSimultaneousExecution(scaleGesture);
     }
@@ -89,6 +94,49 @@ public class MovementScript : MonoBehaviour
         //FingersScript.Instance.AddGesture(swipeGesture);
     }
 
+    private void CreateLongPressGesture()
+    {
+        longPressGestureRecognizer = new LongPressGestureRecognizer();
+        longPressGestureRecognizer.StateUpdated += LongPressGestureCallback;
+        FingersScript.Instance.AddGesture(longPressGestureRecognizer);
+    }
+
+    private void LongPressGestureCallback(GestureRecognizer gesture)
+    {
+        if (gesture.State == GestureRecognizerState.Began)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(gesture.FocusX, gesture.FocusY));
+            Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
+            RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
+
+            if (test)
+            {
+                this.machineToRotate = test.transform.gameObject;
+                this.machineToRotate.GetComponent<MachineController>().EnableRotationMode();
+                this.machineToRotatePos = Camera.main.WorldToScreenPoint(this.machineToRotate.transform.position);
+            }
+        }
+        if (gesture.State == GestureRecognizerState.Executing)
+        {
+            if (this.machineToRotate != null)
+            {
+                Vector3 mousePos = new Vector3(gesture.FocusX, gesture.FocusY);
+
+                float distX = mousePos.x - this.machineToRotatePos.x;
+                float distY = mousePos.y - this.machineToRotatePos.y;
+
+                float angle = 90 * Mathf.Ceil((Mathf.Atan2(distY, distX) * Mathf.Rad2Deg) / 90);
+
+                this.machineToRotate.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            }
+        }
+        if (gesture.State == GestureRecognizerState.Ended)
+        {
+            this.machineToRotate.GetComponent<MachineController>().DisableRotationMode();
+            this.machineToRotate = null;
+        }
+    }
+
     private void ScaleGestureCallback(GestureRecognizer gesture)
     {
         if (gesture.State == GestureRecognizerState.Executing)
@@ -103,6 +151,14 @@ public class MovementScript : MonoBehaviour
 
     private void TapGestureCallback(GestureRecognizer gesture)
     {
+        if (gesture.State == GestureRecognizerState.Began)
+        {
+
+        }
+        if (gesture.State == GestureRecognizerState.Executing)
+        {
+
+        }
         if (gesture.State == GestureRecognizerState.Ended)
         {
             if (this.StateEnum == StateEnum.NONE)

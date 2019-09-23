@@ -32,16 +32,10 @@ public class CheatCanvasScript : MonoBehaviour
             PrefabDatabase.Instance.GetPrefabsForType("Machine").Values.ToList().ForEach(x => x.GetComponent<MachineController>().Machine.IsUnlocked = true);
         });
 
-        cheatDict.Add("ui.recipeCanvas", (recipe) =>
+        cheatDict.Add("ui.recipeCanvas", (_) =>
         {
-            Recipe recipeToUse = RecipeDatabase.GetRecipe("Recipe", recipe.FirstOrDefault());
-
-            GameObject recipeCanvas = Instantiate(PrefabDatabase.Instance.GetPrefab("UI", "Recipe"));
-            recipeCanvas.GetComponent<RecipeCanvasScript>().SetRecipe(recipeToUse, () =>
-            {
-                Destroy(recipeCanvas.gameObject);
-            });
-            recipeCanvas.SetActive(true);
+            GameObject recipeCanvas = PrefabDatabase.Instance.GetPrefab("UI", "Recipe");
+            recipeCanvas.GetComponent<RecipesPanelScript>().Activate("Recipe", (recipe) => { });
         });
 
         cheatDict.Add("resource.spawn", (resourceInfo) =>

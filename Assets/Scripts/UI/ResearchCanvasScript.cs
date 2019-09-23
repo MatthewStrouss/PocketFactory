@@ -58,7 +58,7 @@ public class ResearchCanvasScript : MonoBehaviour
             newButton.transform.Find("Image").GetComponent<Image>().sprite = x.Value.Sprite;
             newButton.transform.Find("NameText").GetComponent<Text>().text = x.Value.Name;
             newButton.transform.Find("DescriptionText").GetComponent<Text>().text = x.Value.Description;
-            newButton.transform.Find("PriceText").GetComponent<Text>().text = x.Value.Cost.ToString();
+            newButton.transform.Find("PriceText").GetComponent<Text>().text = Assets.Scripts.Extensions.LongExtensions.FormatNumber(x.Value.Cost);
             newButton.interactable = Player.playerModel.Money - x.Value.Cost > 0;
 
             newButton.onClick.AddListener(() => 

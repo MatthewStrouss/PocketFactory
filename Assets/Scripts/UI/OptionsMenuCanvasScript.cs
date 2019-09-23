@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class OptionsMenuCanvasScript : MonoBehaviour
 {
     [SerializeField] private CancelCanvasScript XButton;
     [SerializeField] private OkCancelCanvasScript OkCancelCanvasScript;
     [SerializeField] private AboutCanvasScript AboutCanvasScript;
+    [SerializeField] private Button DonationButton;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +27,7 @@ public class OptionsMenuCanvasScript : MonoBehaviour
     public void Activate()
     {
         this.XButton.Activate(this.Deactivate);
+        this.DonationButton.interactable = !Player.playerModel.HasClickedDonationButton;
         this.gameObject.SetActive(true);
     }
 

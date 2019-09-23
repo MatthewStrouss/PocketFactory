@@ -21,6 +21,8 @@ public class RecipesPanelScript : MonoBehaviour
 
     public string recipeType;
 
+    [SerializeField] private InputField FilterInputField;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,8 +72,17 @@ public class RecipesPanelScript : MonoBehaviour
         {
             Button newButton;
             newButton = Instantiate<Button>(this.recipeCanvasPrefab, this.content.transform);
-            newButton.GetComponent<RecipeCanvasScript>().SetRecipe(x, () => this.Deactivate(x));
+            newButton.GetComponent<RecipeButtonScript>().Activate(x, () => this.Deactivate(x));
+            //newButton.GetComponent<RecipeCanvasScript>().SetRecipe(x, () => this.Deactivate(x));
             newButton.interactable = x.IsUnlocked;
         });
+    }
+
+    public void FilterInputField_Updated()
+    {
+        foreach (Transform child in this.content.transform)
+        {
+            child.gameObject.SetActive(child.GetComponent<RecipeButtonScript>().RecipeContains(this.FilterInputField.text));
+        }
     }
 }

@@ -167,10 +167,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 5806218095937816052}
+  machine2:
+    isUnlocked: 0
+    actionTime: 0
+    electricityCost: 0
+  machineData: {fileID: 0}
+  machineType: 4
   SelectedGameObject: {fileID: 8811717665493323588}
   ArrowGameObject: {fileID: 0}
+  RotationOverlay: {fileID: 0}
   MachineName: Selector
   nextActionTime: 0
+  gameManager: {fileID: 0}
 --- !u!114 &5806218095937816052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +191,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20b13406ebad4e147ac3542c43ea3e34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MachineController: {fileID: 0}
+  selectorDirectionEnum: 0
+  selectorCanvas: {fileID: 0}
+  DirectionCount: 2
+  directions: []
 --- !u!50 &7878716121373781106
 Rigidbody2D:
   serializedVersion: 4
@@ -229,6 +242,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

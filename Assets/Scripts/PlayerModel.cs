@@ -22,6 +22,13 @@ public class PlayerModel
         }
     }
 
+    [SerializeField] private bool hasClickedDonationButton;
+    public bool HasClickedDonationButton
+    {
+        get => this.hasClickedDonationButton;
+        set => this.hasClickedDonationButton = value;
+    }
+
     public void SetValues(PlayerModel otherPlayerModel)
     {
         this.Money = otherPlayerModel.Money;

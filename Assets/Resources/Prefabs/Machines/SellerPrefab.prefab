@@ -95,8 +95,10 @@ MonoBehaviour:
     actionTime: 0
     electricityCost: 0
   machineData: {fileID: 0}
+  machineType: 5
   SelectedGameObject: {fileID: 8872615695698783262}
   ArrowGameObject: {fileID: 0}
+  RotationOverlay: {fileID: 0}
   MachineName: Seller
   nextActionTime: 0
   gameManager: {fileID: 0}
@@ -201,7 +203,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

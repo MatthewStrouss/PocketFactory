@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class RecipeCanvasScript : MonoBehaviour
 {
-    [SerializeField] private Recipe recipe;
+    public Recipe recipe;
     [SerializeField] private Button recipeButton;
     [SerializeField] private GameObject recipeContent;
     [SerializeField] private GameObject resultObject;

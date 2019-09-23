@@ -63,22 +63,20 @@ public class PrefabDatabase
         //RegisterPrefab("UI", "Starter", GameObject.Find("Canvas").transform.GetChild(4).gameObject);
 
         Transform Parent = GameObject.Find("Canvas").transform;
-        //RegisterPrefab("UI", "Starter", Parent.Find("StarterCanvas").gameObject);
-        RegisterPrefab("UI", "Starter", Parent.Find("StarterCanvasNew").gameObject); // This is the new one
-        RegisterPrefab("UI", "Splitter", Parent.Find("SplitterCanvas").gameObject);
-        RegisterPrefab("UI", "Splitter1", Parent.Find("SplitterCanvas1").gameObject);
-        RegisterPrefab("UI", "Selector", Parent.Find("SelectorCanvas").gameObject);
+        //RegisterPrefab("UI", "Selector", Parent.Find("SelectorCanvas").gameObject);
         RegisterPrefab("UI", "Crafter", Parent.Find("CrafterCanvas").gameObject);
         RegisterPrefab("UI", "Seller", Parent.Find("SellerCanvas").gameObject);
 
         RegisterPrefab("UI", "Money", Parent.Find("MoneyCanvas").gameObject);
         RegisterPrefab("UI", "Cheat", Parent.Find("CheatCanvas").gameObject);
         RegisterPrefab("UI", "Error", Parent.Find("ErrorCanvas").gameObject);
-        RegisterPrefab("UI", "Recipe", Resources.Load(@"UI/RecipeCanvas.prefab", typeof(GameObject)) as GameObject);
+        RegisterPrefab("UI", "Recipe", Parent.Find("RecipesPanel").gameObject);
         RegisterPrefab("UI", "OkCancelCanvas", Parent.Find("NavCanvas").transform.Find("OkCancelCanvas").gameObject);
         RegisterPrefab("UI", "SelectionActionCanvas", Parent.Find("NavCanvas").transform.Find("SelectionActionCanvas").gameObject);
 
         RegisterPrefab("UI", "RotationActionCanvas", Parent.Find("NavCanvas").transform.Find("RotationActionCanvas").gameObject);
+
+        RegisterPrefab("UI", "MachineBaseCanvas", Parent.Find("MachineBase").gameObject);
     }
 
     public void RegisterPrefab(string prefabType, string prefabName, GameObject prefab)

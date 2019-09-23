@@ -60,17 +60,7 @@ public class SplitterController : MonoBehaviour, IMachineController
             }
         });
 
-        this.splitterCanvas = PrefabDatabase.Instance.GetPrefab("UI", "Splitter1");
-
         this.UpdateDirectionSum();
-
-        //this.Directions = new Direction[]
-        //{
-        //    // LEFT
-        //    new Direction(new Vector3(-1.0f, 0.0f, 0.0f), 2, new List<Resource>(), resourceSpawnPointLeft.transform, moveToPointLeft.transform),
-        //    // FORWARD
-        //    new Direction(new Vector3(0.0f, 1.0f, 0.0f), 2, new List<Resource>(), resourceSpawnPointForward.transform, moveToPointForward.transform),
-        //};
     }
 
     public void ActionToPerformOnTimer()
@@ -80,7 +70,7 @@ public class SplitterController : MonoBehaviour, IMachineController
 
     public void OnClick()
     {
-        this.splitterCanvas.GetComponent<SplitterCanvasScript1>().Activate(this.gameObject, this.UICallback);
+
     }
 
     public void UICallback()

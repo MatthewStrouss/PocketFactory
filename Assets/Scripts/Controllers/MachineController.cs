@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Assets.Scripts.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,9 +27,15 @@ public class MachineController : MonoBehaviour
 
     [SerializeField] private Machine machine2;
     [SerializeField] private MachineScriptableObject machineData;
+    [SerializeField] private MachineTypeEnum machineType;
+    public MachineTypeEnum MachineType
+    {
+        get => this.machineType;
+    }
 
     public GameObject SelectedGameObject;
     public GameObject ArrowGameObject;
+    public GameObject RotationOverlay;
 
     public string MachineName;
 
@@ -43,6 +50,7 @@ public class MachineController : MonoBehaviour
         if (this.ArrowGameObject != null)
         {
             this.ArrowGameObject.SetActive(false);
+            this.RotationOverlay.SetActive(false);
         }
 
         this.SetupMachine();
@@ -117,7 +125,8 @@ public class MachineController : MonoBehaviour
 
     public void OnClick()
     {
-        (controller as IMachineController).OnClick();
+        //(controller as IMachineController).OnClick();
+        PrefabDatabase.Instance.GetPrefab("UI", "MachineBaseCanvas").GetComponent<MachineMasterPanelScript>().Activate(this);
     }
 
     public void ActivateSelected()
@@ -222,6 +231,34 @@ public class MachineController : MonoBehaviour
         if (this.Machine.CanRotate)
         {
             this.transform.rotation = rotation;
+        }
+    }
+
+    public void RotateBy(Quaternion rotation)
+    {
+        if (this.Machine.CanRotate)
+        {
+            this.transform.rotation = Quaternion.Euler(
+                this.transform.rotation.eulerAngles.x + rotation.eulerAngles.x,
+                this.transform.rotation.eulerAngles.y + rotation.eulerAngles.y,
+                this.transform.rotation.eulerAngles.z + rotation.eulerAngles.z
+                );
+        }
+    }
+
+    public void EnableRotationMode()
+    {
+        if (this.Machine.CanRotate)
+        {
+            this.RotationOverlay.gameObject.SetActive(true);
+        }
+    }
+
+    public void DisableRotationMode()
+    {
+        if (this.Machine.CanRotate)
+        {
+            this.RotationOverlay.gameObject.SetActive(false);
         }
     }
 }

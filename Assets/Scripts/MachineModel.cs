@@ -130,7 +130,7 @@ namespace Assets.Scripts
     //    }
     //}
 
-    public static class Extensions
+    public static class MachoneModelExtensions
     {
         public static MachineModel ToMachineModel(this string str)
         {
