@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SplitterCanvasScriptNewNew : MonoBehaviour
 {
+    [SerializeField] private Canvas Canvas;
     [SerializeField] private MoreLessScript LeftMoreLess;
     [SerializeField] private MoreLessScript UpMoreLess;
     [SerializeField] private MoreLessScript RightMoreLess;
@@ -79,6 +80,18 @@ public class SplitterCanvasScriptNewNew : MonoBehaviour
 
     public void UpdateUI()
     {
+        this.Canvas.transform.rotation = Quaternion.Euler(this.Canvas.transform.rotation.eulerAngles.x, this.Canvas.transform.rotation.eulerAngles.y, this.SplitterController.transform.rotation.eulerAngles.z);
+
+        //this.LeftMoreLess.transform.rotation = Quaternion.Euler(this.LeftMoreLess.transform.rotation.eulerAngles.x, this.LeftMoreLess.transform.rotation.eulerAngles.y, 0);
+        ////this.UpMoreLess.transform.rotation = Quaternion.Euler(this.LeftMoreLess.transform.rotation.eulerAngles.x, this.LeftMoreLess.transform.rotation.eulerAngles.y, 0);
+        //this.RightMoreLess.transform.rotation = Quaternion.Euler(this.LeftMoreLess.transform.rotation.eulerAngles.x, this.LeftMoreLess.transform.rotation.eulerAngles.y, 0);
+        //this.DownMoreLess.transform.rotation = Quaternion.Euler(this.LeftMoreLess.transform.rotation.eulerAngles.x, this.LeftMoreLess.transform.rotation.eulerAngles.y, 0);
+
+        this.LeftMoreLess.Rotate(Quaternion.Euler(this.LeftMoreLess.transform.rotation.eulerAngles.x, this.LeftMoreLess.transform.rotation.eulerAngles.y, 0));
+        ////this.UpMoreLess.transform.rotation = Quaternion.Euler(this.LeftMoreLess.transform.rotation.eulerAngles.x, this.LeftMoreLess.transform.rotation.eulerAngles.y, 0);
+        this.RightMoreLess.Rotate(Quaternion.Euler(this.LeftMoreLess.transform.rotation.eulerAngles.x, this.LeftMoreLess.transform.rotation.eulerAngles.y, 0));
+        this.DownMoreLess.Rotate(Quaternion.Euler(this.LeftMoreLess.transform.rotation.eulerAngles.x, this.LeftMoreLess.transform.rotation.eulerAngles.y, 0));
+
         this.LeftImage.gameObject.SetActive(this.SplitterController.Directions[0].Count != 0);
         //this.UpImage.gameObject.SetActive(this.SplitterController.Directions[1].Count != 0);
         this.RightImage.gameObject.SetActive(this.SplitterController.Directions[2].Count != 0);

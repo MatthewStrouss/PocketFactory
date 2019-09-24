@@ -20,6 +20,9 @@ public class BuildModeCanvasScript : MonoBehaviour
     private GameObject machineToPlace;
     private List<GameObject> placedMachines = new List<GameObject>();
 
+    private static readonly float[] BoundsX = new float[] { -8f, 7f };
+    private static readonly float[] BoundsY = new float[] { -8f, 7f };
+
     private void Awake()
     {
 
@@ -48,10 +51,12 @@ public class BuildModeCanvasScript : MonoBehaviour
         {
             if (machineToPlace != null)
             {
-                Vector3 mousePos = this.cam.ScreenToWorldPoint(new Vector3(gesture.FocusX, gesture.FocusY));
+                Vector3 mousePos = this.cam.ScreenToWorldPoint(new Vector3(Mathf.Round(gesture.FocusX), Mathf.Round(gesture.FocusY)));
                 Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
                 RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
 
+                if (mousePos.x >= BoundsX[0] && mousePos.x <= BoundsX[1] && 
+                    mousePos.y >= BoundsY[0] && mousePos.y <= BoundsY[1])
                 if (test)
                 {
                     MachineController offender = test.transform.gameObject.GetComponent<MachineController>();

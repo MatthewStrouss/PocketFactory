@@ -89,4 +89,9 @@ public class MoreLessScript : MonoBehaviour
 
         this.UpdateUI();
     }
+
+    public void Rotate(Quaternion rotation)
+    {
+        this.InputField.transform.rotation = rotation;
+    }
 }

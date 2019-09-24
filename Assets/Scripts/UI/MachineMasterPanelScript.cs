@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Enums;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,15 +8,18 @@ using UnityEngine.UI;
 public class MachineMasterPanelScript : MonoBehaviour
 {
     [SerializeField] private Text HeaderText;
-    [SerializeField] private Button SellButton;
-    [SerializeField] private Button RotateButton;
-    [SerializeField] private Button MoveButton;
     [SerializeField] private CancelCanvasScript XButton;
     [SerializeField] private Text TimerText;
     [SerializeField] private Image RadialTimer;
     [SerializeField] private Text SellPriceText;
     [SerializeField] private MoveModeCanvasScript MoveModeCanvasScript;
 
+    [Header("Buttons")]
+    [SerializeField] private Button SellButton;
+    [SerializeField] private Button RotateButton;
+    [SerializeField] private Button FlipHorizontalButton;
+    [SerializeField] private Button FlipVerticalButton;
+    [SerializeField] private Button MoveButton;
 
     [Header("Individual Machine Canvases")]
     [SerializeField] private CrafterCanvasScriptNewNew CrafterCanvas;
@@ -29,6 +33,7 @@ public class MachineMasterPanelScript : MonoBehaviour
     [SerializeField] private WireDrawerCanvasScriptNewNew WireDrawerCanvas;
 
     private MachineController MachineController;
+    private Action Callback;
 
     // Start is called before the first frame update
     void Start()
@@ -48,9 +53,10 @@ public class MachineMasterPanelScript : MonoBehaviour
         this.UpdateUI();
     }
 
-    public void Activate(MachineController machineController)
+    public void Activate(MachineController machineController, Action callback)
     {
         this.MachineController = machineController;
+        this.Callback = callback;
         this.Activate();
     }
 
@@ -66,6 +72,7 @@ public class MachineMasterPanelScript : MonoBehaviour
         this.StarterCanvas.gameObject.SetActive(false);
         this.WireDrawerCanvas.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
+        this.Callback?.DynamicInvoke();
     }
 
     public void UpdateUI()
@@ -131,6 +138,24 @@ public class MachineMasterPanelScript : MonoBehaviour
     public void RotateButton_Clicked()
     {
         this.MachineController.RotateBy(Quaternion.Euler(0f, 0f, -90f));
+    }
+
+    public void FlipHorizontalButton_Clicked()
+    {
+        this.MachineController.transform.RotateAround(
+            this.MachineController.transform.position,
+            new Vector3(0, 1, 0),
+            180
+            );
+    }
+
+    public void FlipVerticalButton_Clicked()
+    {
+        this.MachineController.transform.RotateAround(
+            this.MachineController.transform.position,
+            new Vector3(0, 0, 1),
+            180
+            );
     }
 
     public void MoveButton_Clicked()

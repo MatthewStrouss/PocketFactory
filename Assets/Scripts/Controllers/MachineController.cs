@@ -126,7 +126,19 @@ public class MachineController : MonoBehaviour
     public void OnClick()
     {
         //(controller as IMachineController).OnClick();
-        PrefabDatabase.Instance.GetPrefab("UI", "MachineBaseCanvas").GetComponent<MachineMasterPanelScript>().Activate(this);
+        this.ActivateSelected();
+        PrefabDatabase.Instance.GetPrefab("UI", "MachineBaseCanvas").GetComponent<MachineMasterPanelScript>().Activate(this, this.MachineBaseCanvasCallback);
+    }
+
+    public void MachineBaseCanvasCallback()
+    {
+        StartCoroutine("DeactivateSelectedCoroutine");
+    }
+
+    IEnumerator DeactivateSelectedCoroutine()
+    {
+        yield return new WaitForSeconds(3);
+        this.DeactivateSelected();
     }
 
     public void ActivateSelected()

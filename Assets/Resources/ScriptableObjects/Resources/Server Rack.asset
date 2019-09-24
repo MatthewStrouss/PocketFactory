@@ -16,4 +16,4 @@ MonoBehaviour:
   cost: 0
   value: 10600
   quantity: 1
-  sprite: {fileID: -3243444153823714247, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  sprite: {fileID: 21300000, guid: e7c1113cd6ecf7240b271413c0f5174f, type: 3}
