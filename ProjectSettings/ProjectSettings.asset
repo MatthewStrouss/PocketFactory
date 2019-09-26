@@ -261,7 +261,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 1
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 2800000, guid: 3914f31cf0d0a8f4eb12482b1f1efe89, type: 3}
-  AndroidKeystoreName: '{inproject}: user.keystore'
+  AndroidKeystoreName: C:/Users/destr/Documents/GitHub/Factory Game/user.keystore
   AndroidKeyaliasName: pocketfactory
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0

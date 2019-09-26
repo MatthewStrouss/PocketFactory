@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class ResourceCanvasNew : MonoBehaviour
 {
     [SerializeField] private Image Image;
-    [SerializeField] private Text Text;
+    [SerializeField] private Text NameText;
+    [SerializeField] private Text QuantityText;
 
     private Resource Resource;
     // Start is called before the first frame update
@@ -41,6 +42,9 @@ public class ResourceCanvasNew : MonoBehaviour
     public void UpdateUI()
     {
         this.Image.sprite = this.Resource.Sprite;
-        this.Text.text = this.Resource.name;
+        this.NameText.text = this.Resource.name;
+        this.QuantityText.text = this.Resource.Quantity.ToString();
     }
+
+    public string ResourceName() => this.Resource.name;
 }

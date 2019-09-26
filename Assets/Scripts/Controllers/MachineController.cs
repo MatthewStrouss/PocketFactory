@@ -127,6 +127,12 @@ public class MachineController : MonoBehaviour
     {
         //(controller as IMachineController).OnClick();
         this.ActivateSelected();
+
+        if (this.ArrowGameObject != null)
+        {
+            this.ActivateArrow();
+        }
+        
         PrefabDatabase.Instance.GetPrefab("UI", "MachineBaseCanvas").GetComponent<MachineMasterPanelScript>().Activate(this, this.MachineBaseCanvasCallback);
     }
 
@@ -139,6 +145,7 @@ public class MachineController : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         this.DeactivateSelected();
+        this.DeactivateArrow();
     }
 
     public void ActivateSelected()
@@ -161,12 +168,12 @@ public class MachineController : MonoBehaviour
 
     public void ActivateArrow()
     {
-        this.ArrowGameObject.SetActive(true);
+        this.ArrowGameObject?.SetActive(true);
     }
 
     public void DeactivateArrow()
     {
-        this.ArrowGameObject.SetActive(false);
+        this.ArrowGameObject?.SetActive(false);
     }
 
     public void Sell(bool sellFullAmount = false)

@@ -51,12 +51,12 @@ public class BuildModeCanvasScript : MonoBehaviour
         {
             if (machineToPlace != null)
             {
-                Vector3 mousePos = this.cam.ScreenToWorldPoint(new Vector3(Mathf.Round(gesture.FocusX), Mathf.Round(gesture.FocusY)));
+                Vector3 mousePos = this.cam.ScreenToWorldPoint(new Vector3(gesture.FocusX, gesture.FocusY));
                 Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
                 RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
 
-                if (mousePos.x >= BoundsX[0] && mousePos.x <= BoundsX[1] && 
-                    mousePos.y >= BoundsY[0] && mousePos.y <= BoundsY[1])
+                if (rayPos.x >= BoundsX[0] && rayPos.x <= BoundsX[1] &&
+                    rayPos.y >= BoundsY[0] && rayPos.y <= BoundsY[1])
                 if (test)
                 {
                     MachineController offender = test.transform.gameObject.GetComponent<MachineController>();
@@ -80,27 +80,9 @@ public class BuildModeCanvasScript : MonoBehaviour
                     }
                 }
 
-                this.OkCancelCanvas.UpdateInstructionText2($"${this.placedMachines.Sum(x => x.GetComponent<MachineController>().Machine.BuildCost)}");
+                this.OkCancelCanvas.UpdateInstructionText($"{this.placedMachines.Count}<align=right>${this.placedMachines.Sum(x => x.GetComponent<MachineController>().Machine.BuildCost)}");
                 this.OkCancelCanvas.SetOkButtonActive(this.placedMachines.Count > 0);
             }
-        }
-    }
-
-    public void HandlePan(GestureRecognizer gesture)
-    {
-        if (gesture.State == GestureRecognizerState.Executing)
-        {
-            GameObject lastMachinePlaced = this.placedMachines.LastOrDefault();
-
-            Vector3 objPos = Camera.main.WorldToScreenPoint(lastMachinePlaced.transform.position);
-            Vector3 mousePos = new Vector3(gesture.FocusX, gesture.FocusY);
-
-            float distX = mousePos.x - objPos.x;
-            float distY = mousePos.y - objPos.y;
-
-            float angle = 90 * Mathf.Ceil((Mathf.Atan2(distY, distX) * Mathf.Rad2Deg) / 90);
-
-            lastMachinePlaced.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
     }
 
@@ -109,7 +91,8 @@ public class BuildModeCanvasScript : MonoBehaviour
         this.gameObject.SetActive(true);
 
         this.OkCancelCanvas.Activate(
-            "Select a machine and tap on the screen to place it",
+            "Build machines",
+            "Tap to build and remove, hold to rotate",
             this.AcceptBuild,
             this.CancelBuild,
             false
@@ -123,7 +106,6 @@ public class BuildModeCanvasScript : MonoBehaviour
         this.UpdateUI();
 
         this.movementScript.tapGesture.StateUpdated += this.HandleClick;
-        this.movementScript.actionGesture.StateUpdated += this.HandlePan;
         this.movementScript.EnableBuildMode();
 
         Player.playerModel.MoneyUpdated += PlayerModel_MoneyUpdated;
@@ -135,7 +117,6 @@ public class BuildModeCanvasScript : MonoBehaviour
         this.OkCancelCanvas.Deactivate();
 
         this.movementScript.tapGesture.StateUpdated -= this.HandleClick;
-        this.movementScript.actionGesture.StateUpdated -= this.HandlePan;
         this.movementScript.DisableBuildMode();
 
         UnityEngine.Object.FindObjectsOfType<GameObject>().Where(x => x.layer == 8).Select(x => x.GetComponent<SpriteRenderer>()).ToList().ForEach(x => x.color = Color.white);
@@ -178,15 +159,22 @@ public class BuildModeCanvasScript : MonoBehaviour
         {
             MachineController machineController = machine.GetComponent<MachineController>();
             Toggle newToggle = Instantiate(this.BuildMachineTogglePrefab, this.Content.transform);
-            newToggle.transform.Find("NameText").GetComponent<Text>().text = machine.GetComponent<MachineController>().Machine.MachineName;
-            newToggle.transform.Find("CostText").GetComponent<Text>().text = machine.GetComponent<MachineController>().Machine.BuildCost.ToString();
-            newToggle.transform.Find("Background").GetComponent<Image>().sprite = machine.GetComponent<MachineController>().Machine.Sprite;
+
+            Transform background = newToggle.transform.Find("Background");
+            background.GetComponent<Image>().sprite = machine.GetComponent<MachineController>().Machine.Sprite;
+            background.Find("NameText").GetComponent<Text>().text = machine.GetComponent<MachineController>().Machine.MachineName;
+            //background.Find("CostText").GetComponent<Text>().text = machine.GetComponent<MachineController>().Machine.BuildCost.ToString();
             newToggle.group = this.GetComponent<ToggleGroup>();
             newToggle.onValueChanged.AddListener((value) =>
             {
                 if (value)
                 {
                     this.SetMachine(machine);
+                    background.Find("NameText").GetComponent<Text>().color = new Color(237f / 255f, 151f / 255f, 26f / 255f);
+                }
+                else
+                {
+                    background.Find("NameText").GetComponent<Text>().color = new Color(201f / 255f, 211f / 255f, 206f / 255f);
                 }
             });
 
@@ -200,6 +188,8 @@ public class BuildModeCanvasScript : MonoBehaviour
 
             //this.buttonsList.Add(newButton);
         }
+
+        this.Content.transform.GetChild(0).GetComponent<Toggle>().isOn = true;
     }
 
     public void UpdateUI()

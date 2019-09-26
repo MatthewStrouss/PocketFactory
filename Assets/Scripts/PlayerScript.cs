@@ -19,6 +19,7 @@ public class PlayerScript : MonoBehaviour
     public Resource resourceToSpawn;
 
     [SerializeField] private Text debugText;
+    [SerializeField] private Camera cam;
 
     private bool settingMachine = false;
 
@@ -47,6 +48,9 @@ public class PlayerScript : MonoBehaviour
         {
             PrefabDatabase.Instance.GetPrefab("UI", "Cheat").GetComponent<CheatCanvasScript>().Activate();
         }
+
+        Vector3 mousePos = this.cam.ScreenToWorldPoint(new Vector3(Mathf.Round(Input.mousePosition.x), Mathf.Round(Input.mousePosition.x)));
+        this.debugText.text = $"({mousePos.x}, {mousePos.y})";
     }
 
     //public void Copy()

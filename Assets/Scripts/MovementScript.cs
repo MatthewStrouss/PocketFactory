@@ -19,6 +19,8 @@ public class MovementScript : MonoBehaviour
     private static readonly float[] BoundsX = new float[] { -8f, 7f };
     private static readonly float[] BoundsY = new float[] { -8f, 7f };
     private static readonly float[] ZoomBounds = new float[] { 3f, 16f };
+    [SerializeField] private float camDistanceFromObjectOnClick = 3.5f;
+    [SerializeField] private float camDefaultOrthographicSize = 5f;
 
     private GameObject machineToRotate;
     Vector3 machineToRotatePos;
@@ -105,7 +107,7 @@ public class MovementScript : MonoBehaviour
     {
         if (gesture.State == GestureRecognizerState.Began)
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(gesture.FocusX, gesture.FocusY));
+            Vector3 mousePos = this.cam.ScreenToWorldPoint(new Vector3(gesture.FocusX, gesture.FocusY));
             Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
             RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
 
@@ -113,7 +115,7 @@ public class MovementScript : MonoBehaviour
             {
                 this.machineToRotate = test.transform.gameObject;
                 this.machineToRotate.GetComponent<MachineController>().EnableRotationMode();
-                this.machineToRotatePos = Camera.main.WorldToScreenPoint(this.machineToRotate.transform.position);
+                this.machineToRotatePos = this.cam.WorldToScreenPoint(this.machineToRotate.transform.position);
             }
         }
         if (gesture.State == GestureRecognizerState.Executing)
@@ -151,25 +153,19 @@ public class MovementScript : MonoBehaviour
 
     private void TapGestureCallback(GestureRecognizer gesture)
     {
-        if (gesture.State == GestureRecognizerState.Began)
-        {
-
-        }
-        if (gesture.State == GestureRecognizerState.Executing)
-        {
-
-        }
         if (gesture.State == GestureRecognizerState.Ended)
         {
             if (this.StateEnum == StateEnum.NONE)
             {
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(gesture.FocusX, gesture.FocusY));
+                Vector3 mousePos = this.cam.ScreenToWorldPoint(new Vector3(gesture.FocusX, gesture.FocusY));
                 Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
                 RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f, 1 << 8);
 
                 if (test)
                 {
                     test.transform.gameObject.GetComponent<MachineController>().OnClick();
+                    this.cam.orthographicSize = this.camDefaultOrthographicSize;
+                    this.cam.transform.position = new Vector3(rayPos.x, rayPos.y-this.camDistanceFromObjectOnClick, this.cam.transform.position.z);
                     //this.starterCanvas.GetComponent<StarterPanelScript>().Activate(test.transform.gameObject);
                 }
             }

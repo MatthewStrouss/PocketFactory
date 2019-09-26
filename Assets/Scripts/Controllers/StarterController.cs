@@ -21,6 +21,8 @@ public class StarterController : MonoBehaviour, IMachineController
 
     public GameObject starterGUI;
 
+    [SerializeField] private SpriteRenderer ResourceSprite;
+
     void Awake()
     {
         this.ChosenRecipe = RecipeDatabase.GetRecipe(this.recipeType, "(None)");
@@ -65,6 +67,7 @@ public class StarterController : MonoBehaviour, IMachineController
     public void SetRecipe(Recipe newRecipe)
     {
         this.ChosenRecipe = newRecipe;
+        this.ResourceSprite.sprite = newRecipe.Result.Sprite;
         //GameManagerController.Instance.gUIManagerController.starterCanvas.GetComponent<StarterPanelScript>().UpdateUI(this);
         //this.starterGUI.GetComponent<StarterPanelScript>().UpdateUI(this);
     }

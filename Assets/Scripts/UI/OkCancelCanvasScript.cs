@@ -47,6 +47,16 @@ public class OkCancelCanvasScript : MonoBehaviour
         this.Activate();
     }
 
+    public void Activate(string instructionText, string instructionText2, Action okButtonAction, Action cancelButtonAction, bool isOkButtonActive = true)
+    {
+        UpdateInstructionText(instructionText);
+        UpdateInstructionText2(instructionText2);
+        this.okButtonAction = okButtonAction;
+        this.cancelButtonAction = cancelButtonAction;
+        this.SetOkButtonActive(isOkButtonActive);
+        this.Activate();
+    }
+
     public void Deactivate()
     {
         this.gameObject.SetActive(false);
