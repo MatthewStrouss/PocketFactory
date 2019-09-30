@@ -132,6 +132,12 @@ MonoBehaviour:
     isUnlocked: 0
     actionTime: 0
     electricityCost: 0
+    buildCost: 0
+    unlockCost: 0
+    machineName: 
+    machineID: 0
+    canRotate: 0
+    sprite: {fileID: 0}
   machineData: {fileID: 0}
   machineType: 8
   SelectedGameObject: {fileID: 664269347369997622}
@@ -157,7 +163,7 @@ MonoBehaviour:
   moveToPosition: {fileID: 5411998421242634513}
   recipeType: Wire
   chosenRecipes: []
-  SpawnCount: 1
+  capacity: 100
 --- !u!50 &66538640195639540
 Rigidbody2D:
   serializedVersion: 4

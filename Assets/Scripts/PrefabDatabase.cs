@@ -59,13 +59,7 @@ public class PrefabDatabase
 
     private void RegisterUI()
     {
-        RegisterPrefab("UI", "Arrow", Resources.Load(@"Prefabs/UI/ArrowObject", typeof(GameObject)) as GameObject);
-        //RegisterPrefab("UI", "Starter", GameObject.Find("Canvas").transform.GetChild(4).gameObject);
-
         Transform Parent = GameObject.Find("Canvas").transform;
-        //RegisterPrefab("UI", "Selector", Parent.Find("SelectorCanvas").gameObject);
-        RegisterPrefab("UI", "Crafter", Parent.Find("CrafterCanvas").gameObject);
-        RegisterPrefab("UI", "Seller", Parent.Find("SellerCanvas").gameObject);
 
         RegisterPrefab("UI", "Money", Parent.Find("MoneyCanvas").gameObject);
         RegisterPrefab("UI", "Cheat", Parent.Find("CheatCanvas").gameObject);

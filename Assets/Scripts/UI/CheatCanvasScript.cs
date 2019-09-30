@@ -61,6 +61,11 @@ public class CheatCanvasScript : MonoBehaviour
 
             File.WriteAllText(Path.Combine(Application.persistentDataPath, "PlayerSave.json"), Newtonsoft.Json.JsonConvert.SerializeObject(gameSaveModel));
         });
+
+        cheatDict.Add("ak", (_) =>
+        {
+            TouchScreenKeyboard.Open("", TouchScreenKeyboardType.ASCIICapable);
+        });
     }
 
     // Start is called before the first frame update

@@ -66,7 +66,7 @@ public class RecipeButtonScript : MonoBehaviour
 
     public bool RecipeContains(string data)
     {
-        return this.Recipe.Result.name.Contains(data) ||
+        return this.Recipe.Result.name.IndexOf(data, StringComparison.InvariantCultureIgnoreCase) >= 0 ||
             this.Recipe.Requirements.Select(x => x.name).Any(x => x.IndexOf(data, StringComparison.InvariantCultureIgnoreCase) >= 0);
     }
 }

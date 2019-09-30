@@ -43,6 +43,8 @@ public class MachineController : MonoBehaviour
 
     public GameManagerController gameManager;
 
+    private MonoBehaviour uiScript;
+
     private void Awake()
     {
         this.SelectedGameObject?.SetActive(false);

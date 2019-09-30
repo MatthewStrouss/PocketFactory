@@ -28,56 +28,47 @@ public class Machine
         set => this.electricityCost = value;
     }
 
-    //[SerializeField] private MachineScriptableObject machineData;
-    //public MachineScriptableObject MachineData
-    //{
-    //    get => this.machineData;
-    //    set => this.machineData = value;
-    //}
-
-    #region Delete These When I Figure Out SOs
-    private long buildCost;
+    [SerializeField] private long buildCost;
     public long BuildCost
     {
         get => this.buildCost;
         set => this.buildCost = value;
     }
 
-    private long unlockCost;
+    [SerializeField] private long unlockCost;
     public long UnlockCost
     {
         get => this.unlockCost;
         set => this.unlockCost = value;
     }
 
-    private string machineName;
+    [SerializeField] private string machineName;
     public string MachineName
     {
         get => this.machineName;
         set => this.machineName = value;
     }
 
-    private int machineID;
+    [SerializeField] private int machineID;
     public int MachineID
     {
         get => this.machineID;
         set => this.machineID = value;
     }
 
-    private bool canRotate;
+    [SerializeField] private bool canRotate;
     public bool CanRotate
     {
         get => this.canRotate;
         set => this.canRotate = value;
     }
 
-    private Sprite sprite;
+    [SerializeField] private Sprite sprite;
     public Sprite Sprite
     {
         get => this.sprite;
         set => this.sprite = value;
     }
-    #endregion
 
     public Machine()
     { }

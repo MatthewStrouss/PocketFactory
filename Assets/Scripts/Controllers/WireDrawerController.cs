@@ -18,42 +18,65 @@ public class WireDrawerController : MonoBehaviour, IMachineController
     [SerializeField]
     public List<Recipe> chosenRecipes;
 
-    public int SpawnCount = 1;
-
-    private List<Resource> inventory;
-    public List<Resource> Inventory
+    private Queue<Resource> inventory;
+    public Queue<Resource> Inventory
     {
         get => this.inventory;
-        set => this.inventory = value;
+        set
+        {
+            this.inventory = value;
+        }
+    }
+
+    [SerializeField] private int capacity;
+    public int Capacity
+    {
+        get => this.capacity;
+        set => this.capacity = value;
+    }
+
+    private GameObject wireDrawerGUI;
+
+    private Resource nextItemToCraft;
+    public Resource NextItemToCraft
+    {
+        get => this.nextItemToCraft;
+        set => this.nextItemToCraft = value;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        this.Inventory = new List<Resource>();
+        this.Inventory = new Queue<Resource>();
         this.chosenRecipes = RecipeDatabase.GetRecipesForType(recipeType).Values.ToList();
+        this.nextItemToCraft = this.ResourceFromInventory();
 
         //InvokeRepeating("ActionToPerformOnTimer", 0.0f, 2.0f); 
+        this.wireDrawerGUI = PrefabDatabase.Instance.GetPrefab("UI", "MachineBaseCanvas").GetComponent<MachineMasterPanelScript>().WireDrawerCanvas.gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void AddToInventory(Resource resourceToAdd)
     {
-        Resource resourceInInventory = this.Inventory.FirstOrDefault(y => y.name.Equals(resourceToAdd.name, StringComparison.InvariantCultureIgnoreCase));
-
-        if (resourceInInventory?.name == null)
+        for (int i = 0; i < resourceToAdd.Quantity; i++)
         {
-            this.Inventory.Add(new Resource(ResourceDatabase.GetResource(resourceToAdd.name)));
-            resourceInInventory = this.Inventory.FirstOrDefault(y => y.name.Equals(resourceToAdd.name, StringComparison.OrdinalIgnoreCase));
-            resourceInInventory.Quantity = 0;
+            if (this.Inventory.Count < this.Capacity)
+            {
+                this.Inventory.Enqueue(new Resource(resourceToAdd.id, 1));
+            }
         }
 
-        resourceInInventory.Quantity++;
+        if (this.nextItemToCraft == null)
+        {
+            this.nextItemToCraft = this.ResourceFromInventory();
+        }
+
+        this.UpdateUI();
     }
 
     public void CollisionEnter(Collider2D col)
@@ -64,13 +87,12 @@ public class WireDrawerController : MonoBehaviour, IMachineController
 
     public void ActionToPerformOnTimer()
     {
-        // Check if inventory contains all resources in recipe
-        Resource resourceFromInventory = this.ResourceFromInventory();
-
         // Create resource
-        if (resourceFromInventory != null)
+        if (this.nextItemToCraft != null)
         {
-            this.CreateResource(resourceFromInventory);
+            this.CreateResource(this.nextItemToCraft);
+            this.Inventory.Dequeue();
+            this.nextItemToCraft = this.ResourceFromInventory();
         }
     }
 
@@ -90,42 +112,39 @@ public class WireDrawerController : MonoBehaviour, IMachineController
     {
         Resource resource = null;
 
-        // First item in inventory that matches a recipe
-
-        Resource firstInventoryItem = this.Inventory.FirstOrDefault(x => x.Quantity > 0);
-
-        if (firstInventoryItem != null)
+        if (this.Inventory.Any())
         {
-            Recipe recipe = this.chosenRecipes?.FirstOrDefault(x => x.Requirements.Contains(firstInventoryItem, Comparers.Instance.ResourceComparerInstance));
+            Resource itemInInventory = this.Inventory.FirstOrDefault();
 
-            if (recipe == null)
+            if (itemInInventory != null)
             {
-                resource = firstInventoryItem;
-                this.RemoveFromInventory(resource);
-            }
-            else
-            {
-                resource = recipe.Result;
-                recipe.Requirements.ForEach(x => this.RemoveFromInventory(x));
+                Recipe recipe = this.chosenRecipes?.FirstOrDefault(x => x.Requirements.Contains(itemInInventory, Comparers.Instance.ResourceComparerInstance));
+
+                if (recipe == null)
+                {
+                    resource = itemInInventory;
+                }
+                else
+                {
+                    resource = recipe.Result;
+                }
             }
         }
 
         return resource;
     }
 
-    public void RemoveFromInventory(Resource resource)
-    {
-        this.Inventory.FirstOrDefault(x => x.id.Equals(resource.id)).Quantity -= resource.Quantity;
-    }
-
-    public void OnClick()
-    {
-        throw new NotImplementedException();
-    }
-
     public void SetControllerValues(IMachineController other)
     {
-        WireDrawerController otherController = other as WireDrawerController;
+        CutterController otherController = other as CutterController;
         this.Inventory = otherController.Inventory;
+    }
+
+    public void UpdateUI()
+    {
+        if (this.wireDrawerGUI.activeSelf && this.wireDrawerGUI.GetComponent<WireDrawerCanvasScriptNewNew>().WireDrawerController == this)
+        {
+            this.wireDrawerGUI.GetComponent<WireDrawerCanvasScriptNewNew>().UpdateUI();
+        }
     }
 }

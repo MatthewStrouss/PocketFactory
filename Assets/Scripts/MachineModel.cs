@@ -76,6 +76,13 @@ namespace Assets.Scripts
             set => this.inventory = value;
         }
 
+        private Queue<Resource> inventoryQ;
+        public Queue<Resource> InventoryQ
+        {
+            get => this.inventoryQ;
+            set => this.inventoryQ = value;
+        }
+
         private int currentCount;
         public int CurrentCount
         {
@@ -162,15 +169,15 @@ namespace Assets.Scripts
             }
             else if (imachineController is CutterController cutterController)
             {
-                cutterController.Inventory = machineModel.Inventory;
+                cutterController.Inventory = machineModel.InventoryQ;
             }
             else if (imachineController is FurnaceController furnaceController)
             {
-                furnaceController.Inventory = machineModel.Inventory;
+                furnaceController.Inventory = machineModel.InventoryQ;
             }
             else if (imachineController is HydraulicPressController hydraulicPressController)
             {
-                hydraulicPressController.Inventory = machineModel.Inventory;
+                hydraulicPressController.Inventory = machineModel.InventoryQ;
             }
             else if (imachineController is SelectorController selectorController)
             {
@@ -191,7 +198,7 @@ namespace Assets.Scripts
             }
             else if (imachineController is WireDrawerController wireDrawerController)
             {
-                wireDrawerController.Inventory = machineModel.Inventory;
+                wireDrawerController.Inventory = machineModel.InventoryQ;
             }
 
             return machine;
@@ -220,15 +227,15 @@ namespace Assets.Scripts
             }
             else if (imachineController is CutterController cutterController)
             {
-                cutterController.Inventory = machineModel.Inventory;
+                cutterController.Inventory = machineModel.InventoryQ;
             }
             else if (imachineController is FurnaceController furnaceController)
             {
-                machineModel.Inventory.ForEach(x => furnaceController.AddToInventory(new Resource(x.id, x.Quantity)));
+                furnaceController.Inventory = machineModel.InventoryQ;
             }
             else if (imachineController is HydraulicPressController hydraulicPressController)
             {
-                hydraulicPressController.Inventory = machineModel.Inventory;
+                hydraulicPressController.Inventory = machineModel.InventoryQ;
             }
             else if (imachineController is SelectorController selectorController)
             {
@@ -256,7 +263,7 @@ namespace Assets.Scripts
             }
             else if (imachineController is WireDrawerController wireDrawerController)
             {
-                wireDrawerController.Inventory = machineModel.Inventory;
+                wireDrawerController.Inventory = machineModel.InventoryQ;
             }
 
             return machine;
@@ -304,15 +311,15 @@ namespace Assets.Scripts
             }
             else if (imachineController is CutterController cutterController)
             {
-                machineModel.Inventory = cutterController.Inventory;
+                machineModel.InventoryQ = cutterController.Inventory;
             }
             else if (imachineController is FurnaceController furnaceController)
             {
-                machineModel.Inventory = furnaceController.Inventory;
+                machineModel.InventoryQ = furnaceController.Inventory;
             }
             else if (imachineController is HydraulicPressController hydraulicPressController)
             {
-                machineModel.Inventory = hydraulicPressController.Inventory;
+                machineModel.InventoryQ = hydraulicPressController.Inventory;
             }
             else if (imachineController is SelectorController selectorController)
             {
@@ -340,7 +347,7 @@ namespace Assets.Scripts
             }
             else if (imachineController is WireDrawerController wireDrawerController)
             {
-                machineModel.Inventory = wireDrawerController.Inventory;
+                machineModel.InventoryQ = wireDrawerController.Inventory;
             }
 
             return machineModel;

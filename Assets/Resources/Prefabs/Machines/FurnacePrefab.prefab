@@ -97,6 +97,12 @@ MonoBehaviour:
     isUnlocked: 0
     actionTime: 0
     electricityCost: 0
+    buildCost: 0
+    unlockCost: 0
+    machineName: 
+    machineID: 0
+    canRotate: 0
+    sprite: {fileID: 0}
   machineData: {fileID: 0}
   machineType: 2
   SelectedGameObject: {fileID: 2739790208804200670}
@@ -122,7 +128,7 @@ MonoBehaviour:
   moveToPosition: {fileID: 8162875974413790685}
   recipeType: Liquid
   chosenRecipes: []
-  SpawnCount: 1
+  capacity: 100
 --- !u!50 &4233241926596793400
 Rigidbody2D:
   serializedVersion: 4

@@ -38,7 +38,21 @@ public class PlayerScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        this.debugText.text = $"{GameObject.FindGameObjectsWithTag("Resource").Sum(x => x.GetComponent<ResourceController>().resource.Quantity)} resources";
+        //this.debugText.text = $"{GameObject.FindGameObjectsWithTag("Resource").Sum(x => x.GetComponent<ResourceController>().resource.Quantity)} resources";
+
+        //using (AndroidJavaClass UnityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        //{
+        //    AndroidJavaObject View = UnityClass.GetStatic<AndroidJavaObject>("currentActivity").Get<AndroidJavaObject>("mUnityPlayer").Call<AndroidJavaObject>("getView");
+
+        //    using (AndroidJavaObject Rct = new AndroidJavaObject("android.graphics.Rect"))
+        //    {
+        //        View.Call("getWindowVisibleDisplayFrame", Rct);
+
+        //        this.debugText.text = this.GetKeyboardSize().ToString();
+        //    }
+        //}
+
+        
     }
 
     // Update is called once per frame
@@ -50,7 +64,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         Vector3 mousePos = this.cam.ScreenToWorldPoint(new Vector3(Mathf.Round(Input.mousePosition.x), Mathf.Round(Input.mousePosition.x)));
-        this.debugText.text = $"({mousePos.x}, {mousePos.y})";
+        //this.debugText.text = $"({mousePos.x}, {mousePos.y})";
     }
 
     //public void Copy()
