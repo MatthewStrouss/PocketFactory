@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426fb596de99df84ab29ceeace0a499a, type: 3}
+  m_Name: Microwave
+  m_EditorClassIdentifier: 
+  isUnlocked: 0
+  unlockCost: 8070000
+  result:
+    requirement: {fileID: 11400000, guid: 18342841f5dddbf40aa878eb5af1e813, type: 2}
+    quantity: 1
+  requirements:
+  - requirement: {fileID: 11400000, guid: 46ec22ed97912064e896cdd1b227f5d4, type: 2}
+    quantity: 5
+  - requirement: {fileID: 11400000, guid: 9f7fbc56ac458234f8acccdccf3541dc, type: 2}
+    quantity: 5
+  - requirement: {fileID: 11400000, guid: 515ed71d8471d6047b55f1967c46d1a3, type: 2}
+    quantity: 5
+  sprite: {fileID: 0}
+  type: Recipe
+  description: 

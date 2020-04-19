@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Resource
+  - R
+  - RT
+  - Re
+  - Res
+  - Reso
+  - Resou
+  - Resour
+  - Resourc
   layers:
   - Default
   - TransparentFX
@@ -13,7 +22,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Machines
   - 
   - 
   - 

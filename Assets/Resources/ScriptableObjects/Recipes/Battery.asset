@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426fb596de99df84ab29ceeace0a499a, type: 3}
+  m_Name: Battery
+  m_EditorClassIdentifier: 
+  isUnlocked: 0
+  unlockCost: 1050000
+  result:
+    requirement: {fileID: 11400000, guid: 108dc067a956c954c877a108fc50f60b, type: 2}
+    quantity: 0
+  requirements:
+  - requirement: {fileID: 11400000, guid: 39358d2dd521dcc4f9af1f9764b48f3e, type: 2}
+    quantity: 1
+  - requirement: {fileID: 11400000, guid: 029019e0e463039439874b388616dd10, type: 2}
+    quantity: 1
+  - requirement: {fileID: 11400000, guid: 38df55b63c1db4043bd33b2e65783a9c, type: 2}
+    quantity: 1
+  sprite: {fileID: -735465288385035805, guid: 8fb4a55dc1b6b3547b94b09bb5e64c10, type: 3}
+  type: Recipe
+  description: 

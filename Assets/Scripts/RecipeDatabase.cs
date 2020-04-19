@@ -1,98 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets
 {
-    public class RecipeDatabase
+    public static class RecipeDatabase
     {
-        private static RecipeDatabase instance;
 
-        public Dictionary<string, Dictionary<string, Recipe>> recipes = new Dictionary<string, Dictionary<string, Recipe>>(StringComparer.InvariantCultureIgnoreCase);
+        public static Dictionary<string, Dictionary<string, Recipe>> recipes = new Dictionary<string, Dictionary<string, Recipe>>(StringComparer.InvariantCultureIgnoreCase);
 
-        public static RecipeDatabase Instance
+        static RecipeDatabase()
         {
-            get
+            //foreach (KeyValuePair<string, ScriptableObject> recipe in (Resources.Load(@"ScriptableObjects/RecipeDatabase", typeof(ScriptableObjectDatabase)) as ScriptableObjectDatabase).database)
+            //{
+            //    RecipeScriptableObject recipeSO = recipe.Value as RecipeScriptableObject;
+
+            //    if (!recipes.TryGetValue(recipeSO.Type, out Dictionary<string, Recipe> existingRecipeType))
+            //    { 
+            //        recipes.Add(recipeSO.Type, new Dictionary<string, Recipe>(StringComparer.InvariantCultureIgnoreCase));
+            //    }
+
+            //    recipes[recipeSO.Type].Add(recipe.Key, new Recipe(recipe.Value as RecipeScriptableObject));
+            //}
+
+            foreach (KeyValuePair<string, Dictionary<string, ScriptableObject>> recipeType in (Resources.Load(@"ScriptableObjects/NewRecipeDatabase", typeof(RecipeScriptableObjectDatabase)) as RecipeScriptableObjectDatabase).database)
             {
-                if (instance == null)
+                recipes.Add(recipeType.Key, new Dictionary<string, Recipe>(StringComparer.InvariantCultureIgnoreCase));
+
+                foreach (KeyValuePair<string, ScriptableObject> recipeTypeRecipes in recipeType.Value)
                 {
-                    instance = new RecipeDatabase();
-                }
-
-                return instance;
-            }
-        }
-
-        public RecipeDatabase()
-        {
-            recipes = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Recipe>>>(System.IO.File.ReadAllText(@"Assets/StreamingAssets/Recipes.json"));
-        }
-
-        public RecipeDatabase(Recipe recipe)
-        {
-            RegisterRecipe(recipe);
-        }
-
-        public RecipeDatabase(string json)
-        {
-
-        }
-
-        public Resource GetResource(string name)
-        {
-            ResourceDatabase.Instance.resources.TryGetValue(name, out Resource resource);
-            return new Resource(resource.value, resource.cost, resource.quantity, resource.isUnlocked, resource.id, resource.name);
-        }
-
-        public Resource GetResource(string name, int quantity)
-        {
-            ResourceDatabase.Instance.resources.TryGetValue(name, out Resource resource);
-            return new Resource(resource.value, resource.cost, quantity, resource.isUnlocked, resource.id, resource.name);
-        }
-
-        public void RegisterRecipe(Recipe recipe)
-        {
-            if (recipes.TryGetValue(recipe.Type, out Dictionary<string, Recipe> recipeTypeDictEntry))
-            {
-                if (recipeTypeDictEntry.TryGetValue(recipe.Name, out Recipe existingRecipe))
-                {
-                    //Debug.Log(string.Format("Recipe already exists: {0}-{1}", recipe.Type, recipe.Name));
-                }
-                else
-                {
-                    recipeTypeDictEntry.Add(recipe.Name, recipe);
+                    recipes[recipeType.Key].Add(recipeTypeRecipes.Key, new Recipe(recipeTypeRecipes.Value as RecipeScriptableObject));
                 }
             }
-            else
+        }
+
+        internal static Recipe GetRecipe(string recipeType, string chosenRecipe)
+        {
+            if (recipes.TryGetValue(recipeType, out Dictionary<string, Recipe> existingRecipeType))
             {
-                recipes.Add(recipe.Type, new Dictionary<string, Recipe>(StringComparer.InvariantCultureIgnoreCase));
-                recipes[recipe.Type].Add(recipe.Name, recipe);
+                if (existingRecipeType.TryGetValue(chosenRecipe, out Recipe recipe))
+                {
+                    return recipe;
+                }
             }
+
+            return recipes["(None)"]["(None)"];
         }
 
-        public Recipe GetRecipe(string type, string recipeName)
+        internal static Dictionary<string, Recipe> GetRecipesForType(string recipeType)
         {
-            this.recipes.TryGetValue(type, out Dictionary<string, Recipe> recipeType);
-            recipeType.TryGetValue(recipeName, out Recipe recipe);
-            return recipe;
-        }
+            if (recipes.TryGetValue(recipeType, out Dictionary<string, Recipe> existingRecipe))
+            {
+                return existingRecipe;
+            }
 
-        public Dictionary<string, Recipe> GetRecipesForType(string type)
-        {
-            this.recipes.TryGetValue(type, out Dictionary<string, Recipe> recipeType);
-            return recipeType;
+            return null;
         }
-    }
-
-    public enum RecipeTypeEnum
-    {
-        BASIC,
-        GEAR,
-        LIQUID,
-        WIRE,
-        PLATE,
-        RECIPE,
     }
 }

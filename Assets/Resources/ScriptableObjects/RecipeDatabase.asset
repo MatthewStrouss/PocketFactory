@@ -1,0 +1,153 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb10495cc713bf49bf92a7895987ec7, type: 3}
+  m_Name: RecipeDatabase
+  m_EditorClassIdentifier: 
+  keyValuePairs:
+  - Key: Advanced Engine
+    Value: {fileID: 11400000, guid: 3f5fb1c69439f6f459ae7d430160e61d, type: 2}
+  - Key: AI Processor
+    Value: {fileID: 11400000, guid: 7f189ff82fed7be49ab8bb1846c27d95, type: 2}
+  - Key: AI Robot
+    Value: {fileID: 11400000, guid: f1d43660e4a533749b3985bc772c1749, type: 2}
+  - Key: AI Robot Body
+    Value: {fileID: 11400000, guid: 675b7575e3a7d1740b2948ccb437499e, type: 2}
+  - Key: AI Robot Head
+    Value: {fileID: 11400000, guid: 6a84bf47ee6045f4f9dbc6cb39f35859, type: 2}
+  - Key: Air Conditioner
+    Value: {fileID: 11400000, guid: 7cbf6ce4c586ce34ba94ecce8eccc75e, type: 2}
+  - Key: Aluminum
+    Value: {fileID: 11400000, guid: 36a08b7fe33d8534099c99c476376415, type: 2}
+  - Key: Aluminum Gear
+    Value: {fileID: 11400000, guid: 6ecd99bc39004014d9f243b11f0c90b6, type: 2}
+  - Key: Aluminum Liquid
+    Value: {fileID: 11400000, guid: 195211e7407e23d40bac99c7ab46b7dd, type: 2}
+  - Key: Aluminum Plate
+    Value: {fileID: 11400000, guid: 84e8b30e5def5d7409ec8253509e1ca1, type: 2}
+  - Key: Water Heater
+    Value: {fileID: 11400000, guid: 3b02eb8bc8dbe574e8696d50620eb340, type: 2}
+  - Key: Aluminum Wire
+    Value: {fileID: 11400000, guid: dbe4639f35965a64fa09be5c3cd0f024, type: 2}
+  - Key: Antenna
+    Value: {fileID: 11400000, guid: bbbd42bdf11b1aa4cb131570395d267b, type: 2}
+  - Key: Battery
+    Value: {fileID: 11400000, guid: a051b2a19ed82e24b8bd5647ffe25373, type: 2}
+  - Key: Circuit
+    Value: {fileID: 11400000, guid: ed01d491981283843b475e8dbbc60aa4, type: 2}
+  - Key: Clock
+    Value: {fileID: 11400000, guid: eb67cc8452cd6c04c8e400ec7a2a9666, type: 2}
+  - Key: Computer
+    Value: {fileID: 11400000, guid: e6902a375e2dec040941e620d21bdeae, type: 2}
+  - Key: Cooler Plate
+    Value: {fileID: 11400000, guid: e4f6df62db2b3be42a80fd5533cc8675, type: 2}
+  - Key: Copper
+    Value: {fileID: 11400000, guid: 77b6b2abe0a39ee498f19690d1defda8, type: 2}
+  - Key: Copper Gear
+    Value: {fileID: 11400000, guid: 1a003e92088dfc7488347e9466576465, type: 2}
+  - Key: Copper Liquid
+    Value: {fileID: 11400000, guid: fc7f0d20c48fd76408a7ac063c0267de, type: 2}
+  - Key: Copper Plate
+    Value: {fileID: 11400000, guid: 0efb7bb8e1c089244aa4fdad43d2858a, type: 2}
+  - Key: Copper Wire
+    Value: {fileID: 11400000, guid: 81c1ad47b9886cd4180c5e957a0bc7f8, type: 2}
+  - Key: Diamond
+    Value: {fileID: 11400000, guid: 8b468ec16f9287f499fc42c0e83da692, type: 2}
+  - Key: Diamond Gear
+    Value: {fileID: 11400000, guid: 63a3f3096a318ed43861a8407ff66699, type: 2}
+  - Key: Diamond Liquid
+    Value: {fileID: 11400000, guid: 1e5c4edabdad9a64c9bc049ee5518d09, type: 2}
+  - Key: Diamond Plate
+    Value: {fileID: 11400000, guid: 397fa71af0717634882f00589f495c09, type: 2}
+  - Key: Diamond Wire
+    Value: {fileID: 11400000, guid: 6158726a481384b4c97eb21bb234f804, type: 2}
+  - Key: Drill
+    Value: {fileID: 11400000, guid: 3d7dcc19e0c02fd4c90d17d159c98355, type: 2}
+  - Key: Drone
+    Value: {fileID: 11400000, guid: 712f3b3266bb3184d9c64d4c0c328a71, type: 2}
+  - Key: Electric Board
+    Value: {fileID: 11400000, guid: 9267054235f444841a06473e3abcb157, type: 2}
+  - Key: Electric Engine
+    Value: {fileID: 11400000, guid: 1a2c0e1ccb001564595ae27039926b75, type: 2}
+  - Key: Electric Generator
+    Value: {fileID: 11400000, guid: 1f3700df51877ff46adea23918a25843, type: 2}
+  - Key: Engine
+    Value: {fileID: 11400000, guid: 7cf9d3e906b4786459a036eefffa3189, type: 2}
+  - Key: Fridge
+    Value: {fileID: 11400000, guid: 9374bd8faf463f146b2a707d716479b1, type: 2}
+  - Key: Generator
+    Value: {fileID: 11400000, guid: f244a12b0f7cd7c42816c375e41781f3, type: 2}
+  - Key: Gold
+    Value: {fileID: 11400000, guid: b3ffef5c7133e4c48adb21a36172fb66, type: 2}
+  - Key: Gold Gear
+    Value: {fileID: 11400000, guid: 4c2126780603ec54c9acd1e30ac1109b, type: 2}
+  - Key: Gold Liquid
+    Value: {fileID: 11400000, guid: 21c340f72ea71464ebcc8b90d2037124, type: 2}
+  - Key: Gold Plate
+    Value: {fileID: 11400000, guid: 0656512ee8ac993478d1aaa574f9884c, type: 2}
+  - Key: Gold Wire
+    Value: {fileID: 11400000, guid: 593ce2c265c84984bb88dcf8dbdec5f2, type: 2}
+  - Key: Grill
+    Value: {fileID: 11400000, guid: 1405e31f154d4784ea4c8c2d66d3254a, type: 2}
+  - Key: Headphones
+    Value: {fileID: 11400000, guid: ac2688c9cfdb43344816b5e897370b60, type: 2}
+  - Key: Heater Plate
+    Value: {fileID: 11400000, guid: 5ada3cbc4ce81414f966fcb9dfbec31b, type: 2}
+  - Key: Iron
+    Value: {fileID: 11400000, guid: 6d683957d003ff140b38fcaee24c374a, type: 2}
+  - Key: Iron Gear
+    Value: {fileID: 11400000, guid: 007c184aa892bee41a258897afc45526, type: 2}
+  - Key: Iron Liquid
+    Value: {fileID: 11400000, guid: c2ae35b3cb5adbb47beba10c9c1d116b, type: 2}
+  - Key: Iron Plate
+    Value: {fileID: 11400000, guid: 667acc038ee57344f87de9b0e8b3c837, type: 2}
+  - Key: Iron Wire
+    Value: {fileID: 11400000, guid: 09509736f7be78c4791965657fd2c5b0, type: 2}
+  - Key: Jackhammer
+    Value: {fileID: 11400000, guid: 09faf7714205ff147a37bba4ff94630f, type: 2}
+  - Key: Lazer
+    Value: {fileID: 11400000, guid: 7e6fa8934c006fb4283a6debac29ac5f, type: 2}
+  - Key: Light Bulb
+    Value: {fileID: 11400000, guid: 5edc5b0229b59bc42832d2fcb450afe7, type: 2}
+  - Key: Microwave
+    Value: {fileID: 11400000, guid: 9ad23020f3acc0f44a7570e6b04aef30, type: 2}
+  - Key: Oven
+    Value: {fileID: 11400000, guid: f89eeff328aef9e43b579ef7d3862960, type: 2}
+  - Key: Power Supply
+    Value: {fileID: 11400000, guid: 868a1caed50465d4f8759176c541552d, type: 2}
+  - Key: Processor
+    Value: {fileID: 11400000, guid: d08a5c056d0b78544bbb10d22cf90043, type: 2}
+  - Key: Radio
+    Value: {fileID: 11400000, guid: 99a2339d36014414886adc6ab0c8983a, type: 2}
+  - Key: Railway
+    Value: {fileID: 11400000, guid: 31f7c58609f71564885fa77086dfb761, type: 2}
+  - Key: Server Rack
+    Value: {fileID: 11400000, guid: 1d2700328b1ec6640a9d1cbbd09b9728, type: 2}
+  - Key: Smartphone
+    Value: {fileID: 11400000, guid: a3933f959256cb242a36512160be8436, type: 2}
+  - Key: Smartwatch
+    Value: {fileID: 11400000, guid: ada364c24b151e548b2f5b75b242c224, type: 2}
+  - Key: Solar Panel
+    Value: {fileID: 11400000, guid: c440873d4a3e03a42b3e0cf96a2a49b4, type: 2}
+  - Key: Speakers
+    Value: {fileID: 11400000, guid: 0d749a33067f22d48a722af0f7ee0e62, type: 2}
+  - Key: Super Computer
+    Value: {fileID: 11400000, guid: 9ca2e049e323a7741a8264e14aebe76a, type: 2}
+  - Key: Tablet
+    Value: {fileID: 11400000, guid: 9c7aaaa7ad2c05041ac08f47d5bebb29, type: 2}
+  - Key: Toaster
+    Value: {fileID: 11400000, guid: 38cd979c46f91e84984539324d7e9b46, type: 2}
+  - Key: TV
+    Value: {fileID: 11400000, guid: b1e8d8edc5c2a42458fb9ce2af9feb8c, type: 2}
+  - Key: Washing Machine
+    Value: {fileID: 11400000, guid: f22daf2007bfc43429f59b116f7de1b5, type: 2}
+  - Key: (None)
+    Value: {fileID: 11400000, guid: 21ec41bb966eafa4c81b55b491d1cf36, type: 2}

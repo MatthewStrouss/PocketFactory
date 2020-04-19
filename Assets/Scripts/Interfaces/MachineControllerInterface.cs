@@ -4,7 +4,8 @@ using UnityEngine;
 
 public interface IMachineController
 {
-    void OnCollision(Collider2D col);
+    void CollisionEnter(Collider2D col);
     void AddToInventory(Resource resourceToAdd);
     void ActionToPerformOnTimer();
+    void SetControllerValues(IMachineController other);
 }

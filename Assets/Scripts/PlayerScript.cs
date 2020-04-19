@@ -1,143 +1,167 @@
 ﻿using Assets;
+using Assets.Scripts;
+using DigitalRubyShared;
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
     public PlayerStateEnum playerStateEnum;
-    public GameObject machineToPlace;
 
-    public LayerMask layerMask;
+    public Resource resourceToSpawn;
 
-    private Vector2 mousePos;
+    [SerializeField] private Text debugText;
+    [SerializeField] private Camera cam;
 
-    [SerializeField]
-    private Vector2 mouseStartPos;
-    [SerializeField]
-    private Vector2 mouseCurrentPos;
-    [SerializeField]
-    private GameObject selectionRectangle;
-    private GameObject selectionRectangle2;
+    private bool settingMachine = false;
 
-    public GameObject guiCanvas;
-
-    public GameObject starterCanvas;
+    private void Awake()
+    {
+        Debug.Log(string.Format("Screen resolution is: {0}x{1}", Screen.width, Screen.height));
+        Debug.Log(string.Format("PersistentDataPath: {0}", Application.persistentDataPath));
+        Debug.Log($"Started at {DateTime.Now.Ticks}");
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+
+    }
+
+    private void FixedUpdate()
+    {
+        //this.debugText.text = $"{GameObject.FindGameObjectsWithTag("Resource").Sum(x => x.GetComponent<ResourceController>().resource.Quantity)} resources";
+
+        //using (AndroidJavaClass UnityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        //{
+        //    AndroidJavaObject View = UnityClass.GetStatic<AndroidJavaObject>("currentActivity").Get<AndroidJavaObject>("mUnityPlayer").Call<AndroidJavaObject>("getView");
+
+        //    using (AndroidJavaObject Rct = new AndroidJavaObject("android.graphics.Rect"))
+        //    {
+        //        View.Call("getWindowVisibleDisplayFrame", Rct);
+
+        //        this.debugText.text = this.GetKeyboardSize().ToString();
+        //    }
+        //}
+
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        if ((playerStateEnum != PlayerStateEnum.NONE) && (machineToPlace != null))
+        if (Input.GetKeyUp(KeyCode.BackQuote) || Input.touchCount == 3)
         {
-            machineToPlace.transform.position = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y), -9);
+            PrefabDatabase.Instance.GetPrefab("UI", "Cheat").GetComponent<CheatCanvasScript>().Activate();
         }
 
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
-        {
-            if (playerStateEnum == PlayerStateEnum.NONE)
-            {
-                Vector2 rayPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-                RaycastHit2D test = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
-
-                if (test)
-                {
-                    test.transform.gameObject.GetComponent<StarterController>().OnPointerClick(null);
-                    //this.starterCanvas.GetComponent<StarterPanelScript>().Activate(test.transform.gameObject);
-                }
-            }
-            else 
-            if (playerStateEnum == PlayerStateEnum.PLACE_MACHINE)
-            {
-                if (machineToPlace != null)
-                {
-                    //Vector2 mouseRay = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    Vector3 cursorPosition = machineToPlace.transform.position;
-                    RaycastHit2D rayHit = Physics2D.Raycast(cursorPosition, Vector2.zero, Mathf.Infinity, layerMask);
-
-                    Debug.Log(rayHit.collider);
-
-                    if (rayHit.collider == null)
-                    {
-                        Instantiate(machineToPlace, cursorPosition, Quaternion.identity);
-                    }
-                }
-            }
-            else if (playerStateEnum == PlayerStateEnum.ROTATE_MACHINE)
-            {
-                Vector2 rayPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                RaycastHit2D test = Physics2D.Raycast(machineToPlace.transform.position, Vector2.zero, 0f);
-
-                if (test)
-                {
-                    test.transform.rotation = machineToPlace.transform.rotation;
-                }
-            }
-            else if (playerStateEnum == PlayerStateEnum.SELECT)
-            {
-                mouseStartPos = Camera.main.ScreenToWorldPoint(new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y)));
-                //selectionRectangle = new Rect(mouseStartPos, new Vector2(0f, 0f));
-                //selectionRectangle.SetActive(true);
-                selectionRectangle2 = Instantiate(selectionRectangle, guiCanvas.transform);
-                selectionRectangle2.SetActive(true);
-                selectionRectangle2.transform.position = mouseStartPos;
-            }
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            ResetPlayerState();
-        }
-
-        if (Input.GetMouseButton(0) && playerStateEnum == PlayerStateEnum.SELECT)
-        {
-            mouseCurrentPos = new Vector2(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y));
-            //selectionRectangle.size = new Vector2(
-            //    Mathf.Abs(mouseCurrentPos.x - mouseStartPos.x),
-            //    Mathf.Abs(mouseCurrentPos.y - mouseStartPos.y)
-            //    );
-            (selectionRectangle2.transform as RectTransform).sizeDelta = Camera.main.ScreenToWorldPoint(new Vector2(
-                Mathf.Abs(mouseCurrentPos.x - mouseStartPos.x),
-                Mathf.Abs(mouseCurrentPos.y - mouseStartPos.y)
-                ));
-        }
+        Vector3 mousePos = this.cam.ScreenToWorldPoint(new Vector3(Mathf.Round(Input.mousePosition.x), Mathf.Round(Input.mousePosition.x)));
+        //this.debugText.text = $"({mousePos.x}, {mousePos.y})";
     }
 
-    public void ResetPlayerState()
-    {
-        this.playerStateEnum = PlayerStateEnum.NONE;
-        Destroy(this.machineToPlace);
-        //this.machineToPlace = null;
-    }
+    //public void Copy()
+    //{
+    //    if (selectedObjects.Count > 0)
+    //    {
+    //        List<MachineModel> machineModels = selectedObjects.ToMachineModelList();
+    //        string json = Newtonsoft.Json.JsonConvert.SerializeObject(machineModels, new Newtonsoft.Json.JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+    //        //string base64 = Convert.ToBase64String(Encoding.ASCII.GetBytes(json));
 
-    public void SetMachine(GameObject machineToPlace)
-    {
-        this.ResetPlayerState();
-        this.playerStateEnum = PlayerStateEnum.PLACE_MACHINE;
-        this.machineToPlace = Instantiate(machineToPlace);
-    }
+    //        PrefabDatabase.Instance.GetPrefab("UI", "Copy").GetComponent<CopyCanvasScript>().Activate();
+    //        PrefabDatabase.Instance.GetPrefab("UI", "Copy").GetComponent<CopyCanvasScript>().UpdateUI(json);
+    //    }
+    //}
 
-    public void SetRotation(Quaternion rotation)
-    {
-        this.ResetPlayerState();
-        this.playerStateEnum = PlayerStateEnum.ROTATE_MACHINE;
-        GameObject test = PrefabDatabase.Instance.GetPrefab("UI", "Arrow");
-        this.machineToPlace = Instantiate(test);
-        this.machineToPlace.transform.rotation = rotation;
-    }
+    //public void Paste(string json)
+    //{
+    //    GameObject parent = new GameObject();
 
-    public void StartSelectMode()
+    //    //string json = Encoding.ASCII.GetString(Convert.FromBase64String(base64String));
+
+    //    List<GameObject> gameObjects = json.ToGameObjectList();
+
+    //    parent.transform.position = new Vector3(
+    //        Mathf.Round(gameObjects.Sum(x => x.transform.position.x) / gameObjects.Count),
+    //        Mathf.Round(gameObjects.Sum(x => x.transform.position.y) / gameObjects.Count),
+    //        -8
+    //        ); ;
+
+    //    gameObjects.ForEach(x => x.transform.parent = parent.transform);
+
+    //    IsPasteValid(parent.GetComponentsInChildren<MachineController>().ToList(), out bool isPasteValid, out string pasteInvalidString);
+
+    //    if (isPasteValid)
+    //    {
+    //        this.playerStateEnum = PlayerStateEnum.PLACE_MACHINE_PASTE;
+    //        this.machineToPlace = parent;
+    //    }
+    //    else
+    //    {
+    //        PrefabDatabase.Instance.GetPrefab("UI", "Error").GetComponent<ErrorCanvasScript>().Activate(pasteInvalidString);
+    //    }
+    //}
+
+    //public void PasteUI()
+    //{
+    //    PrefabDatabase.Instance.GetPrefab("UI", "Paste").GetComponent<PasteCanvasScript>().Activate(Paste);
+    //}
+
+    //public void IsPasteValid(List<MachineController> machinesToPlace, out bool isPasteValid, out string pasteInvalidString)
+    //{
+    //    isPasteValid = true;
+    //    pasteInvalidString = string.Empty;
+
+    //    if (!CanAffordPaste(machinesToPlace))
+    //    {
+    //        isPasteValid = false;
+    //        pasteInvalidString = "Not enough money for all machines in paste";
+    //    }
+
+    //    if (!HasUnlockedAllMachines(machinesToPlace))
+    //    {
+    //        isPasteValid = false;
+    //        pasteInvalidString = "Not all machines in paste are unlocked";
+    //    }
+
+
+    //    if (!HasUnlockedAllRecipes(machinesToPlace))
+    //    {
+    //        isPasteValid = false;
+    //        pasteInvalidString = "Not all recipes in paste are unlocked";
+    //    }
+    //}
+
+    //public bool CanAffordPaste(List<MachineController> machinesToPlace)
+    //{
+    //    return Player.playerModel.Money >= machinesToPlace.Sum(x => x.Machine.BuildCost);
+    //}
+
+    //public bool HasUnlockedAllMachines(List<MachineController> machinesToPlace)
+    //{
+    //    return machinesToPlace.All(x => x.Machine.IsUnlocked);
+    //}
+
+    //public bool HasUnlockedAllRecipes(List<MachineController> machinesToPlace)
+    //{
+    //    return machinesToPlace
+    //        .Where(x => x.controller is CrafterController)
+    //        .Select(x => x.controller)
+    //        .Cast<CrafterController>()
+    //        .All(x => RecipeDatabase.GetRecipe(x.recipeType, x.ChosenRecipe.Name).IsUnlocked);
+    //}
+
+    public void SpawnResource(Resource resource)
     {
-        this.ResetPlayerState();
-        this.playerStateEnum = PlayerStateEnum.SELECT;
+        this.resourceToSpawn = new Resource(resource);
+        this.playerStateEnum = PlayerStateEnum.SPAWN_RESOURCE;
     }
 }
 
@@ -151,4 +175,7 @@ public enum PlayerStateEnum
     SELECT,
     COPY,
     PASTE,
+    PLACE_MACHINE_PASTE,
+    // Cheat codes below
+    SPAWN_RESOURCE,
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if (UNITY_EDITOR) 
+using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(GameObject))]
@@ -54,3 +55,4 @@ public class EditModeFunctions : Editor
         target.SetActive(!target.activeSelf);
     }
 }
+#endif

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assets
 {
+    [Serializable]
     public class Recipe
     {
         public Recipe()
@@ -24,6 +25,21 @@ namespace Assets
             if (requirements != null)
             {
                 this.requirements.AddRange(requirements);
+            }
+        }
+
+        public Recipe(RecipeScriptableObject otherRecipe)
+        {
+            this.name = otherRecipe.name;
+            this.result = new Resource(otherRecipe.Result);
+            this.type = otherRecipe.Type;
+            this.isUnlocked = otherRecipe.IsUnlocked;
+            this.unlockCost = otherRecipe.UnlockCost;
+
+            this.requirements = new List<Resource>();
+            if (otherRecipe.Requirements != null)
+            {
+                otherRecipe.Requirements.ForEach(x => this.requirements.Add(new Resource(x)));
             }
         }
 

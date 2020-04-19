@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb10495cc713bf49bf92a7895987ec7, type: 3}
+  m_Name: ResearchDatabaseUpgrade
+  m_EditorClassIdentifier: 
+  keyValuePairs:
+  - Key: Crafter Action Time 1
+    Value: {fileID: 11400000, guid: 60bde70166e94e241ab35f0094c58dda, type: 2}
+  - Key: Crafter Action Time 2
+    Value: {fileID: 11400000, guid: e88c6d259117dc243b541d8794b3a2a6, type: 2}
+  - Key: Cutter Action Time 1
+    Value: {fileID: 11400000, guid: a689b67f2d420474ca90c5835244597f, type: 2}
+  - Key: Cutter Action Time 2
+    Value: {fileID: 11400000, guid: f5a055db2f00c1b46bebf19c49eab733, type: 2}
+  - Key: Furnace Action Time 1
+    Value: {fileID: 11400000, guid: 7c453d409a20dd345a8288a4c80acc8b, type: 2}
+  - Key: Furnace Action Time 2
+    Value: {fileID: 11400000, guid: f844f284ab2c2a24485babdef88fd1dd, type: 2}
+  - Key: Hydraulic Press Action Time 1
+    Value: {fileID: 11400000, guid: e9097c159ccd3bb469c1d851780ceecf, type: 2}
+  - Key: Hydraulic Press Action Time 2
+    Value: {fileID: 11400000, guid: 580a414f2167434448ef757880f24115, type: 2}
+  - Key: Starter Action Time 1
+    Value: {fileID: 11400000, guid: 0913d931db37d984eae2e92064f90e0f, type: 2}
+  - Key: Starter Action Time 2
+    Value: {fileID: 11400000, guid: bb57311a7913beb489b81ab8676797c6, type: 2}
+  - Key: Wire Drawer Action Time 1
+    Value: {fileID: 11400000, guid: ea666cd923e23ec489fa47e0c28564c8, type: 2}
+  - Key: Wire Drawer Action Time 2
+    Value: {fileID: 11400000, guid: c019b04b20021744d9a840ad82a7e39e, type: 2}
+  - Key: Crafter Electricity 1
+    Value: {fileID: 11400000, guid: 2e7dd6b8ea2ed834baacc830ce6aef29, type: 2}
+  - Key: Crafter Electricity 2
+    Value: {fileID: 11400000, guid: e7309d2524aed5148b3fb50728f59aee, type: 2}
+  - Key: Cutter Electricity 1
+    Value: {fileID: 11400000, guid: 727327006b122834783a6e378dba186f, type: 2}
+  - Key: Cutter Electricity 2
+    Value: {fileID: 11400000, guid: 3d8df470950de27429d64c17196aa00a, type: 2}
+  - Key: Furnace Electricity 1
+    Value: {fileID: 11400000, guid: 43670913fe0cc1c4fb5e1bb5797138a1, type: 2}
+  - Key: Furnace Electricity 2
+    Value: {fileID: 11400000, guid: bcf9b4b4282b51049829518262a5ba06, type: 2}
+  - Key: Hydraulic Press Electricity 1
+    Value: {fileID: 11400000, guid: 9ec7f6ecc555649439b76cb565bdd28d, type: 2}
+  - Key: Hydraulic Press Electricity 2
+    Value: {fileID: 11400000, guid: 9772e00eae0cc374c9728b2b50c202ad, type: 2}
+  - Key: Left Selector Electricity 1
+    Value: {fileID: 11400000, guid: 4329c7bbb9d32e2489741d4862b98577, type: 2}
+  - Key: Left Selector Electricity 2
+    Value: {fileID: 11400000, guid: 82d5961fb2b6a2d4b919241e84d8ae5a, type: 2}
+  - Key: Multi Selector Electricity 1
+    Value: {fileID: 11400000, guid: ac38adf0e444d504883a4cb085559b97, type: 2}
+  - Key: Multi Selector Electricity 2
+    Value: {fileID: 11400000, guid: 53c73b750550be54ebf439ef9def8018, type: 2}
+  - Key: Right Selector Electricity 1
+    Value: {fileID: 11400000, guid: bba812679d37d314cb2b78cf429513fc, type: 2}
+  - Key: Right Selector Electricity 2
+    Value: {fileID: 11400000, guid: cb293b0500548774b9fe861e0f7c3a7b, type: 2}
+  - Key: Starter Electricity 1
+    Value: {fileID: 11400000, guid: c9d74c7ac34b4b84f8efcacc4a78fdb9, type: 2}
+  - Key: Starter Electricity 2
+    Value: {fileID: 11400000, guid: aa1e93fc70d1ed74bb0defa8aca0f412, type: 2}
+  - Key: Wire Drawer Electricity 1
+    Value: {fileID: 11400000, guid: aa17f2c7d83ae3e45b6cf23cb91454ad, type: 2}
+  - Key: Wire Drawer Electricity 2
+    Value: {fileID: 11400000, guid: d28b53808e2bfaf4ebda589db1124752, type: 2}
